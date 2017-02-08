@@ -43,7 +43,7 @@ void Initialize()
 	
 	//LOAD MENU TEXTURES
 	defaultMesh->LoadFromFile("Rectangle", "../assets/objects/Rectangle.obj");
-	defaultTexture->LoadFromFile("MainMenu", "../assets/textures/MainMenu.png");
+	defaultTexture->LoadFromFile("MainMenu", "../assets/textures/Menu.png");
 	defaultTexture->LoadFromFile("GameOver", "../assets/textures/GameOver.png");
 	static ENG::SceneObject Rectangle("Rectangle", defaultMesh->listOfMeshes["Rectangle"]->VAO, defaultTexture->listOfTextures["MainMenu"]->getSFTexture());
 	sceneObjects["Rectangle"] = &Rectangle;
@@ -313,7 +313,7 @@ void GameLevel::Update()
 	defaultShader.sendUniform("uTime", totalTime);
 
 	Player["Nyx"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);
-	sceneObjects["Room"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);
+	sceneObjects["Room"]->uDiffuseMult = glm::vec3(2.0f, 2.0f, 2.0f);
 	sceneObjects["SpotLight"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);
 	sceneObjects["SpotLight2"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);
 	sceneObjects["QuadLight"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);

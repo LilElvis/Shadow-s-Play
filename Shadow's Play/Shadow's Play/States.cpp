@@ -12,7 +12,7 @@ void Initialize()
 
 	//CREATE WINDOW
 	gameWindow->GetSFMLWindow()->create(
-		sf::VideoMode(1280, 720), "Shadow's Play", sf::Style::Close, Settings);
+		sf::VideoMode(windowWidth, windowHeight), "Shadow's Play", sf::Style::Close, Settings);
 
 	//CHECK IF GLEW INITIALIZED SUCCESSFULLY
 	if (glewInit() != GLEW_OK)
@@ -42,13 +42,13 @@ void Initialize()
 	persp = glm::perspective(45.0f, 16.0f / 9.0f, 0.001f, 200.0f);
 	
 	//LOAD MENU TEXTURES
-	defaultMesh->LoadFromFile("Rectangle", "../assets/objects/Rectangle.obj");
+	defaultMesh->LoadFromFile("Quad", "../assets/objects/Quad.obj");
 	defaultTexture->LoadFromFile("MainMenu", "../assets/textures/Menu.png");
 	defaultTexture->LoadFromFile("GameOver", "../assets/textures/GameOver.png");
-	static ENG::SceneObject Rectangle("Rectangle", defaultMesh->listOfMeshes["Rectangle"]->VAO, defaultTexture->listOfTextures["MainMenu"]->getSFTexture());
-	sceneObjects["Rectangle"] = &Rectangle;
-	static ENG::SceneObject Rectangle2("Rectangle", defaultMesh->listOfMeshes["Rectangle"]->VAO, defaultTexture->listOfTextures["GameOver"]->getSFTexture());
-	sceneObjects["Rectangle2"] = &Rectangle2;
+	static ENG::SceneObject Quad("Quad", defaultMesh->listOfMeshes["Quad"]->VAO, defaultTexture->listOfTextures["MainMenu"]->getSFTexture());
+	sceneObjects["Quad"] = &Quad;
+	static ENG::SceneObject Quad2("Quad", defaultMesh->listOfMeshes["Quad"]->VAO, defaultTexture->listOfTextures["GameOver"]->getSFTexture());
+	sceneObjects["Quad2"] = &Quad2;
 
 	//LOAD OBJECTS
 	defaultMesh->LoadFromFile("Nyx", "../assets/objects/Nyx/Nyx.obj");
@@ -188,9 +188,9 @@ void MainMenu::Update()
 		hasBeenInitialized = true;
 	}
 
-	sceneObjects["Rectangle"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);
-	sceneObjects["Rectangle"]->uAmbientAdd = glm::vec3(1.0f, 1.0f, 1.0f);
-	sceneObjects["Rectangle"]->uDiffuseMult = glm::vec3(sinf(totalTime) * 0.2f + 1.0f, sinf(totalTime) * 0.2f + 1.0f, sinf(totalTime) * 0.2f + 1.0f);
+	sceneObjects["Quad"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);
+	sceneObjects["Quad"]->uAmbientAdd = glm::vec3(1.0f, 1.0f, 1.0f);
+	sceneObjects["Quad"]->uDiffuseMult = glm::vec3(sinf(totalTime) * 0.2f + 1.0f, sinf(totalTime) * 0.2f + 1.0f, sinf(totalTime) * 0.2f + 1.0f);
 
 	totalTime += 1 / 60.0f;
 
@@ -198,15 +198,9 @@ void MainMenu::Update()
 
 	previousTime = totalTime;
 
-	defaultShader.sendUniform("uTime", totalTime);
+	passThrough.bind();
 
-	defaultShader.bind();
-
-	gameWindow->update(defaultMesh, &defaultShader, deltaTime);
-
-	defaultShader.sendUniformMat4("uView", &view.getMatrix()[0][0], false);
-	defaultShader.sendUniformMat4("uProj", &persp[0][0], false);
-	defaultShader.sendUniform("LightPosition", down);
+	gameWindow->update(defaultMesh, &passThrough, deltaTime);
 
 	gameWindow->GetSFMLWindow()->display();
 
@@ -225,16 +219,15 @@ void MainMenu::enter()
 		MainMenu::SetPaused(m_paused);
 	}
 
-	gameWindow->AddGameObject(sceneObjects["Rectangle"]);
-	sceneObjects["Rectangle"]->getTransform()->rotateX(-1.570796f);
-	sceneObjects["Rectangle"]->setPosition(glm::vec3(0.0f, 8.0f, -8.0f));
+	gameWindow->AddGameObject(sceneObjects["Quad"]);
+	sceneObjects["Quad"]->setPosition(glm::vec3(0.0f, 0.0f, -10.0f));
 	hasLoadedOnce = true;
 
 }
 
 void MainMenu::exit()
 {
-	gameWindow->RemoveGameObject(sceneObjects["Rectangle"]);
+	gameWindow->RemoveGameObject(sceneObjects["Quad"]);
 
 	hasBeenInitialized = false;
 	if (m_paused == false)
@@ -510,9 +503,9 @@ void GameOver::Update()
 		hasBeenInitialized = true;
 	}
 
-	sceneObjects["Rectangle2"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);
-	sceneObjects["Rectangle2"]->uAmbientAdd = glm::vec3(1.0f, 1.0f, 1.0f);
-	sceneObjects["Rectangle2"]->uDiffuseMult = glm::vec3(sinf(totalTime) * 0.2f + 1.0f, sinf(totalTime) * 0.2f + 1.0f, sinf(totalTime) * 0.2f + 1.0f);
+	sceneObjects["Quad2"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);
+	sceneObjects["Quad2"]->uAmbientAdd = glm::vec3(1.0f, 1.0f, 1.0f);
+	sceneObjects["Quad2"]->uDiffuseMult = glm::vec3(sinf(totalTime) * 0.2f + 1.0f, sinf(totalTime) * 0.2f + 1.0f, sinf(totalTime) * 0.2f + 1.0f);
 
 	totalTime += 1 / 60.0f;
 
@@ -520,11 +513,9 @@ void GameOver::Update()
 
 	previousTime = totalTime;
 
-	defaultShader.sendUniform("uTime", totalTime);
+	passThrough.bind();
 
-	defaultShader.bind();
-
-	gameWindow->update(defaultMesh, &defaultShader, deltaTime);
+	gameWindow->update(defaultMesh, &passThrough, deltaTime);
 
 	defaultShader.sendUniformMat4("uView", &view.getMatrix()[0][0], false);
 	defaultShader.sendUniformMat4("uProj", &persp[0][0], false);
@@ -552,15 +543,14 @@ void GameOver::enter()
 		GameOver::SetPaused(m_paused);
 	}
 
-	gameWindow->AddGameObject(sceneObjects["Rectangle2"]);
-	sceneObjects["Rectangle2"]->getTransform()->rotateX(-1.570796f);
-	sceneObjects["Rectangle2"]->setPosition(glm::vec3(0.0f, 8.0f, -8.0f));
+	gameWindow->AddGameObject(sceneObjects["Quad2"]);
+	sceneObjects["Quad2"]->setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
 	hasLoadedOnce = true;
 }
 
 void GameOver::exit()
 {
-	gameWindow->RemoveGameObject(sceneObjects["Rectangle2"]);
+	gameWindow->RemoveGameObject(sceneObjects["Quad2"]);
 
 	Reset();
 

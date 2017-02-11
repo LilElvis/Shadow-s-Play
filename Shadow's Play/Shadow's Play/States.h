@@ -65,10 +65,12 @@ private:
 };
 
 void Initialize();
-
 void Reset();
 
+//WINDOW STUFF
 static sf::ContextSettings Settings;
+static int windowWidth = 1280;
+static int windowHeight = 720;
 
 //DECLARE SINGLETON POINTERS
 static ENG::Window* gameWindow = ENG::Window::gameInstance();

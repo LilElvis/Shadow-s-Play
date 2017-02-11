@@ -3,21 +3,26 @@
 
 uniform vec4 LightPosition = vec4(-27.88f, 0.0f, 5.0f, 1.0);
 
-//color
+//colors
 uniform vec3 LightAmbient = vec3(0.1f);
 uniform vec3 LightDiffuse = vec3(1.0f);
 uniform vec3 LightSpecular = vec3(1.0f);
 
-//scalar
+//scalars
 uniform float LightSpecularExponent= 24.0f;
 uniform float Attenuation_Constant = 0.01;
 uniform float Attenuation_Linear= 0.01;
-uniform float Attenuation_Quadratic= 0.001;
+uniform float Attenuation_Quadratic= 0.001875;
 
+//Diffuse Light (Add diffuse light reflected off the object)
 uniform vec3 uDiffuseAdd = vec3(0.0f);
 uniform vec3 uDiffuseMult = vec3(1.0f);
+
+//Ambient Light (Basically brightness of the object)
 uniform vec3 uAmbientAdd = vec3(0.0f);
 uniform vec3 uAmbientMult = vec3(1.0f);
+
+//Emissive Light
 uniform vec3 uEmissiveAdd = vec3(0.0f);
 uniform vec3 uEmissiveMult = vec3(1.0f);
 
@@ -70,7 +75,6 @@ void main()
 		//Blinn Phong half vector
 		float NdotHV = max(dot(normal, normalize(lightDir + normalize(-pos))), 0.0);
 		
-	
 		//calculate specular contribution
 		outColor.rgb += LightSpecular * pow(NdotHV, LightSpecularExponent) * attenuation;
 	}
@@ -82,5 +86,4 @@ void main()
 	outColor.rgb *= textureColor.rgb;
 	outColor.rgb += uEmissiveAdd * uEmissiveMult;
 	outColor.a = textureColor.a;
-
 }

@@ -62,7 +62,7 @@ namespace ENG
 			}
 		}
 
-		window.clear();
+		//window.clear();
 
 		for (auto itr = objects.begin(), itrEnd = objects.end();
 			itr != itrEnd; itr++)

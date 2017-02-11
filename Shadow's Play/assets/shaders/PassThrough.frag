@@ -8,6 +8,6 @@ out vec4 color;
 
 void main()
 {
-	color = texture(uTex, texcoord);
-	color = vec4(1.0, 1.0, 1.0, 1.0);
+	color = texture(uTex, vec2(texcoord.x, 1 - texcoord.y ));
+	//color = vec4(1.0, 1.0, 1.0, 1.0);
 }

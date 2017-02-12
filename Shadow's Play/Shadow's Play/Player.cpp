@@ -32,7 +32,7 @@ namespace ENG
 			transform.rotateY(3.14159f);
 		}
 
-		if ((sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Y) > -20.0f && colliding == false) || ((input.GetKey(KeyCode::S) && colliding == false)))
+		if ((sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Y) > 20.0f && colliding == false) || ((input.GetKey(KeyCode::S) && colliding == false)))
 		{
 			acceleration.z = appliedAcceleration;
 
@@ -40,7 +40,7 @@ namespace ENG
 			transform.rotateY(0.0f);
 		}
 
-		if ((sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::X) > -20.0f && colliding == false) || ((input.GetKey(KeyCode::D) && colliding == false)))
+		if ((sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::X) > 20.0f && colliding == false) || ((input.GetKey(KeyCode::D) && colliding == false)))
 		{
 			acceleration.x = appliedAcceleration;
 
@@ -56,40 +56,8 @@ namespace ENG
 			transform.rotateY(-1.57079f);
 		}
 
-		//if (input.GetKey(KeyCode::D) && colliding == false)
-		//{
-		//	acceleration.x = appliedAcceleration;
-
-		//	transform.zeroMatrix();
-		//	transform.rotateY(1.57079f);
-		//}
-		//
-		//if (input.GetKey(KeyCode::A) && colliding == false)
-		//{
-		//	acceleration.x = -appliedAcceleration;
-
-		//	transform.zeroMatrix();
-		//	transform.rotateY(-1.57079f);
-		//}
-
-		//if (input.GetKey(KeyCode::W) && colliding == false)
-		//{
-		//	acceleration.z = -appliedAcceleration;
-
-		//	transform.zeroMatrix();
-		//	transform.rotateY(3.14159f);
-		//}
-
-		//if (input.GetKey(KeyCode::S) && colliding == false)
-		//{
-		//	acceleration.z = appliedAcceleration;
-
-		//	transform.zeroMatrix();
-		//	transform.rotateY(0.0f);
-		//}
-
 		//TIME COUNT SINCE INPUT BEGAN
-		if (input.GetKey(ENG::KeyCode::W) || input.GetKey(ENG::KeyCode::S) || input.GetKey(ENG::KeyCode::A) || input.GetKey(ENG::KeyCode::D))
+		if (input.GetKey(ENG::KeyCode::W) || input.GetKey(ENG::KeyCode::S) || input.GetKey(ENG::KeyCode::A) || input.GetKey(ENG::KeyCode::D) || sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Y) < -20.0f || sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Y) > 20.0f || sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::X) > 20.0f || sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::X) < -20.0f)
 		{
 			timeSinceStart += t;
 		}

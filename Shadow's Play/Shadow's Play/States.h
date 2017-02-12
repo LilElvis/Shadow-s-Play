@@ -7,6 +7,7 @@
 #include "Player.h"
 #include "SceneObject.h"
 #include "AnimationMath.h"
+#include "FrameBufferObject.h"
 
 //STATE CLASSES
 class MainMenu : public GameState

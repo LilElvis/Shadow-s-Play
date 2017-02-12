@@ -357,12 +357,6 @@ void GameLevel::Update()
 	defaultShader.sendUniform("LightPosition", down);
 
 	gameWindow->GetSFMLWindow()->display();
-	
-	//if (Player["Nyx"]->getHasWon() == true)
-	//{
-	//	GameLevel::exit();
-	//	m_parent->GetGameState("LevelTwo")->SetPaused(false);
-	//}
 
 	if (Player["Nyx"]->getIsDead() == true)
 	{

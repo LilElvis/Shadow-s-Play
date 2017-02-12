@@ -1,3 +1,4 @@
-﻿  States.cpp
+﻿  Player.cpp
+c:\repos\shadow's play\shadow's play\shadow's play\player.cpp(132): warning C4018: '<': signed/unsigned mismatch
   Shadow's Play.vcxproj -> C:\Repos\Shadow's Play\Shadow's Play\Debug\Shadow's Play.exe
   Shadow's Play.vcxproj -> C:\Repos\Shadow's Play\Shadow's Play\Debug\Shadow's Play.pdb (Full PDB)

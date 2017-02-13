@@ -16,8 +16,10 @@ namespace ENG
 		glm::vec3 getStartPosition();
 		void reset();
 		void setLifeLost(bool);
+		void setNyxPaused(bool);
 		bool getLifeLost();
 		bool getIsDead();
+		bool getNyxPaused();
 	private:
 		float timeSinceStart;
 		glm::vec3 startingPosition;
@@ -25,6 +27,7 @@ namespace ENG
 		int lives;
 		bool lifeLost;
 		bool isDead;
+		bool paused;
 
 		Input input;
 		float appliedAcceleration = 30.0f;

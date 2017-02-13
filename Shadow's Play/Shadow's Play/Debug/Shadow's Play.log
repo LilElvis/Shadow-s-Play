@@ -1,4 +1,4 @@
-﻿  Player.cpp
-c:\repos\shadow's play\shadow's play\shadow's play\player.cpp(132): warning C4018: '<': signed/unsigned mismatch
-  Shadow's Play.vcxproj -> C:\Repos\Shadow's Play\Shadow's Play\Debug\Shadow's Play.exe
-  Shadow's Play.vcxproj -> C:\Repos\Shadow's Play\Shadow's Play\Debug\Shadow's Play.pdb (Full PDB)
+﻿  States.cpp
+c:\users\100551116\documents\repos\gdw second yr\shadow's play\shadow's play\states.cpp(593): warning C4305: '+=': truncation from 'double' to 'float'
+  Shadow's Play.vcxproj -> C:\Users\100551116\Documents\Repos\GDW Second Yr\Shadow's Play\Debug\Shadow's Play.exe
+  Shadow's Play.vcxproj -> C:\Users\100551116\Documents\Repos\GDW Second Yr\Shadow's Play\Debug\Shadow's Play.pdb (Full PDB)

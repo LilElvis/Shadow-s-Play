@@ -47,6 +47,8 @@ namespace ENG
 		shaderPtr->sendUniform("uDiffuseMult", uDiffuseMult);
 		shaderPtr->sendUniform("uAmbientAdd", uAmbientAdd);
 		shaderPtr->sendUniform("uAmbientMult", uAmbientMult);
+		shaderPtr->sendUniform("uSpecularAdd", uSpecularAdd);
+		shaderPtr->sendUniform("uSpecularMult", uSpecularMult);
 		shaderPtr->sendUniform("uEmissiveAdd", uEmissiveAdd);
 		shaderPtr->sendUniform("uEmissiveMult", uEmissiveMult);
 		shaderPtr->sendUniform("uInvisible", uInvisible);
@@ -65,13 +67,15 @@ namespace ENG
 		albedo.UnBind(GL_TEXTURE0);
 	}
 
-	void GameObject::justDraw(Mesh* meshPtr,Shader* shaderPtr )
+	void GameObject::drawTransparent(Mesh* meshPtr,Shader* shaderPtr )
 	{
 		transform.setMatrix(glm::mat4(
 			transform.getMatrix()[0][0], transform.getMatrix()[0][1], transform.getMatrix()[0][2], position.x,
 			transform.getMatrix()[1][0], transform.getMatrix()[1][1], transform.getMatrix()[1][2], position.y,
 			transform.getMatrix()[2][0], transform.getMatrix()[2][1], transform.getMatrix()[2][2], position.z,
 			0.0f, 0.0f, 0.0f, 1.0f));
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		glBindVertexArray(renderable);
 
@@ -85,17 +89,13 @@ namespace ENG
 		shaderPtr->sendUniform("uInvisible", uInvisible);
 
 		albedo.Bind(GL_TEXTURE0);
-		normal.Bind(GL_TEXTURE1);
-		specular.Bind(GL_TEXTURE2);
-		emissive.Bind(GL_TEXTURE3);
 
 		glDrawArrays(GL_TRIANGLES, 0, (meshPtr->getNumberOfVerticies()));
 		glBindVertexArray(0);
 
-		emissive.UnBind(GL_TEXTURE3);
-		specular.UnBind(GL_TEXTURE2);
-		normal.UnBind(GL_TEXTURE1);
 		albedo.UnBind(GL_TEXTURE0);
+
+		glDisable(GL_BLEND);
 	}
 
 	//ACCESSORS & MUTATORS

@@ -16,7 +16,10 @@ layout(binding = 4) uniform sampler2D uAmbientMap;
 layout(binding = 5) uniform sampler2D uDepthMap;
 
 uniform vec3 cameraPos;
-uniform mat4 uProjectionBiasMatrixInverse;
+//uniform mat4 uProjectionBiasMatrixInverse;
+
+uniform mat4 uinverseViewMatrix;
+uniform mat4 uinversePerspectiveMatrix;
 
 struct Light
 {
@@ -29,7 +32,7 @@ struct Light
 
 const int maxNumberOfLights = 64;
 
-uniform int uNumLights;
+uniform int uNumLights = 1;
 
 uniform Light lights[maxNumberOfLights];
 
@@ -40,15 +43,30 @@ uniform float uTime;
 
 out vec4 outColor;
 
+vec4 getPosition()
+{
+	float z = (texture(uDepthMap, texcoord).r) * 2.0 - 1.0;
+
+	vec4 clipSpace = vec4(texcoord * 2.0 - 1.0, z, 1.0);
+
+	vec4 viewSpace = uinversePerspectiveMatrix * clipSpace;
+
+	viewSpace /= viewSpace.w;
+
+	vec4 worldSpace = uinverseViewMatrix * viewSpace;
+
+	return worldSpace;
+}
+
 void main()
 {
 	float depth = texture(uDepthMap, texcoord).r;
 
-	vec4 position = uProjectionBiasMatrixInverse * vec4(texcoord, depth, 1.0);
+	vec4 position = getPosition();
 	
 	//Make Normals from -1 to 1 again
 	vec3 normal = texture(uNormalMap, texcoord).rgb;
-	normal += normal - 1.0;
+	normal = normal * 2.0 - 1.0;
 	
 	vec3 albedo = texture(uAlbedoMap, texcoord).rgb;
 
@@ -62,24 +80,31 @@ void main()
 
 	vec3 viewDirection = normalize(-position.xyz - cameraPos);
 
+	vec3 distanceFromLight;
+
+	outColor.rgb = vec3(0,0,0);
+
 	for (int i = 0; i < uNumLights; ++i)
 	{
-		float distance = length(lights[i].position - position.xyz);
+		float distance = length(lights[i].position.rgb - position.xyz);
 		
-		vec3 lightDirection = normalize(lights[i].position - position.xyz);
-
+		vec3 lightDirection = normalize(lights[i].position.rgb - position.xyz);
+		
 		vec3 diffuseLight = max(dot(normal, lightDirection), 0.0) * lights[i].color.rgb * lights[i].color.a;
-
+		
 		vec3 halfVector = normalize(lightDirection + viewDirection);
-
+		
 		vec3 specLight = lights[i].color.rgb * lights[i].color.a * vec3(pow(max(dot(normal, halfVector), 0.0), 8.0));
-
+		
 		float attenuation = 1.0/(lights[i].aConstant + lights[i].aLinear * distance + lights[i].aQuadratic * distance);
-
+		
 		outDiffuse += diffuseLight * attenuation;
-
+		
 		outSpecular += specLight * attenuation;
+		
+		distanceFromLight = position.xyz * 0.01;
 	}
+
 
 	outColor.rgb = (texture(uAmbientMap, texcoord).rgb + outDiffuse) * albedo;
 	outColor.rgb += specular * outSpecular;

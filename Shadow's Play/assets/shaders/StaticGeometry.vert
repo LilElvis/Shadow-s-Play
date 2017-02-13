@@ -18,12 +18,9 @@ out vec3 pos;
 void main()
 {
 	texcoord = in_uv;
-	norm = mat3(uView) * mat3(uModel) * in_normal;
 
-	vec4 viewSpace = (uView * uModel * vec4(in_vert, 1.0f));
-	//vec4 viewSpace = (uView * uModel * vec4(mix(in_vert, in_vert2, uTime), 1.0f));
+	pos = (uModel * vec4(in_vert,1)).xyz;
 
-	gl_Position = uProj * viewSpace;
-
-	pos = viewSpace.xyz;
+	norm = mat3(uModel) * in_normal;
+	gl_Position = uProj * uView * uModel * vec4(in_vert,1);
 }

@@ -168,6 +168,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Shadow%27s Play\Shadow%27s Play\Shadow%27s Play\FrameBufferObject.h" />
+    <ClInclude Include="..\..\..\Shadow%27s Play\Shadow%27s Play\Shadow%27s Play\Lights.h" />
     <ClInclude Include="..\..\Shadow%27s Play\Shadow%27s Play\Animation.h" />
     <ClInclude Include="..\..\Shadow%27s Play\Shadow%27s Play\AnimationMath.h" />
     <ClInclude Include="..\..\Shadow%27s Play\Shadow%27s Play\GameObject.h" />

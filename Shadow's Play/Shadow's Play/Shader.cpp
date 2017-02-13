@@ -187,6 +187,15 @@ namespace ENG
 		glUniformMatrix4fv(location, 1, transpose, matrix);
 	}
 
+	void Shader::sendUniformPointLight(const std::string & name, PointLight* light, int index)
+	{
+		sendUniform(name + "[" + std::to_string(index) + "].position", light->position);
+		sendUniform(name + "[" + std::to_string(index) + "].color", light->color);
+		sendUniform(name + "[" + std::to_string(index) + "].aConstant", light->aConstant);
+		sendUniform(name + "[" + std::to_string(index) + "].aLinear", light->aLinear);
+		sendUniform(name + "[" + std::to_string(index) + "].aQuadratic", light->aQuadratic);
+	}
+
 	//READS SHADER FILES
 	std::string Shader::readFile(const std::string &fileName)
 	{

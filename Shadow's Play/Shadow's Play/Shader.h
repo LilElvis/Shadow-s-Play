@@ -4,10 +4,7 @@
 #include <string>
 #include <unordered_map>
 #include "SFML\OpenGL.hpp"
-#include "SFML\System\Vector3.hpp"
-#include "SFML\System\Vector2.hpp"
-#include "glm\matrix.hpp"
-#include "glm\gtc\matrix_transform.hpp"
+#include "Lights.h"
 
 namespace ENG
 {
@@ -41,6 +38,7 @@ namespace ENG
 		void sendUniform(const std::string &, const glm::vec4 &);
 		void sendUniformMat3(const std::string &, float*, bool);
 		void sendUniformMat4(const std::string &, float*, bool);
+		void sendUniformPointLight(const std::string &, PointLight *, int);
 
 	private:
 		bool isInit = false;

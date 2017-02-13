@@ -145,3 +145,10 @@ static int randomQuadPos = 0;
 static float bounds = 25.0f;
 static glm::vec3 RoomMax = glm::vec3(bounds, 10.5f, bounds);
 static glm::vec3 RoomMin = glm::vec3(-bounds, 10.0f, -bounds);
+
+//LIGHTS
+static ENG::PointLight pointLight;
+static ENG::PointLight pointLight2;
+static ENG::PointLight pointLight3;
+
+//static glm::mat4 uProjectionBiasMatrixInverse;

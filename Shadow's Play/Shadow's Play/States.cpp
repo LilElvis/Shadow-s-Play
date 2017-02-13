@@ -39,7 +39,15 @@ void Initialize()
 	view.setMatrix(glm::lookAt(cameraPos, (cameraPos + cameraFront), up));
 	view.rotateX(-1.57f);
 	
-	persp = glm::perspective(45.0f, 16.0f / 9.0f, 0.001f, 200.0f);
+	persp = glm::perspective(45.0f, 16.0f / 9.0f, 10.0f, 100.0f);
+
+	glm::mat4 ProjBiasMatrix = glm::mat4(
+		2.0f, 0.0f, 0.0f, -1.0f,
+		0.0f, 2.0f, 0.0f, -1.0f,
+		0.0f, 0.0f, 2.0f, -1.0f,
+		0.0f, 0.0f, 0.0f,  1.0f);
+
+	//uProjectionBiasMatrixInverse = glm::inverse(view.getMatrix()) * glm::inverse(persp) * ProjBiasMatrix;
 	
 	//LOAD DEFAULT TEXTURES
 	defaultTexture->LoadFromFile("Emissive", "../assets/textures/default/Emissive.png");
@@ -103,8 +111,6 @@ void Initialize()
 	static ENG::SceneObject InvisWall4("InvisWall4", 0, *defaultTexture->listOfTextures["SpotLight"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], 0);
 	sceneObjects["InvisWall4"] = &InvisWall4;
 
-	
-
 	//LOAD SHADER PROGRAMS
 	defaultShader.load("Default", "../assets/shaders/StaticGeometry.vert", "../assets/shaders/BasicLighting.frag");
 	passThrough.load("PassThrough", "../assets/shaders/PassThrough.vert", "../assets/shaders/PassThrough.frag");
@@ -119,7 +125,6 @@ void Initialize()
 	deferredFBO.initColorTexture(4, GL_RGB8);
 	deferredFBO.initColorTexture(3, GL_RGB8);
 	deferredFBO.initDepthTexture();
-
 
 	finalSceneFBO.Init(windowWidth, windowHeight, 1);
 	finalSceneFBO.initColorTexture(0);
@@ -328,8 +333,18 @@ void GameLevel::Update()
 
 	defaultShader.sendUniform("uTime", totalTime);
 
+	Player["Nyx"]->uDiffuseAdd = glm::vec3(0.0f, 0.0f, 0.0f);
 	Player["Nyx"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);
-	sceneObjects["Room"]->uDiffuseMult = glm::vec3(2.0f, 2.0f, 2.0f);
+	Player["Nyx"]->uSpecularAdd = glm::vec3(0.2f, 0.1f, 0.2f);
+	Player["Nyx"]->uSpecularMult = glm::vec3(0.1f, 0.1f, 0.1f);
+	Player["Nyx"]->uAmbientAdd = glm::vec3(0.2f, 0.2f, 0.2f);
+	Player["Nyx"]->uAmbientMult = glm::vec3(1.0f, 1.0f, 1.0f);
+	Player["Nyx"]->uEmissiveAdd = glm::vec3(0.2f, 0.1f, 0.2f);
+	Player["Nyx"]->uEmissiveMult = glm::vec3(1.0f, 1.0f, 1.0f);
+
+	sceneObjects["Room"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);
+	sceneObjects["Room"]->uAmbientAdd = glm::vec3(0.2f, 0.2f, 0.2f);
+
 	sceneObjects["SpotLight"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);
 	sceneObjects["SpotLight2"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);
 	sceneObjects["QuadLight"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);
@@ -339,12 +354,17 @@ void GameLevel::Update()
 	//sceneObjects["QuadLight"]->uEmissiveAdd = glm::vec3(sinf(globalT * 1.0f) * 0.25f, sinf(globalT * 1.0f) * 0.25f, sinf(globalT * 1.0f) * 0.25f);
 
 	sceneObjects["SpotLight"]->setPosition(lerp(points[randomLERPStart], points[randomLERPEnd], globalT));
+	pointLight.position = (sceneObjects["SpotLight"]->getPosition() + glm::vec3(0.0f, 1.5f, 0.0f));
+
 	sceneObjects["SpotLight2"]->setPosition(bezier(points[randomCurveStart], points[randomCurveControl], points[randomCurveEnd], globalT));
+	pointLight2.position = (sceneObjects["SpotLight2"]->getPosition() + glm::vec3(0.0f, 1.5f, 0.0f));
 
 	if(globalT > 0.7f && globalT < 0.98f)
 		sceneObjects["QuadLight"]->setPosition(points[randomQuadPos]);
 	else
-		sceneObjects["QuadLight"]->setPosition(glm::vec3(0.0f, 0.6f, 55.0f));
+		sceneObjects["QuadLight"]->setPosition(glm::vec3(0.0f, 0.6f, 100.0f));
+
+	pointLight3.position = (sceneObjects["QuadLight"]->getPosition() + glm::vec3(0.0f, 1.5f, 0.0f));
 
 	if (!wasWarned1)
 		sceneObjects["Warning"]->setPosition(clamp(sceneObjects["SpotLight"]->getPosition(), RoomMin, RoomMax));
@@ -390,12 +410,30 @@ void GameLevel::Update()
 	gameWindow->update(defaultMesh, &GBuffer, deltaTime);
 	
 	GBuffer.unBind();
-	glDisable(GL_BLEND);
-
+	//glDisable(GL_BLEND);
 	deferredFBO.Unbind();
+	///Attempted Transparency Pass--------------------------------
 
+	///defaultShader.bind();
+	///
+	///defaultShader.sendUniformMat4("uView", &view.getMatrix()[0][0], false);
+	///defaultShader.sendUniformMat4("uProj", &persp[0][0], false);
+	///defaultShader.sendUniform("LightPosition", down);
+	///
+	///sceneObjects["Warning"]->drawTransparent(defaultMesh->listOfMeshes["Warning"], &defaultShader);
+	///
+	///defaultShader.unBind();
+
+	///-----------------------------------------------------------
 	finalSceneFBO.Bind();
 	deferredShading.bind();
+
+	deferredShading.sendUniformMat4("uinverseViewMatrix", &glm::inverse(view.getMatrix())[0][0], false);
+	deferredShading.sendUniformMat4("uinversePerspectiveMatrix", &glm::inverse(persp)[0][0], false);
+	deferredShading.sendUniform("uNumLights", 3);
+	deferredShading.sendUniformPointLight("lights", &pointLight, 0);
+	deferredShading.sendUniformPointLight("lights", &pointLight2, 1);
+	deferredShading.sendUniformPointLight("lights", &pointLight3, 2);
 	
 	glBindVertexArray(sceneObjects["Quad3"]->getRenderable());
 	
@@ -470,6 +508,18 @@ void GameLevel::enter()
 	sceneObjects["InvisWall2"]->setPosition(glm::vec3(0.0f, 0.0f, 35.0f));
 	sceneObjects["InvisWall3"]->setPosition(glm::vec3(-35.0f, 0.0f, 0.0f));
 	sceneObjects["InvisWall4"]->setPosition(glm::vec3(35.0f, 0.0f, 0.0f));
+
+	pointLight.position = sceneObjects["SpotLight"]->getPosition();
+	pointLight.color = glm::vec4(1.0f, 0.63f, 0.72f, 1.0f);
+
+	pointLight2.position = sceneObjects["SpotLight2"]->getPosition();
+	pointLight2.color = glm::vec4(0.48f, 0.41f, 0.93f, 1.0f);
+
+	pointLight3.position = sceneObjects["QuadLight"]->getPosition();
+	pointLight3.color = glm::vec4(0.2f, 0.8f, 0.2f, 1.0f);
+	pointLight3.aConstant = pointLight3.aConstant * 0.1f;
+	pointLight3.aLinear = pointLight3.aLinear * 0.1f;
+	pointLight3.aQuadratic = pointLight3.aQuadratic * 0.1f;
 	
 	if (!hasLoadedOnce)
 	{

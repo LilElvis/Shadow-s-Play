@@ -110,6 +110,9 @@
     <ClInclude Include="..\..\..\Shadow%27s Play\Shadow%27s Play\Shadow%27s Play\FrameBufferObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Shadow%27s Play\Shadow%27s Play\Shadow%27s Play\Lights.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\StaticGeometry.vert">

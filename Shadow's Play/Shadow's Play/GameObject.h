@@ -19,7 +19,7 @@ namespace ENG
 		
 		//UTILITY FUNCTIONS
 		void render(Mesh*, Shader*);
-		void justDraw(Mesh*, Shader*);
+		void drawTransparent(Mesh*, Shader*);
 		virtual void update(float) = 0;
 		virtual void reset() = 0;
 		Transform* getTransform();
@@ -43,6 +43,8 @@ namespace ENG
 		glm::vec3 uDiffuseMult;
 		glm::vec3 uAmbientAdd;
 		glm::vec3 uAmbientMult;
+		glm::vec3 uSpecularAdd;
+		glm::vec3 uSpecularMult;
 		glm::vec3 uEmissiveAdd;
 		glm::vec3 uEmissiveMult;
 

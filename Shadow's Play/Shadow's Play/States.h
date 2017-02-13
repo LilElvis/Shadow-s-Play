@@ -34,6 +34,7 @@ public:
 private:
 	std::vector<ENG::GameObject*> collidables;
 
+	
 	bool hasBeenInitialized;
 	bool hasLoadedOnce = false;
 };
@@ -120,6 +121,11 @@ static bool wasWarned2 = false;
 static float totalTime = 0.0f;
 static float previousTime = 0.0f;
 static float deltaTime = 0.0f;
+static float seconds = 0;
+static int minute = 0;
+
+//TIMER FUNC
+float timerFunc();
 
 static float globalT = 1.0f;
 static float rampValue = 0.005f;
@@ -133,6 +139,9 @@ static int randomCurveEnd = 0;
 static int randomCurveControl = 0;
 
 static int randomQuadPos = 0;
+
+//Pause(?)
+static bool weBePausing = false;
 
 //BOUNDRAIES
 static float bounds = 25.0f;

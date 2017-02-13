@@ -1,8 +1,12 @@
 #pragma once
 
+#include "GL\glew.h"
+#include <GL\GL.h>
+#include <GL\GLU.h>
 #include "SFML\Graphics\Texture.hpp"
 #include <unordered_map>
 #include <string>
+#include <iostream>
 
 namespace ENG
 {
@@ -12,12 +16,19 @@ namespace ENG
 	public:
 		static Texture* getTexPtr();
 		std::unordered_map<std::string, Texture*> listOfTextures;
+
 		bool LoadFromFile(std::string, std::string);
 		void Unload();
-		sf::Texture getSFTexture();
+
+		void Bind(GLenum);
+		void UnBind(GLenum);
+	
+		GLuint texHandle;
+		unsigned int Width;
+		unsigned int Height;
+
 	private:
 		Texture();
 		static Texture* texPtr;
-		sf::Texture sfTexture;
 	};
 }

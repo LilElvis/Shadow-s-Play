@@ -45,12 +45,12 @@ namespace ENG
 		Unbind();
 	}
 
-	void FrameBufferObject::initColorTexure(unsigned int index, GLint filterMode, GLint wrapMode)
+	void FrameBufferObject::initColorTexture(unsigned int index, GLenum dataType, GLint filterMode, GLint wrapMode)
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, FBO);
 		glGenTextures(1, &ColorAttachments[index]);
 		glBindTexture(GL_TEXTURE_2D, ColorAttachments[index]);
-		glTexStorage2D(GL_TEXTURE_2D, 1, GL_RGBA8, Width, Height);
+		glTexStorage2D(GL_TEXTURE_2D, 1, dataType, Width, Height);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filterMode);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filterMode);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapMode);
@@ -119,6 +119,11 @@ namespace ENG
 		glBindFramebuffer(GL_FRAMEBUFFER, GL_NONE);
 	}
 
+	GLuint FrameBufferObject::getColorAttachment(unsigned int index)
+	{
+		return ColorAttachments[index];
+	}
+
 	void FrameBufferObject::DrawToBackBuffer()
 	{
 		glBindFramebuffer(GL_READ_FRAMEBUFFER, FBO);
@@ -126,5 +131,15 @@ namespace ENG
 
 		glBlitFramebuffer(0, 0, Width, Height, 0, 0, Width, Height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
 		Unbind();
+	}
+
+	GLuint FrameBufferObject::getLayerNumber()
+	{
+		return FBO;
+	}
+
+	void FrameBufferObject::Check()
+	{
+
 	}
 }

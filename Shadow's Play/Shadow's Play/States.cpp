@@ -508,18 +508,6 @@ void GameLevel::enter()
 	sceneObjects["InvisWall2"]->setPosition(glm::vec3(0.0f, 0.0f, 35.0f));
 	sceneObjects["InvisWall3"]->setPosition(glm::vec3(-35.0f, 0.0f, 0.0f));
 	sceneObjects["InvisWall4"]->setPosition(glm::vec3(35.0f, 0.0f, 0.0f));
-
-	pointLight.position = sceneObjects["SpotLight"]->getPosition();
-	pointLight.color = glm::vec4(1.0f, 0.63f, 0.72f, 1.0f);
-
-	pointLight2.position = sceneObjects["SpotLight2"]->getPosition();
-	pointLight2.color = glm::vec4(0.48f, 0.41f, 0.93f, 1.0f);
-
-	pointLight3.position = sceneObjects["QuadLight"]->getPosition();
-	pointLight3.color = glm::vec4(0.2f, 0.8f, 0.2f, 1.0f);
-	pointLight3.aConstant = pointLight3.aConstant * 0.1f;
-	pointLight3.aLinear = pointLight3.aLinear * 0.1f;
-	pointLight3.aQuadratic = pointLight3.aQuadratic * 0.1f;
 	
 	if (!hasLoadedOnce)
 	{
@@ -533,6 +521,18 @@ void GameLevel::enter()
 		collidables.push_back(sceneObjects["InvisWall2"]);
 		collidables.push_back(sceneObjects["InvisWall3"]);
 		collidables.push_back(sceneObjects["InvisWall4"]);
+
+		pointLight.position = sceneObjects["SpotLight"]->getPosition();
+		pointLight.color = glm::vec4(1.0f, 0.63f, 0.72f, 1.0f);
+
+		pointLight2.position = sceneObjects["SpotLight2"]->getPosition();
+		pointLight2.color = glm::vec4(0.48f, 0.41f, 0.93f, 1.0f);
+
+		pointLight3.position = sceneObjects["QuadLight"]->getPosition();
+		pointLight3.color = glm::vec4(0.2f, 0.8f, 0.2f, 1.0f);
+		pointLight3.aConstant = pointLight3.aConstant * 0.1f;
+		pointLight3.aLinear = pointLight3.aLinear * 0.1f;
+		pointLight3.aQuadratic = pointLight3.aQuadratic * 0.1f;
 
 		hasLoadedOnce = true;
 	}

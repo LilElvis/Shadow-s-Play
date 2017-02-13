@@ -2,7 +2,7 @@
 
 namespace ENG
 {
-	Player::Player(std::string name, GLuint aVAO, sf::Texture aTexture) : GameObject(name, aVAO, aTexture)
+	Player::Player(std::string name, GLuint aVAO, Texture anAlbedo, Texture aNormal, Texture aSpecular, Texture anEmissive, GLuint layerToDrawOn) : GameObject(name, aVAO, anAlbedo, aNormal, aSpecular, anEmissive, layerToDrawOn)
 	{
 		colliding = false;
 		lives = 2;

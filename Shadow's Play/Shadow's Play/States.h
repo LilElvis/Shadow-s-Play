@@ -82,6 +82,12 @@ static ENG::Mesh* defaultMesh = ENG::Mesh::getMeshPtr();
 //SHADER PROGRAMS
 static ENG::Shader defaultShader;
 static ENG::Shader passThrough;
+static ENG::Shader GBuffer;
+static ENG::Shader deferredShading;
+
+//FBOS
+static ENG::FrameBufferObject deferredFBO;
+static ENG::FrameBufferObject finalSceneFBO;
 
 //MAPS OF GAME OBJECTS
 static std::unordered_map<std::string, ENG::Player*> Player;

@@ -12,7 +12,7 @@ namespace ENG
 		void Init(unsigned int, unsigned int, unsigned int = 1);
 
 		void initDepthTexture(GLint = GL_NEAREST, GLint = GL_CLAMP_TO_EDGE);
-		void initColorTexure(unsigned int, GLint = GL_NEAREST, GLint = GL_CLAMP_TO_EDGE);
+		void initColorTexture(unsigned int, GLenum = GL_RGBA8, GLint = GL_NEAREST, GLint = GL_CLAMP_TO_EDGE);
 
 		void UnloadFBO();
 		void ClearFBO();
@@ -22,13 +22,19 @@ namespace ENG
 		void BindColorAsTexture(GLenum, unsigned int);
 		void Unbind();
 
+		GLuint getColorAttachment(unsigned int);
+
 		void DrawToBackBuffer();
+
+		GLuint getLayerNumber();
+
+		void Check();
 
 	private:
 		GLuint FBO;
 		GLuint DepthAttachment;
-		GLuint * ColorAttachments;
-		GLenum * Buffers;
+		GLuint* ColorAttachments;
+		GLenum* Buffers;
 		unsigned int numColorAttachments;
 		unsigned int Width;
 		unsigned int Height;

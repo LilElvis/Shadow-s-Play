@@ -41,65 +41,88 @@ void Initialize()
 	
 	persp = glm::perspective(45.0f, 16.0f / 9.0f, 0.001f, 200.0f);
 	
+	//LOAD DEFAULT TEXTURES
+	defaultTexture->LoadFromFile("Emissive", "../assets/textures/default/Emissive.png");
+	defaultTexture->LoadFromFile("Specular", "../assets/textures/default/Specular.png");
+	defaultTexture->LoadFromFile("Normal", "../assets/textures/default/Normal.png");
+	
 	//LOAD MENU TEXTURES
 	defaultMesh->LoadFromFile("Quad", "../assets/objects/Quad.obj");
 	defaultTexture->LoadFromFile("MainMenu", "../assets/textures/Menu.png");
 	defaultTexture->LoadFromFile("GameOver", "../assets/textures/GameOver.png");
-	static ENG::SceneObject Quad("Quad", defaultMesh->listOfMeshes["Quad"]->VAO, defaultTexture->listOfTextures["MainMenu"]->getSFTexture());
+	static ENG::SceneObject Quad("Quad", defaultMesh->listOfMeshes["Quad"]->VAO, *defaultTexture->listOfTextures["MainMenu"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], deferredFBO.getLayerNumber());
 	sceneObjects["Quad"] = &Quad;
-	static ENG::SceneObject Quad2("Quad", defaultMesh->listOfMeshes["Quad"]->VAO, defaultTexture->listOfTextures["GameOver"]->getSFTexture());
+	static ENG::SceneObject Quad2("Quad", defaultMesh->listOfMeshes["Quad"]->VAO, *defaultTexture->listOfTextures["GameOver"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], deferredFBO.getLayerNumber());
 	sceneObjects["Quad2"] = &Quad2;
+	static ENG::SceneObject Quad3("Quad", defaultMesh->listOfMeshes["Quad"]->VAO, *defaultTexture->listOfTextures["GameOver"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], deferredFBO.getLayerNumber());
+	sceneObjects["Quad3"] = &Quad3;
 
 	//LOAD OBJECTS
 	defaultMesh->LoadFromFile("Nyx", "../assets/objects/Nyx/Nyx.obj");
 	defaultTexture->LoadFromFile("Nyx", "../assets/textures/Nyx.png");
-	static ENG::Player Nyx("Nyx", defaultMesh->listOfMeshes["Nyx"]->VAO, defaultTexture->listOfTextures["Nyx"]->getSFTexture());
+	static ENG::Player Nyx("Nyx", defaultMesh->listOfMeshes["Nyx"]->VAO, *defaultTexture->listOfTextures["Nyx"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], deferredFBO.getLayerNumber());
 	Player["Nyx"] = &Nyx;
 
 	defaultMesh->LoadFromFile("Room", "../assets/objects/MapTemp.obj");
 	defaultTexture->LoadFromFile("Room", "../assets/textures/MapTempTest.png");
-	static ENG::SceneObject Room("Room", defaultMesh->listOfMeshes["Room"]->VAO, defaultTexture->listOfTextures["Room"]->getSFTexture());
+	static ENG::SceneObject Room("Room", defaultMesh->listOfMeshes["Room"]->VAO, *defaultTexture->listOfTextures["Room"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], deferredFBO.getLayerNumber());
 	sceneObjects["Room"] = &Room;
 
 	defaultMesh->LoadFromFile("Warning", "../assets/objects/SpotLight.obj");
 	defaultTexture->LoadFromFile("Warning", "../assets/textures/Warning.png");
-	static ENG::SceneObject Warning("Warning", defaultMesh->listOfMeshes["Warning"]->VAO, defaultTexture->listOfTextures["Warning"]->getSFTexture());
+	static ENG::SceneObject Warning("Warning", defaultMesh->listOfMeshes["Warning"]->VAO, *defaultTexture->listOfTextures["Warning"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], deferredFBO.getLayerNumber());
 	sceneObjects["Warning"] = &Warning;
-	static ENG::SceneObject Warning2("Warning", defaultMesh->listOfMeshes["Warning"]->VAO, defaultTexture->listOfTextures["Warning"]->getSFTexture());
+	static ENG::SceneObject Warning2("Warning", defaultMesh->listOfMeshes["Warning"]->VAO, *defaultTexture->listOfTextures["Warning"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], deferredFBO.getLayerNumber());
 	sceneObjects["Warning2"] = &Warning2;
 	
-
 	defaultMesh->LoadFromFile("SpotLight", "../assets/objects/SpotLight.obj");
 	defaultTexture->LoadFromFile("SpotLight", "../assets/textures/Light1.png");
 	defaultTexture->LoadFromFile("SpotLight2", "../assets/textures/Light2.png");
-	static ENG::SceneObject SpotLight("SpotLight", defaultMesh->listOfMeshes["SpotLight"]->VAO, defaultTexture->listOfTextures["SpotLight"]->getSFTexture());
+	static ENG::SceneObject SpotLight("SpotLight", defaultMesh->listOfMeshes["SpotLight"]->VAO, *defaultTexture->listOfTextures["SpotLight"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], deferredFBO.getLayerNumber());
 	sceneObjects["SpotLight"] = &SpotLight;
-	static ENG::SceneObject SpotLight2("SpotLight", defaultMesh->listOfMeshes["SpotLight"]->VAO, defaultTexture->listOfTextures["SpotLight2"]->getSFTexture());
+	static ENG::SceneObject SpotLight2("SpotLight", defaultMesh->listOfMeshes["SpotLight"]->VAO, *defaultTexture->listOfTextures["SpotLight2"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], deferredFBO.getLayerNumber());
 	sceneObjects["SpotLight2"] = &SpotLight2;
 
 	defaultMesh->LoadFromFile("QuadLight", "../assets/objects/QuadLight.obj");
 	defaultTexture->LoadFromFile("QuadLight", "../assets/textures/QuadLight.png");
-	static ENG::SceneObject QuadLight("QuadLight", defaultMesh->listOfMeshes["QuadLight"]->VAO, defaultTexture->listOfTextures["QuadLight"]->getSFTexture());
+	static ENG::SceneObject QuadLight("QuadLight", defaultMesh->listOfMeshes["QuadLight"]->VAO, *defaultTexture->listOfTextures["QuadLight"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], deferredFBO.getLayerNumber());
 	sceneObjects["QuadLight"] = &QuadLight;
 	defaultTexture->LoadFromFile("QuadWarning", "../assets/textures/QuadWarning.png");
-	static ENG::SceneObject Warning3("Warning", defaultMesh->listOfMeshes["QuadLight"]->VAO, defaultTexture->listOfTextures["QuadWarning"]->getSFTexture());
+	static ENG::SceneObject Warning3("Warning", defaultMesh->listOfMeshes["QuadLight"]->VAO, *defaultTexture->listOfTextures["QuadWarning"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], deferredFBO.getLayerNumber());
 	sceneObjects["Warning3"] = &Warning3;
 
-	static ENG::SceneObject InvisWall("InvisWall", 0, defaultTexture->listOfTextures["SpotLight"]->getSFTexture());
+	static ENG::SceneObject InvisWall("InvisWall", 0, *defaultTexture->listOfTextures["SpotLight"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], 0);
 	sceneObjects["InvisWall"] = &InvisWall;
 	
-	static ENG::SceneObject InvisWall2("InvisWall2", 0, defaultTexture->listOfTextures["SpotLight"]->getSFTexture());
+	static ENG::SceneObject InvisWall2("InvisWall2", 0, *defaultTexture->listOfTextures["SpotLight"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], 0);
 	sceneObjects["InvisWall2"] = &InvisWall2;
 	
-	static ENG::SceneObject InvisWall3("InvisWall3", 0, defaultTexture->listOfTextures["SpotLight"]->getSFTexture());
+	static ENG::SceneObject InvisWall3("InvisWall3", 0, *defaultTexture->listOfTextures["SpotLight"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], 0);
 	sceneObjects["InvisWall3"] = &InvisWall3;
 	
-	static ENG::SceneObject InvisWall4("InvisWall4", 0, defaultTexture->listOfTextures["SpotLight"]->getSFTexture());
+	static ENG::SceneObject InvisWall4("InvisWall4", 0, *defaultTexture->listOfTextures["SpotLight"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], 0);
 	sceneObjects["InvisWall4"] = &InvisWall4;
+
+	
 
 	//LOAD SHADER PROGRAMS
 	defaultShader.load("Default", "../assets/shaders/StaticGeometry.vert", "../assets/shaders/BasicLighting.frag");
 	passThrough.load("PassThrough", "../assets/shaders/PassThrough.vert", "../assets/shaders/PassThrough.frag");
+	GBuffer.load("GBuffer", "../assets/shaders/StaticGeometry.vert", "../assets/shaders/GBuffer.frag");
+	deferredShading.load("deferred", "../assets/shaders/PassThrough.vert", "../assets/shaders/DeferredLighting.frag");
+
+	//INITIALiZE FBOS
+	deferredFBO.Init(windowWidth, windowHeight, 5);
+	deferredFBO.initColorTexture(0, GL_RGBA8);
+	deferredFBO.initColorTexture(1, GL_RGB8);
+	deferredFBO.initColorTexture(2, GL_RGB8);
+	deferredFBO.initColorTexture(4, GL_RGB8);
+	deferredFBO.initColorTexture(3, GL_RGB8);
+	deferredFBO.initDepthTexture();
+
+
+	finalSceneFBO.Init(windowWidth, windowHeight, 1);
+	finalSceneFBO.initColorTexture(0);
 
 	//INITIALIZE/LOAD SOUNDS
 	soundEngine.Init();
@@ -348,21 +371,53 @@ void GameLevel::Update()
 
 	Player["Nyx"]->collisionCheck(collidables);
 
-	defaultShader.bind();
-
-	gameWindow->update(defaultMesh, &defaultShader, deltaTime);
-
-	defaultShader.sendUniformMat4("uView", &view.getMatrix()[0][0], false);
-	defaultShader.sendUniformMat4("uProj", &persp[0][0], false);
-	defaultShader.sendUniform("LightPosition", down);
-
-	gameWindow->GetSFMLWindow()->display();
-
 	if (Player["Nyx"]->getIsDead() == true)
 	{
 		GameLevel::gameOver();
 		m_parent->GetGameState("GameOver")->SetPaused(false);
 	}
+
+	//deferredFBO.ClearFBO();
+
+	deferredFBO.Bind();
+	
+	GBuffer.bind();
+	
+	GBuffer.sendUniformMat4("uView", &view.getMatrix()[0][0], false);
+	GBuffer.sendUniformMat4("uProj", &persp[0][0], false);
+	GBuffer.sendUniform("LightPosition", down);
+
+	gameWindow->update(defaultMesh, &GBuffer, deltaTime);
+	
+	GBuffer.unBind();
+	glDisable(GL_BLEND);
+
+	deferredFBO.Unbind();
+
+	finalSceneFBO.Bind();
+	deferredShading.bind();
+	
+	glBindVertexArray(sceneObjects["Quad3"]->getRenderable());
+	
+	
+	deferredFBO.BindColorAsTexture(GL_TEXTURE0, 0);
+	deferredFBO.BindColorAsTexture(GL_TEXTURE1, 1);
+	deferredFBO.BindColorAsTexture(GL_TEXTURE2, 2);
+	deferredFBO.BindColorAsTexture(GL_TEXTURE3, 3);
+	deferredFBO.BindColorAsTexture(GL_TEXTURE4, 4);
+	deferredFBO.BindDepthAsTexture(GL_TEXTURE5);
+
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+	
+	glBindVertexArray(0);
+	
+	deferredShading.unBind();
+
+	finalSceneFBO.Unbind();
+	finalSceneFBO.DrawToBackBuffer();
+	glEnable(GL_BLEND);
+
+	gameWindow->GetSFMLWindow()->display();
 }
 
 GameLevel::GameLevel()

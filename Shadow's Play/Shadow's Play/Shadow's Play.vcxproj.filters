@@ -127,5 +127,11 @@
     <None Include="..\..\Shadow%27s Play\Shadow%27s Play\assets\shaders\CelShading.frag">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="..\..\..\Shadow%27s Play\Shadow%27s Play\assets\shaders\GBuffer.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\assets\shaders\DeferredLighting.frag">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

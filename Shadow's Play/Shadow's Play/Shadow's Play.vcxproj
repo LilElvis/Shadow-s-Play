@@ -185,6 +185,8 @@
     <ClInclude Include="..\..\Shadow%27s Play\Shadow%27s Play\Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\assets\shaders\DeferredLighting.frag" />
+    <None Include="..\..\..\Shadow%27s Play\Shadow%27s Play\assets\shaders\GBuffer.frag" />
     <None Include="..\..\Shadow%27s Play\Shadow%27s Play\assets\shaders\CelShading.frag" />
     <None Include="..\..\Shadow%27s Play\Shadow%27s Play\assets\shaders\PassThrough.frag" />
     <None Include="..\..\Shadow%27s Play\Shadow%27s Play\assets\shaders\PassThrough.vert" />

@@ -204,7 +204,7 @@ void MainMenu::Update()
 
 	gameWindow->GetSFMLWindow()->display();
 
-	if(devCommand.GetKeyDown(ENG::KeyCode::Space))
+	if(devCommand.GetKeyDown(ENG::KeyCode::Space) || sf::Joystick::isButtonPressed(0, 0))
 	{
 		MainMenu::exit();
 		m_parent->GetGameState("GameLevel")->SetPaused(false);
@@ -376,9 +376,10 @@ void GameLevel::Update()
 	{
 		//gameWindow->RemoveGameObject(Player["Nyx"]);
 	}
-	
-	if (devCommand.GetKeyDown(ENG::KeyCode::P))
+
+	if (devCommand.GetKeyDown(ENG::KeyCode::P) || sf::Joystick::isButtonPressed(0, 7))
 	{
+		//pressed = true;
 		weBePausing = !weBePausing;
 		if (weBePausing)
 		{
@@ -391,7 +392,6 @@ void GameLevel::Update()
 			ENG::Input::ResetKeys();
 		}
 	}
-	
 	gameWindow->update(defaultMesh, &defaultShader, deltaTime);
 	gameWindow->GetSFMLWindow()->display();
 }
@@ -548,7 +548,7 @@ void GameOver::Update()
 
 	gameWindow->GetSFMLWindow()->display();
 
-	if (devCommand.GetKeyDown(ENG::KeyCode::Space))
+	if (devCommand.GetKeyDown(ENG::KeyCode::Space) || sf::Joystick::isButtonPressed(0, 0))
 	{
 		GameOver::exit();
 		m_parent->GetGameState("MainMenu")->SetPaused(false);
@@ -598,7 +598,7 @@ float timerFunc()
 		minute += 1;
 	}
 
-	std::cout << minute << " : " << seconds << std::endl;
+	//std::cout << minute << " : " << seconds << std::endl;
 	return seconds;
 	
 }

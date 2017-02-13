@@ -142,6 +142,7 @@ static int randomQuadPos = 0;
 
 //Pause(?)
 static bool weBePausing = false;
+static bool pressed = sf::Joystick::isButtonPressed(0, 7);
 
 //BOUNDRAIES
 static float bounds = 25.0f;

@@ -7,6 +7,7 @@
 #include "Player.h"
 #include "SceneObject.h"
 #include "AnimationMath.h"
+#include "FrameBufferObject.h"
 
 //STATE CLASSES
 class MainMenu : public GameState
@@ -34,6 +35,7 @@ public:
 private:
 	std::vector<ENG::GameObject*> collidables;
 
+	
 	bool hasBeenInitialized;
 	bool hasLoadedOnce = false;
 };
@@ -65,10 +67,12 @@ private:
 };
 
 void Initialize();
-
 void Reset();
 
+//WINDOW STUFF
 static sf::ContextSettings Settings;
+static int windowWidth = 1280;
+static int windowHeight = 720;
 
 //DECLARE SINGLETON POINTERS
 static ENG::Window* gameWindow = ENG::Window::gameInstance();
@@ -79,6 +83,12 @@ static ENG::Mesh* defaultMesh = ENG::Mesh::getMeshPtr();
 //SHADER PROGRAMS
 static ENG::Shader defaultShader;
 static ENG::Shader passThrough;
+static ENG::Shader GBuffer;
+static ENG::Shader deferredShading;
+
+//FBOS
+static ENG::FrameBufferObject deferredFBO;
+static ENG::FrameBufferObject finalSceneFBO;
 
 //MAPS OF GAME OBJECTS
 static std::unordered_map<std::string, ENG::Player*> Player;
@@ -118,6 +128,11 @@ static bool wasWarned2 = false;
 static float totalTime = 0.0f;
 static float previousTime = 0.0f;
 static float deltaTime = 0.0f;
+static float seconds = 0;
+static int minute = 0;
+
+//TIMER FUNC
+float timerFunc();
 
 static float globalT = 1.0f;
 static float rampValue = 0.005f;
@@ -132,7 +147,18 @@ static int randomCurveControl = 0;
 
 static int randomQuadPos = 0;
 
+//Pause(?)
+static bool weBePausing = false;
+static bool pressed = sf::Joystick::isButtonPressed(0, 7);
+
 //BOUNDRAIES
 static float bounds = 25.0f;
 static glm::vec3 RoomMax = glm::vec3(bounds, 10.5f, bounds);
 static glm::vec3 RoomMin = glm::vec3(-bounds, 10.0f, -bounds);
+
+//LIGHTS
+static ENG::PointLight pointLight;
+static ENG::PointLight pointLight2;
+static ENG::PointLight pointLight3;
+
+//static glm::mat4 uProjectionBiasMatrixInverse;

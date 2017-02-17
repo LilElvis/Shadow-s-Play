@@ -1,0 +1,74 @@
+syntax: glob
+############################################################
+## Visual Studio 2013
+############################################################
+Shadow's Play/Shadow's Play.VC.db.orig
+Shadow's Play/Shadow's Play/Debug
+Shadow's Play/Shadow's Play/Release
+syntax: glob
+
+## User-specific files
+
+*.suo
+*.user
+*.sln.docstates
+
+## Build results
+
+[Dd]ebug/
+[Rr]elease/
+x64/
+build/
+[Bb]in/
+[Oo]bj/
+
+## MSTest test Results
+
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+*_i.c
+*_p.c
+*.ilk
+*.meta
+*.pch
+*.pdb
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.tmp_proj
+*.log
+*.vspscc
+*.vssscc
+.builds
+*.pidb
+*.scc
+
+## Visual C++ cache files
+
+ipch/
+*.aps
+*.ncb
+*.opensdf
+*.sdf
+*.cachefile
+*.db
+*.orig
+*.opendb
+
+## Visual Studio profiler
+
+*.psess
+*.vsp
+*.vspx
+
+## Windows Ignores
+
+$RECYCLE.BIN/
+Thumbs.db
+ehthumbs.db
+Desktop.ini

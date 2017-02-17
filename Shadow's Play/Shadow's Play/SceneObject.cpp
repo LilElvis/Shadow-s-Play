@@ -2,13 +2,12 @@
 
 namespace ENG
 {
-	SceneObject::SceneObject(std::string name, GLuint aVAO, sf::Texture aTexture) : GameObject(name, aVAO, aTexture)
+	SceneObject::SceneObject(std::string name, GLuint aVAO, Texture anAlbedo, Texture aNormal, Texture aSpecular, Texture anEmissive, GLuint layerToDrawOn) : GameObject(name, aVAO, anAlbedo, aNormal, aSpecular, anEmissive, layerToDrawOn)
 	{
 
 	}
 
 	//UPDATES EACH FRAME
-	//*WILL BE USEFUL ONCE PUSHING OBJECTS ARE IMPLEMENTED
 	void SceneObject::update(float t)
 	{
 		Input input;

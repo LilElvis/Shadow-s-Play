@@ -57,6 +57,9 @@
     <ClCompile Include="..\..\Shadow%27s Play\Shadow%27s Play\Sound.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Shadow%27s Play\Shadow%27s Play\Shadow%27s Play\FrameBufferObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Shadow%27s Play\Shadow%27s Play\GameObject.h">
@@ -104,6 +107,12 @@
     <ClInclude Include="..\..\Shadow%27s Play\Shadow%27s Play\Sound.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Shadow%27s Play\Shadow%27s Play\Shadow%27s Play\FrameBufferObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Shadow%27s Play\Shadow%27s Play\Shadow%27s Play\Lights.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\StaticGeometry.vert">
@@ -119,6 +128,12 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="..\..\Shadow%27s Play\Shadow%27s Play\assets\shaders\CelShading.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\..\Shadow%27s Play\Shadow%27s Play\assets\shaders\GBuffer.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\assets\shaders\DeferredLighting.frag">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

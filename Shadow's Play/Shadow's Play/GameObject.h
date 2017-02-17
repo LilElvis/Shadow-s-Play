@@ -15,10 +15,11 @@ namespace ENG
 	class GameObject
 	{
 	public:
-		GameObject(std::string, GLuint, sf::Texture);
+		GameObject(std::string, GLuint, Texture, Texture, Texture, Texture, GLuint);
 		
 		//UTILITY FUNCTIONS
 		void render(Mesh*, Shader*);
+		void drawTransparent(Mesh*, Shader*);
 		virtual void update(float) = 0;
 		virtual void reset() = 0;
 		Transform* getTransform();
@@ -42,6 +43,8 @@ namespace ENG
 		glm::vec3 uDiffuseMult;
 		glm::vec3 uAmbientAdd;
 		glm::vec3 uAmbientMult;
+		glm::vec3 uSpecularAdd;
+		glm::vec3 uSpecularMult;
 		glm::vec3 uEmissiveAdd;
 		glm::vec3 uEmissiveMult;
 
@@ -54,11 +57,15 @@ namespace ENG
 		bool willWin;
 		bool willLose;
 		std::unordered_map<std::string, GLuint> animationTargets;
+		GLuint layerNumber;
 	private:
 		glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f);
 		glm::vec3 lastPosition = glm::vec3(0.0f, 0.0f, 0.0f);
 		const GLuint renderable;
 		std::string objectName; //WARNING: MUST BE IDENTICAL TO THE NAME IN ALL LISTS
-		const sf::Texture texture;
+		Texture albedo;
+		Texture normal;
+		Texture specular;
+		Texture emissive;
 	};
 }

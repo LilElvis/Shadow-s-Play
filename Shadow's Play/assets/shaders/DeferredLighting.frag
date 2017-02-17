@@ -16,7 +16,6 @@ layout(binding = 4) uniform sampler2D uAmbientMap;
 layout(binding = 5) uniform sampler2D uDepthMap;
 
 uniform vec3 cameraPos;
-//uniform mat4 uProjectionBiasMatrixInverse;
 
 uniform mat4 uinverseViewMatrix;
 uniform mat4 uinversePerspectiveMatrix;

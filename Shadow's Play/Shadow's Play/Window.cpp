@@ -47,7 +47,7 @@ namespace ENG
 	//UPDATES WINDOW, OBJECTS, AND DRAWS EVERYTHING
 	bool Window::update(Mesh* meshPtr, Shader* shaderPtr, float t)
 	{
-		ENG::Input::ResetKeys();
+		//ENG::Input::ResetKeys();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glClearColor(47.0f / 255.0f, 47.0f / 255.0f, 47.0f / 255.0f, 0);
 

@@ -270,192 +270,214 @@ void MainMenu::exit()
 //FIRST LEVEL MAIN LOOP
 void GameLevel::Update()
 {
-	if (hasBeenInitialized == false)
+	timerFunc();
+
+	if (!weBePausing)
 	{
-		enter();
-		hasBeenInitialized = true;
-	}
-
-	//if (devCommand.GetKey(ENG::KeyCode::Right))
-	//{
-	//	view.rotateY(0.017453f);
-	//}
-	//if (devCommand.GetKey(ENG::KeyCode::Left))
-	//{
-	//	view.rotateY(-0.017453f);
-	//}
-
-	if (Player["Nyx"]->getLifeLost())
-	{
-		Player["Nyx"]->setLifeLost(false);
-		Sounds["die"]->play();
-		globalT = 0.99f;
-	}
-
-	if (globalT >= 1.0f)
-	{
-		globalT = 0.0f;
-
-		Sounds["warn"]->play();
-	
-		randomLERPStart = randomNumber(1, 12);
-		randomLERPEnd = randomLERPStart + randomNumber(4, 8);
-
-		if (randomLERPEnd > 12)
+		if (hasBeenInitialized == false)
 		{
-			randomLERPEnd = randomLERPStart / 2;
-		}
-	
-		randomCurveStart = randomNumber(1, 12);
-		randomCurveEnd = randomCurveStart + randomNumber(4, 8);
-		randomCurveControl = randomNumber(0, 16);
-
-		if (randomCurveEnd > 12)
-		{
-			randomCurveEnd = randomCurveStart / 2;
+			enter();
+			hasBeenInitialized = true;
 		}
 
-		randomQuadPos = randomNumber(13, 16);
-		
-		wasWarned1 = false;
-		wasWarned2 = false;
+		//if (devCommand.GetKey(ENG::KeyCode::Right))
+		//{
+		//	view.rotateY(0.017453f);
+		//}
+		//if (devCommand.GetKey(ENG::KeyCode::Left))
+		//{
+		//	view.rotateY(-0.017453f);
+		//}
 
-		rampValue += 0.00005f;
+		if (Player["Nyx"]->getLifeLost())
+		{
+			Player["Nyx"]->setLifeLost(false);
+			Sounds["die"]->play();
+			globalT = 0.99f;
+		}
+
+		if (globalT >= 1.0f)
+		{
+			globalT = 0.0f;
+
+			Sounds["warn"]->play();
+
+			randomLERPStart = randomNumber(1, 12);
+			randomLERPEnd = randomLERPStart + randomNumber(4, 8);
+
+			if (randomLERPEnd > 12)
+			{
+				randomLERPEnd = randomLERPStart / 2;
+			}
+
+			randomCurveStart = randomNumber(1, 12);
+			randomCurveEnd = randomCurveStart + randomNumber(4, 8);
+			randomCurveControl = randomNumber(0, 16);
+
+			if (randomCurveEnd > 12)
+			{
+				randomCurveEnd = randomCurveStart / 2;
+			}
+
+			randomQuadPos = randomNumber(13, 16);
+
+			wasWarned1 = false;
+			wasWarned2 = false;
+
+			rampValue += 0.00005f;
+		}
+
+		globalT += rampValue;
+
+		totalTime += 1 / 60.0f;
+
+		deltaTime = (totalTime - previousTime);
+
+		previousTime = totalTime;
+
+		defaultShader.sendUniform("uTime", totalTime);
+
+		Player["Nyx"]->uDiffuseAdd = glm::vec3(0.0f, 0.0f, 0.0f);
+		Player["Nyx"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);
+		Player["Nyx"]->uSpecularAdd = glm::vec3(0.2f, 0.1f, 0.2f);
+		Player["Nyx"]->uSpecularMult = glm::vec3(0.1f, 0.1f, 0.1f);
+		Player["Nyx"]->uAmbientAdd = glm::vec3(0.2f, 0.2f, 0.2f);
+		Player["Nyx"]->uAmbientMult = glm::vec3(1.0f, 1.0f, 1.0f);
+		Player["Nyx"]->uEmissiveAdd = glm::vec3(0.2f, 0.1f, 0.2f);
+		Player["Nyx"]->uEmissiveMult = glm::vec3(1.0f, 1.0f, 1.0f);
+
+		sceneObjects["Room"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);
+		sceneObjects["Room"]->uAmbientAdd = glm::vec3(0.2f, 0.2f, 0.2f);
+
+		sceneObjects["SpotLight"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);
+		sceneObjects["SpotLight2"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);
+		sceneObjects["QuadLight"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);
+
+		sceneObjects["SpotLight"]->uEmissiveAdd = glm::vec3(sinf(globalT * 1.0f) * 0.25f, sinf(globalT * 1.0f) * 0.25f, sinf(globalT * 1.0f) * 0.25f);
+		sceneObjects["SpotLight2"]->uEmissiveAdd = glm::vec3(sinf(globalT * 1.0f) * 0.25f, sinf(globalT * 1.0f) * 0.25f, sinf(globalT * 1.0f) * 0.25f);
+		//sceneObjects["QuadLight"]->uEmissiveAdd = glm::vec3(sinf(globalT * 1.0f) * 0.25f, sinf(globalT * 1.0f) * 0.25f, sinf(globalT * 1.0f) * 0.25f);
+
+		sceneObjects["SpotLight"]->setPosition(lerp(points[randomLERPStart], points[randomLERPEnd], globalT));
+		pointLight.position = (sceneObjects["SpotLight"]->getPosition() + glm::vec3(0.0f, 1.5f, 0.0f));
+
+		sceneObjects["SpotLight2"]->setPosition(bezier(points[randomCurveStart], points[randomCurveControl], points[randomCurveEnd], globalT));
+		pointLight2.position = (sceneObjects["SpotLight2"]->getPosition() + glm::vec3(0.0f, 1.5f, 0.0f));
+
+		if (globalT > 0.7f && globalT < 0.98f)
+			sceneObjects["QuadLight"]->setPosition(points[randomQuadPos]);
+		else
+			sceneObjects["QuadLight"]->setPosition(glm::vec3(0.0f, 0.6f, 100.0f));
+
+		pointLight3.position = (sceneObjects["QuadLight"]->getPosition() + glm::vec3(0.0f, 1.5f, 0.0f));
+
+		if (!wasWarned1)
+			sceneObjects["Warning"]->setPosition(clamp(sceneObjects["SpotLight"]->getPosition(), RoomMin, RoomMax));
+
+		if (!wasWarned2)
+			sceneObjects["Warning2"]->setPosition(clamp(sceneObjects["SpotLight2"]->getPosition(), RoomMin, RoomMax));
+
+		if (globalT < 0.7f)
+			sceneObjects["Warning3"]->setPosition(points[randomQuadPos]);
+		else
+			sceneObjects["Warning3"]->setPosition(glm::vec3(0.0f, 0.6f, 55.0f));
+
+		if (borderCheck(sceneObjects["SpotLight"]->getPosition(), RoomMin, RoomMax))
+		{
+			sceneObjects["Warning"]->setPosition(glm::vec3(0.0f, 0.0f, 55.0f));
+			wasWarned1 = true;
+		}
+
+		if (borderCheck(sceneObjects["SpotLight2"]->getPosition(), RoomMin, RoomMax))
+		{
+			sceneObjects["Warning2"]->setPosition(glm::vec3(0.0f, 0.0f, 55.0f));
+			wasWarned2 = true;
+		}
+
+		Player["Nyx"]->collisionCheck(collidables);
+
+		if (Player["Nyx"]->getIsDead() == true)
+		{
+			GameLevel::gameOver();
+			m_parent->GetGameState("GameOver")->SetPaused(false);
+		}
+
+		//deferredFBO.ClearFBO();
+
+		deferredFBO.Bind();
+
+		GBuffer.bind();
+
+		GBuffer.sendUniformMat4("uView", &view.getMatrix()[0][0], false);
+		GBuffer.sendUniformMat4("uProj", &persp[0][0], false);
+		GBuffer.sendUniform("LightPosition", down);
+
+		gameWindow->update(defaultMesh, &GBuffer, deltaTime);
+
+		GBuffer.unBind();
+		//glDisable(GL_BLEND);
+		deferredFBO.Unbind();
+		///Attempted Transparency Pass--------------------------------
+
+		///defaultShader.bind();
+		///
+		///defaultShader.sendUniformMat4("uView", &view.getMatrix()[0][0], false);
+		///defaultShader.sendUniformMat4("uProj", &persp[0][0], false);
+		///defaultShader.sendUniform("LightPosition", down);
+		///
+		///sceneObjects["Warning"]->drawTransparent(defaultMesh->listOfMeshes["Warning"], &defaultShader);
+		///
+		///defaultShader.unBind();
+
+		///-----------------------------------------------------------
+		finalSceneFBO.Bind();
+		deferredShading.bind();
+
+		deferredShading.sendUniformMat4("uinverseViewMatrix", &glm::inverse(view.getMatrix())[0][0], false);
+		deferredShading.sendUniformMat4("uinversePerspectiveMatrix", &glm::inverse(persp)[0][0], false);
+		deferredShading.sendUniform("uNumLights", 3);
+		deferredShading.sendUniformPointLight("lights", &pointLight, 0);
+		deferredShading.sendUniformPointLight("lights", &pointLight2, 1);
+		deferredShading.sendUniformPointLight("lights", &pointLight3, 2);
+
+		glBindVertexArray(sceneObjects["Quad3"]->getRenderable());
+
+
+		deferredFBO.BindColorAsTexture(GL_TEXTURE0, 0);
+		deferredFBO.BindColorAsTexture(GL_TEXTURE1, 1);
+		deferredFBO.BindColorAsTexture(GL_TEXTURE2, 2);
+		deferredFBO.BindColorAsTexture(GL_TEXTURE3, 3);
+		deferredFBO.BindColorAsTexture(GL_TEXTURE4, 4);
+		deferredFBO.BindDepthAsTexture(GL_TEXTURE5);
+
+		glDrawArrays(GL_TRIANGLES, 0, 6);
+
+		glBindVertexArray(0);
+
+		deferredShading.unBind();
+
+		finalSceneFBO.Unbind();
+		finalSceneFBO.DrawToBackBuffer();
+		//glEnable(GL_BLEND);
 	}
 
-	globalT += rampValue;
-
-	totalTime += 1 / 60.0f;
-
-	deltaTime = (totalTime - previousTime);
-	
-	previousTime = totalTime;
-
-	defaultShader.sendUniform("uTime", totalTime);
-
-	Player["Nyx"]->uDiffuseAdd = glm::vec3(0.0f, 0.0f, 0.0f);
-	Player["Nyx"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);
-	Player["Nyx"]->uSpecularAdd = glm::vec3(0.2f, 0.1f, 0.2f);
-	Player["Nyx"]->uSpecularMult = glm::vec3(0.1f, 0.1f, 0.1f);
-	Player["Nyx"]->uAmbientAdd = glm::vec3(0.2f, 0.2f, 0.2f);
-	Player["Nyx"]->uAmbientMult = glm::vec3(1.0f, 1.0f, 1.0f);
-	Player["Nyx"]->uEmissiveAdd = glm::vec3(0.2f, 0.1f, 0.2f);
-	Player["Nyx"]->uEmissiveMult = glm::vec3(1.0f, 1.0f, 1.0f);
-
-	sceneObjects["Room"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);
-	sceneObjects["Room"]->uAmbientAdd = glm::vec3(0.2f, 0.2f, 0.2f);
-
-	sceneObjects["SpotLight"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);
-	sceneObjects["SpotLight2"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);
-	sceneObjects["QuadLight"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);
-
-	sceneObjects["SpotLight"]->uEmissiveAdd = glm::vec3(sinf(globalT * 1.0f) * 0.25f, sinf(globalT * 1.0f) * 0.25f, sinf(globalT * 1.0f) * 0.25f);
-	sceneObjects["SpotLight2"]->uEmissiveAdd = glm::vec3(sinf(globalT * 1.0f) * 0.25f, sinf(globalT * 1.0f) * 0.25f, sinf(globalT * 1.0f) * 0.25f);
-	//sceneObjects["QuadLight"]->uEmissiveAdd = glm::vec3(sinf(globalT * 1.0f) * 0.25f, sinf(globalT * 1.0f) * 0.25f, sinf(globalT * 1.0f) * 0.25f);
-
-	sceneObjects["SpotLight"]->setPosition(lerp(points[randomLERPStart], points[randomLERPEnd], globalT));
-	pointLight.position = (sceneObjects["SpotLight"]->getPosition() + glm::vec3(0.0f, 1.5f, 0.0f));
-
-	sceneObjects["SpotLight2"]->setPosition(bezier(points[randomCurveStart], points[randomCurveControl], points[randomCurveEnd], globalT));
-	pointLight2.position = (sceneObjects["SpotLight2"]->getPosition() + glm::vec3(0.0f, 1.5f, 0.0f));
-
-	if(globalT > 0.7f && globalT < 0.98f)
-		sceneObjects["QuadLight"]->setPosition(points[randomQuadPos]);
-	else
-		sceneObjects["QuadLight"]->setPosition(glm::vec3(0.0f, 0.6f, 100.0f));
-
-	pointLight3.position = (sceneObjects["QuadLight"]->getPosition() + glm::vec3(0.0f, 1.5f, 0.0f));
-
-	if (!wasWarned1)
-		sceneObjects["Warning"]->setPosition(clamp(sceneObjects["SpotLight"]->getPosition(), RoomMin, RoomMax));
-	
-	if (!wasWarned2)
-		sceneObjects["Warning2"]->setPosition(clamp(sceneObjects["SpotLight2"]->getPosition(), RoomMin, RoomMax));
-
-	if (globalT < 0.7f) 
-		sceneObjects["Warning3"]->setPosition(points[randomQuadPos]);
-	else
-		sceneObjects["Warning3"]->setPosition(glm::vec3(0.0f, 0.6f, 55.0f));
-
-	if (borderCheck(sceneObjects["SpotLight"]->getPosition(), RoomMin, RoomMax))
+	if (devCommand.GetKeyDown(ENG::KeyCode::P) || sf::Joystick::isButtonPressed(0, 7))
 	{
-		sceneObjects["Warning"]->setPosition(glm::vec3(0.0f, 0.0f, 55.0f));
-		wasWarned1 = true;
+		//pressed = true;
+		weBePausing = !weBePausing;
+		if (weBePausing)
+		{
+			Player["Nyx"]->setNyxPaused(true);
+			//ENG::Input::ResetKeys();
+		}
+		else
+		{
+			Player["Nyx"]->setNyxPaused(false);
+		}
 	}
-
-	if (borderCheck(sceneObjects["SpotLight2"]->getPosition(), RoomMin, RoomMax))
-	{ 
-		sceneObjects["Warning2"]->setPosition(glm::vec3(0.0f, 0.0f, 55.0f));
-		wasWarned2 = true;
-	}
-
-	Player["Nyx"]->collisionCheck(collidables);
-
-	if (Player["Nyx"]->getIsDead() == true)
-	{
-		GameLevel::gameOver();
-		m_parent->GetGameState("GameOver")->SetPaused(false);
-	}
-
-	//deferredFBO.ClearFBO();
-
-	deferredFBO.Bind();
-	
-	GBuffer.bind();
-	
-	GBuffer.sendUniformMat4("uView", &view.getMatrix()[0][0], false);
-	GBuffer.sendUniformMat4("uProj", &persp[0][0], false);
-	GBuffer.sendUniform("LightPosition", down);
-
-	gameWindow->update(defaultMesh, &GBuffer, deltaTime);
-	
-	GBuffer.unBind();
-	//glDisable(GL_BLEND);
-	deferredFBO.Unbind();
-	///Attempted Transparency Pass--------------------------------
-
-	///defaultShader.bind();
-	///
-	///defaultShader.sendUniformMat4("uView", &view.getMatrix()[0][0], false);
-	///defaultShader.sendUniformMat4("uProj", &persp[0][0], false);
-	///defaultShader.sendUniform("LightPosition", down);
-	///
-	///sceneObjects["Warning"]->drawTransparent(defaultMesh->listOfMeshes["Warning"], &defaultShader);
-	///
-	///defaultShader.unBind();
-
-	///-----------------------------------------------------------
-	finalSceneFBO.Bind();
-	deferredShading.bind();
-
-	deferredShading.sendUniformMat4("uinverseViewMatrix", &glm::inverse(view.getMatrix())[0][0], false);
-	deferredShading.sendUniformMat4("uinversePerspectiveMatrix", &glm::inverse(persp)[0][0], false);
-	deferredShading.sendUniform("uNumLights", 3);
-	deferredShading.sendUniformPointLight("lights", &pointLight, 0);
-	deferredShading.sendUniformPointLight("lights", &pointLight2, 1);
-	deferredShading.sendUniformPointLight("lights", &pointLight3, 2);
-	
-	glBindVertexArray(sceneObjects["Quad3"]->getRenderable());
-	
-	
-	deferredFBO.BindColorAsTexture(GL_TEXTURE0, 0);
-	deferredFBO.BindColorAsTexture(GL_TEXTURE1, 1);
-	deferredFBO.BindColorAsTexture(GL_TEXTURE2, 2);
-	deferredFBO.BindColorAsTexture(GL_TEXTURE3, 3);
-	deferredFBO.BindColorAsTexture(GL_TEXTURE4, 4);
-	deferredFBO.BindDepthAsTexture(GL_TEXTURE5);
-
-	glDrawArrays(GL_TRIANGLES, 0, 6);
-	
-	glBindVertexArray(0);
-	
-	deferredShading.unBind();
-
-	finalSceneFBO.Unbind();
-	finalSceneFBO.DrawToBackBuffer();
-	glEnable(GL_BLEND);
 
 	gameWindow->GetSFMLWindow()->display();
+
+	ENG::Input::ResetKeys();
 }
 
 GameLevel::GameLevel()
@@ -661,3 +683,18 @@ void GameOver::exit()
 		MainMenu(hasBeenInitialized);
 	}
 }
+
+float timerFunc()
+	{
+		seconds += 0.01666666666666;
+
+		if (seconds >= 60.0f)
+		{
+			seconds = 0.0f;
+			minute += 1;
+		}
+
+		//std::cout << minute << " : " << seconds << std::endl;
+		return seconds;
+
+	}

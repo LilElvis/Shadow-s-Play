@@ -2,7 +2,7 @@
 
 namespace ENG
 {
-	Player::Player(std::string name, GLuint aVAO, sf::Texture aTexture) : GameObject(name, aVAO, aTexture)
+	Player::Player(std::string name, GLuint aVAO, Texture anAlbedo, Texture aNormal, Texture aSpecular, Texture anEmissive, GLuint layerToDrawOn) : GameObject(name, aVAO, anAlbedo, aNormal, aSpecular, anEmissive, layerToDrawOn)
 	{
 		colliding = false;
 		lives = 2;
@@ -23,23 +23,8 @@ namespace ENG
 		}
 
 		//MOVEMENT INPUT CHECK
-		if (input.GetKey(KeyCode::D) && colliding == false)
-		{
-			acceleration.x = appliedAcceleration;
 
-			transform.zeroMatrix();
-			transform.rotateY(1.57079f);
-		}
-		
-		if (input.GetKey(KeyCode::A) && colliding == false)
-		{
-			acceleration.x = -appliedAcceleration;
-
-			transform.zeroMatrix();
-			transform.rotateY(-1.57079f);
-		}
-
-		if (input.GetKey(KeyCode::W) && colliding == false)
+		if ((sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Y) < -20.0f && colliding == false) || ((input.GetKey(KeyCode::W) && colliding == false)) && !paused)
 		{
 			acceleration.z = -appliedAcceleration;
 
@@ -47,7 +32,7 @@ namespace ENG
 			transform.rotateY(3.14159f);
 		}
 
-		if (input.GetKey(KeyCode::S) && colliding == false)
+		if ((sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Y) > 20.0f && colliding == false) || ((input.GetKey(KeyCode::S) && colliding == false)) && !paused)
 		{
 			acceleration.z = appliedAcceleration;
 
@@ -55,8 +40,24 @@ namespace ENG
 			transform.rotateY(0.0f);
 		}
 
+		if ((sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::X) > 20.0f && colliding == false) || ((input.GetKey(KeyCode::D) && colliding == false)) && !paused)
+		{
+			acceleration.x = appliedAcceleration;
+
+			transform.zeroMatrix();
+			transform.rotateY(1.57079f);
+		}
+
+		if ((sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::X) < -20.0f && colliding == false) || ((input.GetKey(KeyCode::A) && colliding == false)) && !paused)
+		{
+			acceleration.x = -appliedAcceleration;
+
+			transform.zeroMatrix();
+			transform.rotateY(-1.57079f);
+		}
+
 		//TIME COUNT SINCE INPUT BEGAN
-		if (input.GetKey(ENG::KeyCode::W) || input.GetKey(ENG::KeyCode::S) || input.GetKey(ENG::KeyCode::A) || input.GetKey(ENG::KeyCode::D))
+		if ((input.GetKey(ENG::KeyCode::W) || input.GetKey(ENG::KeyCode::S) || input.GetKey(ENG::KeyCode::A) || input.GetKey(ENG::KeyCode::D) || sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Y) < -20.0f || sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Y) > 20.0f || sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::X) > 20.0f || sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::X) < -20.0f) && !paused)
 		{
 			timeSinceStart += t;
 		}
@@ -165,6 +166,11 @@ namespace ENG
 		lifeLost = lifeLostIn;
 	}
 
+	void Player::setNyxPaused(bool u_paused)
+	{
+		paused = u_paused;
+	}
+
 	bool Player::getLifeLost()
 	{
 		return lifeLost;
@@ -173,5 +179,10 @@ namespace ENG
 	bool Player::getIsDead()
 	{
 		return isDead;
+	}
+
+	bool Player::getNyxPaused()
+	{
+		return paused;
 	}
 }

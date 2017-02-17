@@ -7,7 +7,7 @@ namespace ENG
 	class SceneObject : public GameObject
 	{
 	public:
-		SceneObject(std::string, GLuint, sf::Texture);
+		SceneObject(std::string, GLuint, Texture, Texture, Texture, Texture, GLuint);
 		void update(float);
 		void reset();
 	private:

@@ -47,8 +47,6 @@ void Initialize()
 		0.0f, 0.0f, 2.0f, -1.0f,
 		0.0f, 0.0f, 0.0f,  1.0f);
 
-	//uProjectionBiasMatrixInverse = glm::inverse(view.getMatrix()) * glm::inverse(persp) * ProjBiasMatrix;
-	
 	//LOAD DEFAULT TEXTURES
 	defaultTexture->LoadFromFile("Emissive", "../assets/textures/default/Emissive.png");
 	defaultTexture->LoadFromFile("Specular", "../assets/textures/default/Specular.png");
@@ -62,7 +60,7 @@ void Initialize()
 	sceneObjects["Quad"] = &Quad;
 	static ENG::SceneObject Quad2("Quad", defaultMesh->listOfMeshes["Quad"]->VAO, *defaultTexture->listOfTextures["GameOver"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], deferredFBO.getLayerNumber());
 	sceneObjects["Quad2"] = &Quad2;
-	static ENG::SceneObject Quad3("Quad", defaultMesh->listOfMeshes["Quad"]->VAO, *defaultTexture->listOfTextures["GameOver"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], deferredFBO.getLayerNumber());
+	static ENG::SceneObject Quad3("Quad", defaultMesh->listOfMeshes["Quad"]->VAO, *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], deferredFBO.getLayerNumber());
 	sceneObjects["Quad3"] = &Quad3;
 
 	//LOAD OBJECTS
@@ -122,9 +120,13 @@ void Initialize()
 	deferredFBO.initColorTexture(0, GL_RGBA8);
 	deferredFBO.initColorTexture(1, GL_RGB8);
 	deferredFBO.initColorTexture(2, GL_RGB8);
-	deferredFBO.initColorTexture(4, GL_RGB8);
 	deferredFBO.initColorTexture(3, GL_RGB8);
+	deferredFBO.initColorTexture(4, GL_RGB8);
 	deferredFBO.initDepthTexture();
+
+	transparencyFBO.Init(windowWidth, windowHeight, 1);
+	transparencyFBO.initColorTexture(0);
+	transparencyFBO.initDepthTexture();
 
 	finalSceneFBO.Init(windowWidth, windowHeight, 1);
 	finalSceneFBO.initColorTexture(0);
@@ -226,9 +228,21 @@ void MainMenu::Update()
 
 	previousTime = totalTime;
 
+	gameWindow->checkAndClear();
+	
 	passThrough.bind();
 
-	gameWindow->update(defaultMesh, &passThrough, deltaTime);
+	for (auto itr = gObjects.begin(), itrEnd = gObjects.end();
+		itr != itrEnd; itr++)
+	{
+		(*itr)->update(deltaTime);
+	}
+
+	for (auto itr = gObjects.begin(), itrEnd = gObjects.end();
+		itr != itrEnd; itr++)
+	{
+		(*itr)->render(defaultMesh, &passThrough);
+	}
 
 	gameWindow->GetSFMLWindow()->display();
 
@@ -237,6 +251,8 @@ void MainMenu::Update()
 		MainMenu::exit();
 		m_parent->GetGameState("GameLevel")->SetPaused(false);
 	}
+
+	ENG::Input::ResetKeys();
 }
 
 void MainMenu::enter()
@@ -247,7 +263,7 @@ void MainMenu::enter()
 		MainMenu::SetPaused(m_paused);
 	}
 
-	gameWindow->AddGameObject(sceneObjects["Quad"]);
+	gObjects.push_back(sceneObjects["Quad"]);
 	sceneObjects["Quad"]->setPosition(glm::vec3(0.0f, 0.0f, -10.0f));
 	hasLoadedOnce = true;
 
@@ -255,7 +271,7 @@ void MainMenu::enter()
 
 void MainMenu::exit()
 {
-	gameWindow->RemoveGameObject(sceneObjects["Quad"]);
+	removeGameObjects();
 
 	hasBeenInitialized = false;
 	if (m_paused == false)
@@ -401,8 +417,6 @@ void GameLevel::Update()
 			m_parent->GetGameState("GameOver")->SetPaused(false);
 		}
 
-		//deferredFBO.ClearFBO();
-
 		deferredFBO.Bind();
 
 		GBuffer.bind();
@@ -410,25 +424,53 @@ void GameLevel::Update()
 		GBuffer.sendUniformMat4("uView", &view.getMatrix()[0][0], false);
 		GBuffer.sendUniformMat4("uProj", &persp[0][0], false);
 		GBuffer.sendUniform("LightPosition", down);
+		
+		gameWindow->checkAndClear();
 
-		gameWindow->update(defaultMesh, &GBuffer, deltaTime);
+		for (auto itr = gObjects.begin(), itrEnd = gObjects.end();
+			itr != itrEnd; itr++)
+		{
+			(*itr)->update(deltaTime);
+		}
+
+		for (auto itr = gObjects.begin(), itrEnd = gObjects.end();
+			itr != itrEnd; itr++)
+		{
+			(*itr)->render(defaultMesh, &GBuffer);
+		}
 
 		GBuffer.unBind();
-		//glDisable(GL_BLEND);
 		deferredFBO.Unbind();
+		
 		///Attempted Transparency Pass--------------------------------
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		
+		transparencyFBO.Bind();
+		defaultShader.bind();
 
-		///defaultShader.bind();
-		///
-		///defaultShader.sendUniformMat4("uView", &view.getMatrix()[0][0], false);
-		///defaultShader.sendUniformMat4("uProj", &persp[0][0], false);
-		///defaultShader.sendUniform("LightPosition", down);
-		///
-		///sceneObjects["Warning"]->drawTransparent(defaultMesh->listOfMeshes["Warning"], &defaultShader);
-		///
-		///defaultShader.unBind();
+		defaultShader.sendUniformMat4("uView", &view.getMatrix()[0][0], false);
+		defaultShader.sendUniformMat4("uProj", &persp[0][0], false);
+		defaultShader.sendUniform("LightPosition", down);
+		
+		for (auto itr = transparentGObjects.begin(), itrEnd = transparentGObjects.end();
+			itr != itrEnd; itr++)
+		{
+			(*itr)->update(deltaTime);
+		}
 
+		for (auto itr = transparentGObjects.begin(), itrEnd = transparentGObjects.end();
+			itr != itrEnd; itr++)
+		{
+			(*itr)->render(defaultMesh, &defaultShader);
+		}
+
+		defaultShader.unBind();
+		transparencyFBO.Unbind();
+
+		glDisable(GL_BLEND);
 		///-----------------------------------------------------------
+
 		finalSceneFBO.Bind();
 		deferredShading.bind();
 
@@ -457,17 +499,14 @@ void GameLevel::Update()
 
 		finalSceneFBO.Unbind();
 		finalSceneFBO.DrawToBackBuffer();
-		//glEnable(GL_BLEND);
 	}
 
 	if (devCommand.GetKeyDown(ENG::KeyCode::P) || sf::Joystick::isButtonPressed(0, 7))
 	{
-		//pressed = true;
 		weBePausing = !weBePausing;
 		if (weBePausing)
 		{
 			Player["Nyx"]->setNyxPaused(true);
-			//ENG::Input::ResetKeys();
 		}
 		else
 		{
@@ -499,31 +538,30 @@ void GameLevel::enter()
 
 	Sounds["bgm"]->play();
 
-	gameWindow->AddGameObject(Player["Nyx"]);
+	gObjects.push_back(Player["Nyx"]);
 	Player["Nyx"]->setStartPosition(glm::vec3(0.0f, 0.0f, 0.0f));
 	Player["Nyx"]->setPosition(Player["Nyx"]->getStartPosition());
-	//Player["Nyx"]->uInvisible = 0.4f;
 
-	gameWindow->AddGameObject(sceneObjects["Room"]);
+	gObjects.push_back(sceneObjects["Room"]);
 	sceneObjects["Room"]->setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
 
-	gameWindow->AddGameObject(sceneObjects["SpotLight"]);
+	gObjects.push_back(sceneObjects["SpotLight"]);
 	sceneObjects["SpotLight"]->setLoss(true);
 	sceneObjects["SpotLight"]->setPosition(glm::vec3(0.0f, 0.6f, -55.0f));
 
-	gameWindow->AddGameObject(sceneObjects["SpotLight2"]);
+	gObjects.push_back(sceneObjects["SpotLight2"]);
 	sceneObjects["SpotLight2"]->setLoss(true);
 	sceneObjects["SpotLight2"]->setPosition(glm::vec3(0.0f, 0.6f, -55.0f));
 
-	gameWindow->AddGameObject(sceneObjects["QuadLight"]);
+	gObjects.push_back(sceneObjects["QuadLight"]);
 	sceneObjects["QuadLight"]->setLoss(true);
 	sceneObjects["QuadLight"]->setPosition(glm::vec3(0.0f, 0.6f, -55.0f));
 
-	gameWindow->AddGameObject(sceneObjects["Warning"]);
+	transparentGObjects.push_back(sceneObjects["Warning"]);
 	sceneObjects["Warning"]->setPosition(glm::vec3(0.0f, 10.0f, -55.0f));
-	gameWindow->AddGameObject(sceneObjects["Warning2"]);
+	transparentGObjects.push_back(sceneObjects["Warning2"]);
 	sceneObjects["Warning2"]->setPosition(glm::vec3(0.0f, 10.0f, -55.0f));
-	gameWindow->AddGameObject(sceneObjects["Warning3"]);
+	transparentGObjects.push_back(sceneObjects["Warning3"]);
 	sceneObjects["Warning3"]->setPosition(glm::vec3(0.0f, 10.0f, -55.0f));
 
 	sceneObjects["InvisWall"]->setPosition(glm::vec3(0.0f, 0.0f, -35.0f));
@@ -560,49 +598,9 @@ void GameLevel::enter()
 	}
 }
 
-//void GameLevel::exit()
-//{
-//	gameWindow->RemoveGameObject(Player["Nyx"]);
-//	gameWindow->RemoveGameObject(sceneObjects["Room"]);
-//	gameWindow->RemoveGameObject(sceneObjects["Fridge"]);
-//	gameWindow->RemoveGameObject(sceneObjects["FirePlace"]);
-//	gameWindow->RemoveGameObject(sceneObjects["Piano"]);
-//	gameWindow->RemoveGameObject(sceneObjects["LoveSeat"]);
-//	gameWindow->RemoveGameObject(sceneObjects["Chair"]);
-//	gameWindow->RemoveGameObject(sceneObjects["Stairs"]);
-//	gameWindow->RemoveGameObject(sceneObjects["Table"]);
-//	gameWindow->RemoveGameObject(sceneObjects["FireplaceLight"]);
-//	gameWindow->RemoveGameObject(sceneObjects["FridgeLight"]);
-//	gameWindow->RemoveGameObject(sceneObjects["SpotLight"]);
-//	gameWindow->RemoveGameObject(sceneObjects["SpotLight2"]);
-//	gameWindow->RemoveGameObject(sceneObjects["SpotLight3"]);
-//	gameWindow->RemoveGameObject(sceneObjects["Lamp"]);
-//	gameWindow->RemoveGameObject(sceneObjects["Lamp2"]);
-//	gameWindow->RemoveGameObject(sceneObjects["Lamp3"]);
-//	gameWindow->RemoveGameObject(sceneObjects["ENGI"]);
-//	gameWindow->RemoveGameObject(sceneObjects["ENGI2"]);
-//
-//	hasBeenInitialized = false;
-//	if (m_paused == false)
-//	{
-//		m_paused = true;
-//		GameLevel::SetPaused(m_paused);
-//		LevelTwo(hasBeenInitialized);
-//	}
-//}
-
 void GameLevel::gameOver()
 {
-	gameWindow->RemoveGameObject(Player["Nyx"]);
-	gameWindow->RemoveGameObject(sceneObjects["Room"]);
-	
-	gameWindow->RemoveGameObject(sceneObjects["SpotLight"]);
-	gameWindow->RemoveGameObject(sceneObjects["SpotLight2"]);
-	gameWindow->RemoveGameObject(sceneObjects["QuadLight"]);
-
-	gameWindow->RemoveGameObject(sceneObjects["Warning"]);
-	gameWindow->RemoveGameObject(sceneObjects["Warning2"]);
-	gameWindow->RemoveGameObject(sceneObjects["Warning3"]);
+	removeGameObjects();
 
 	Sounds["bgm"]->channel->stop();
 
@@ -636,11 +634,19 @@ void GameOver::Update()
 
 	passThrough.bind();
 
-	gameWindow->update(defaultMesh, &passThrough, deltaTime);
+	gameWindow->checkAndClear();
 
-	defaultShader.sendUniformMat4("uView", &view.getMatrix()[0][0], false);
-	defaultShader.sendUniformMat4("uProj", &persp[0][0], false);
-	defaultShader.sendUniform("LightPosition", down);
+	for (auto itr = gObjects.begin(), itrEnd = gObjects.end();
+		itr != itrEnd; itr++)
+	{
+		(*itr)->update(deltaTime);
+	}
+
+	for (auto itr = gObjects.begin(), itrEnd = gObjects.end();
+		itr != itrEnd; itr++)
+	{
+		(*itr)->render(defaultMesh, &passThrough);
+	}
 
 	gameWindow->GetSFMLWindow()->display();
 
@@ -649,6 +655,8 @@ void GameOver::Update()
 		GameOver::exit();
 		m_parent->GetGameState("MainMenu")->SetPaused(false);
 	}
+
+	ENG::Input::ResetKeys();
 }
 
 GameOver::GameOver()
@@ -664,14 +672,14 @@ void GameOver::enter()
 		GameOver::SetPaused(m_paused);
 	}
 
-	gameWindow->AddGameObject(sceneObjects["Quad2"]);
+	gObjects.push_back(sceneObjects["Quad2"]);
 	sceneObjects["Quad2"]->setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
 	hasLoadedOnce = true;
 }
 
 void GameOver::exit()
 {
-	gameWindow->RemoveGameObject(sceneObjects["Quad2"]);
+	removeGameObjects();
 
 	Reset();
 
@@ -698,3 +706,9 @@ float timerFunc()
 		return seconds;
 
 	}
+
+void removeGameObjects()
+{
+	gObjects.clear();
+	transparentGObjects.clear();
+}

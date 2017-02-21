@@ -88,9 +88,15 @@ static ENG::Shader deferredShading;
 
 //FBOS
 static ENG::FrameBufferObject deferredFBO;
+static ENG::FrameBufferObject transparencyFBO;
 static ENG::FrameBufferObject finalSceneFBO;
 
 //MAPS OF GAME OBJECTS
+static std::vector <ENG::GameObject*> gObjects;
+static std::vector <ENG::GameObject*> transparentGObjects;
+
+static void removeGameObjects(); //FLUSHES VECTORS OF GAME OBJECTS
+
 static std::unordered_map<std::string, ENG::Player*> Player;
 static std::unordered_map<std::string, ENG::SceneObject*> sceneObjects;
 static std::unordered_map<std::string, ENG::SceneObject*>::iterator sceneObjects_iterator;

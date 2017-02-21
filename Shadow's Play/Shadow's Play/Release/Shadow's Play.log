@@ -1,8 +1,13 @@
 ﻿  States.cpp
+c:\repos\shadow's play\shadow's play\shadow's play\Lights.h(13): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\repos\shadow's play\shadow's play\shadow's play\Lights.h(14): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\repos\shadow's play\shadow's play\shadow's play\Lights.h(15): warning C4305: 'initializing': truncation from 'double' to 'float'
+..\..\Shadow's Play\Shadow's Play\States.cpp(697): warning C4305: '+=': truncation from 'double' to 'float'
   Generating code
-  1 of 2688 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    19 functions had inline decision re-evaluated but remain unchanged
+c:\repos\shadow's play\shadow's play\shadow's play\gamestates.cpp(35): warning C4715: 'GameStateManager::GetGameState': not all control paths return a value
+  20 of 2842 functions ( 0.7%) were compiled, the rest were copied from previous compilation.
+    1 functions were new in current compilation
+    34 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
-  Shadow's Play.vcxproj -> C:\Users\100578667\Documents\Visual Studio 2015\Projects\Shadow's Play\Release\Shadow's Play.exe
-  Shadow's Play.vcxproj -> C:\Users\100578667\Documents\Visual Studio 2015\Projects\Shadow's Play\Release\Shadow's Play.pdb (Full PDB)
+  Shadow's Play.vcxproj -> C:\Repos\Shadow's Play\Shadow's Play\Release\Shadow's Play.exe
+  Shadow's Play.vcxproj -> C:\Repos\Shadow's Play\Shadow's Play\Release\Shadow's Play.pdb (Full PDB)

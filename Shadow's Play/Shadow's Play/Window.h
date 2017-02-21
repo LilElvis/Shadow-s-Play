@@ -43,10 +43,7 @@ namespace ENG
 
 		sf::RenderWindow* GetSFMLWindow();
 
-		void AddGameObject(GameObject*);
-		void RemoveGameObject(GameObject*);
-
-		bool update(Mesh*, Shader*, float);
+		bool checkAndClear();
 
 	private:
 		Window();
@@ -54,7 +51,6 @@ namespace ENG
 
 		sf::RenderWindow window;
 
-		std::vector <GameObject*> objects;
 		static bool initialized;
 	};
 }

@@ -12,6 +12,6 @@ namespace ENG
 		glm::vec4 color = glm::vec4(1.0f);
 		float aConstant = 0.1;
 		float aLinear = 0.1;
-		float aQuadratic = 0.01875;
+		float aQuadratic = 0.1875;
 	};
 }

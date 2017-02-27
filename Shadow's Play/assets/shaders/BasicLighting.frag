@@ -1,6 +1,5 @@
 #version 420
 
-
 uniform vec4 LightPosition = vec4(-27.88f, 0.0f, 5.0f, 1.0);
 
 //colors
@@ -79,7 +78,7 @@ void main()
 		outColor.rgb += LightSpecular * pow(NdotHV, LightSpecularExponent) * attenuation;
 	}
 
-	vec4 textureColor = texture(uTex, vec2(texcoord.x, 1.0 -texcoord.y));
+	vec4 textureColor = texture(uTex, texcoord);
 	//vec4 textureColor = vec4(1.0, 1.0, 1.0, 1.0);
 	textureColor.xyz = textureColor.xyz + uDiffuseAdd * uDiffuseMult;
 	outColor.rgb += uAmbientAdd * uAmbientMult;

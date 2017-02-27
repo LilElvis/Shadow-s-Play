@@ -71,8 +71,8 @@ void Reset();
 
 //WINDOW STUFF
 static sf::ContextSettings Settings;
-static int windowWidth = 1280;
-static int windowHeight = 720;
+static int windowWidth = 1600;
+static int windowHeight = 911;
 
 //DECLARE SINGLETON POINTERS
 static ENG::Window* gameWindow = ENG::Window::gameInstance();
@@ -85,11 +85,17 @@ static ENG::Shader defaultShader;
 static ENG::Shader passThrough;
 static ENG::Shader GBuffer;
 static ENG::Shader deferredShading;
+static ENG::Shader bloomHighPass;
+static ENG::Shader bloomHorizontalBlur;
+static ENG::Shader bloomVerticalBlur;
+static ENG::Shader bloomComposite;
 
 //FBOS
 static ENG::FrameBufferObject deferredFBO;
-static ENG::FrameBufferObject transparencyFBO;
-static ENG::FrameBufferObject finalSceneFBO;
+static ENG::FrameBufferObject finalSceneFBO1;
+static ENG::FrameBufferObject finalSceneFBO2;
+static ENG::FrameBufferObject bloomFBO1;
+static ENG::FrameBufferObject bloomFBO2;
 
 //MAPS OF GAME OBJECTS
 static std::vector <ENG::GameObject*> gObjects;
@@ -134,6 +140,10 @@ static bool wasWarned2 = false;
 static float totalTime = 0.0f;
 static float previousTime = 0.0f;
 static float deltaTime = 0.0f;
+
+static float timeOfDeath = 0.0f;
+static bool deathTimer = false;
+
 static float seconds = 0;
 static int minute = 0;
 
@@ -153,7 +163,7 @@ static int randomCurveControl = 0;
 
 static int randomQuadPos = 0;
 
-//Pause(?)
+//PAUSE
 static bool weBePausing = false;
 static bool pressed = sf::Joystick::isButtonPressed(0, 7);
 
@@ -166,5 +176,11 @@ static glm::vec3 RoomMin = glm::vec3(-bounds, 10.0f, -bounds);
 static ENG::PointLight pointLight;
 static ENG::PointLight pointLight2;
 static ENG::PointLight pointLight3;
+
+static ENG::PointLight warningLight;
+static ENG::PointLight warningLight2;
+static ENG::PointLight warningLight3;
+
+static float flashValue;
 
 //static glm::mat4 uProjectionBiasMatrixInverse;

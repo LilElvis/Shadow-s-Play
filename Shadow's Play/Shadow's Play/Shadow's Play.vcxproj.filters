@@ -136,5 +136,17 @@
     <None Include="..\assets\shaders\DeferredLighting.frag">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="..\..\..\Shadow%27s Play\Shadow%27s Play\assets\shaders\BloomComposite.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\..\Shadow%27s Play\Shadow%27s Play\assets\shaders\HighPass.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\..\Shadow%27s Play\Shadow%27s Play\assets\shaders\HorizontalBlur.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\..\Shadow%27s Play\Shadow%27s Play\assets\shaders\VerticalBlur.frag">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

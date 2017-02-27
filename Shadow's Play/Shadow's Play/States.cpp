@@ -23,7 +23,7 @@ void Initialize()
 	}
 
 	//SET CAMERA
-	cameraPos = glm::vec3(0.0f, 0.0f, 75.0f);
+	cameraPos = glm::vec3(0.0f, 0.0f, 85.0f);
 
 	cameraTarget = glm::vec3(0.0f, 0.0f, 0.0f);
 	cameraDirection = glm::normalize(cameraPos - cameraTarget);
@@ -66,19 +66,20 @@ void Initialize()
 	//LOAD OBJECTS
 	defaultMesh->LoadFromFile("Nyx", "../assets/objects/Nyx/Nyx.obj");
 	defaultTexture->LoadFromFile("Nyx", "../assets/textures/Nyx.png");
-	static ENG::Player Nyx("Nyx", defaultMesh->listOfMeshes["Nyx"]->VAO, *defaultTexture->listOfTextures["Nyx"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], deferredFBO.getLayerNumber());
+	defaultTexture->LoadFromFile("NyxEmissive", "../assets/textures/NyxEmissive.png");
+	static ENG::Player Nyx("Nyx", defaultMesh->listOfMeshes["Nyx"]->VAO, *defaultTexture->listOfTextures["Nyx"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["NyxEmissive"], deferredFBO.getLayerNumber());
 	Player["Nyx"] = &Nyx;
 
 	defaultMesh->LoadFromFile("Room", "../assets/objects/MapTemp.obj");
-	defaultTexture->LoadFromFile("Room", "../assets/textures/MapTempTest.png");
+	defaultTexture->LoadFromFile("Room", "../assets/textures/Map.png");
 	static ENG::SceneObject Room("Room", defaultMesh->listOfMeshes["Room"]->VAO, *defaultTexture->listOfTextures["Room"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], deferredFBO.getLayerNumber());
 	sceneObjects["Room"] = &Room;
 
-	defaultMesh->LoadFromFile("Warning", "../assets/objects/SpotLight.obj");
+	defaultMesh->LoadFromFile("Warning", "../assets/objects/Warning.obj");
 	defaultTexture->LoadFromFile("Warning", "../assets/textures/Warning.png");
-	static ENG::SceneObject Warning("Warning", defaultMesh->listOfMeshes["Warning"]->VAO, *defaultTexture->listOfTextures["Warning"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], deferredFBO.getLayerNumber());
+	static ENG::SceneObject Warning("Warning", defaultMesh->listOfMeshes["Warning"]->VAO, *defaultTexture->listOfTextures["Warning"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Warning"], deferredFBO.getLayerNumber());
 	sceneObjects["Warning"] = &Warning;
-	static ENG::SceneObject Warning2("Warning", defaultMesh->listOfMeshes["Warning"]->VAO, *defaultTexture->listOfTextures["Warning"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], deferredFBO.getLayerNumber());
+	static ENG::SceneObject Warning2("Warning", defaultMesh->listOfMeshes["Warning"]->VAO, *defaultTexture->listOfTextures["Warning"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Warning"], deferredFBO.getLayerNumber());
 	sceneObjects["Warning2"] = &Warning2;
 	
 	defaultMesh->LoadFromFile("SpotLight", "../assets/objects/SpotLight.obj");
@@ -94,7 +95,7 @@ void Initialize()
 	static ENG::SceneObject QuadLight("QuadLight", defaultMesh->listOfMeshes["QuadLight"]->VAO, *defaultTexture->listOfTextures["QuadLight"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], deferredFBO.getLayerNumber());
 	sceneObjects["QuadLight"] = &QuadLight;
 	defaultTexture->LoadFromFile("QuadWarning", "../assets/textures/QuadWarning.png");
-	static ENG::SceneObject Warning3("Warning", defaultMesh->listOfMeshes["QuadLight"]->VAO, *defaultTexture->listOfTextures["QuadWarning"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], deferredFBO.getLayerNumber());
+	static ENG::SceneObject Warning3("Warning", defaultMesh->listOfMeshes["QuadLight"]->VAO, *defaultTexture->listOfTextures["QuadWarning"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["QuadWarning"], deferredFBO.getLayerNumber());
 	sceneObjects["Warning3"] = &Warning3;
 
 	static ENG::SceneObject InvisWall("InvisWall", 0, *defaultTexture->listOfTextures["SpotLight"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], 0);
@@ -114,6 +115,10 @@ void Initialize()
 	passThrough.load("PassThrough", "../assets/shaders/PassThrough.vert", "../assets/shaders/PassThrough.frag");
 	GBuffer.load("GBuffer", "../assets/shaders/StaticGeometry.vert", "../assets/shaders/GBuffer.frag");
 	deferredShading.load("deferred", "../assets/shaders/PassThrough.vert", "../assets/shaders/DeferredLighting.frag");
+	bloomHighPass.load("highPass", "../assets/shaders/PassThrough.vert", "../assets/shaders/HighPass.frag");
+	bloomHorizontalBlur.load("horBlur", "../assets/shaders/PassThrough.vert", "../assets/shaders/HorizontalBlur.frag");
+	bloomVerticalBlur.load("vertBlur", "../assets/shaders/PassThrough.vert", "../assets/shaders/VerticalBlur.frag");
+	bloomComposite.load("bloomComp", "../assets/shaders/PassThrough.vert", "../assets/shaders/BloomComposite.frag");
 
 	//INITIALiZE FBOS
 	deferredFBO.Init(windowWidth, windowHeight, 5);
@@ -124,12 +129,16 @@ void Initialize()
 	deferredFBO.initColorTexture(4, GL_RGB8);
 	deferredFBO.initDepthTexture();
 
-	transparencyFBO.Init(windowWidth, windowHeight, 1);
-	transparencyFBO.initColorTexture(0);
-	transparencyFBO.initDepthTexture();
+	finalSceneFBO1.Init(windowWidth, windowHeight, 1);
+	finalSceneFBO1.initColorTexture(0, GL_RGB8);
+	finalSceneFBO2.Init(windowWidth, windowHeight, 1);
+	finalSceneFBO2.initColorTexture(0, GL_RGB8);
 
-	finalSceneFBO.Init(windowWidth, windowHeight, 1);
-	finalSceneFBO.initColorTexture(0);
+	bloomFBO1.Init(windowWidth/2, windowHeight/2, 1);
+	bloomFBO1.initColorTexture(0);
+
+	bloomFBO2.Init(windowWidth / 2, windowHeight / 2, 1);
+	bloomFBO2.initColorTexture(0);
 
 	//INITIALIZE/LOAD SOUNDS
 	soundEngine.Init();
@@ -200,6 +209,8 @@ void Reset()
 
 	globalT = 1.0f;
 	rampValue = 0.005f;
+	timeOfDeath = 0.0f;
+	deathTimer = false;
 }
 
 
@@ -305,6 +316,8 @@ void GameLevel::Update()
 		//	view.rotateY(-0.017453f);
 		//}
 
+		flashValue = (0.9f * sin(totalTime) + 0.55f);
+
 		if (Player["Nyx"]->getLifeLost())
 		{
 			Player["Nyx"]->setLifeLost(false);
@@ -353,26 +366,9 @@ void GameLevel::Update()
 
 		defaultShader.sendUniform("uTime", totalTime);
 
-		Player["Nyx"]->uDiffuseAdd = glm::vec3(0.0f, 0.0f, 0.0f);
-		Player["Nyx"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);
-		Player["Nyx"]->uSpecularAdd = glm::vec3(0.2f, 0.1f, 0.2f);
-		Player["Nyx"]->uSpecularMult = glm::vec3(0.1f, 0.1f, 0.1f);
-		Player["Nyx"]->uAmbientAdd = glm::vec3(0.2f, 0.2f, 0.2f);
-		Player["Nyx"]->uAmbientMult = glm::vec3(1.0f, 1.0f, 1.0f);
-		Player["Nyx"]->uEmissiveAdd = glm::vec3(0.2f, 0.1f, 0.2f);
-		Player["Nyx"]->uEmissiveMult = glm::vec3(1.0f, 1.0f, 1.0f);
-
-		sceneObjects["Room"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);
-		sceneObjects["Room"]->uAmbientAdd = glm::vec3(0.2f, 0.2f, 0.2f);
-
-		sceneObjects["SpotLight"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);
-		sceneObjects["SpotLight2"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);
-		sceneObjects["QuadLight"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);
-
 		sceneObjects["SpotLight"]->uEmissiveAdd = glm::vec3(sinf(globalT * 1.0f) * 0.25f, sinf(globalT * 1.0f) * 0.25f, sinf(globalT * 1.0f) * 0.25f);
 		sceneObjects["SpotLight2"]->uEmissiveAdd = glm::vec3(sinf(globalT * 1.0f) * 0.25f, sinf(globalT * 1.0f) * 0.25f, sinf(globalT * 1.0f) * 0.25f);
-		//sceneObjects["QuadLight"]->uEmissiveAdd = glm::vec3(sinf(globalT * 1.0f) * 0.25f, sinf(globalT * 1.0f) * 0.25f, sinf(globalT * 1.0f) * 0.25f);
-
+		
 		sceneObjects["SpotLight"]->setPosition(lerp(points[randomLERPStart], points[randomLERPEnd], globalT));
 		pointLight.position = (sceneObjects["SpotLight"]->getPosition() + glm::vec3(0.0f, 1.5f, 0.0f));
 
@@ -409,12 +405,25 @@ void GameLevel::Update()
 			wasWarned2 = true;
 		}
 
+		sceneObjects["Warning"]->uEmissiveMult = glm::vec3((sinf(totalTime * 0.25f) * 0.5f) + 1.0f);
+		sceneObjects["Warning2"]->uEmissiveMult = glm::vec3((sinf(totalTime * 0.25f) * 0.5f) + 1.0f);
+		sceneObjects["Warning3"]->uEmissiveMult = glm::vec3((sinf(totalTime * 0.25f) * 0.5f) + 1.0f);
+
 		Player["Nyx"]->collisionCheck(collidables);
 
 		if (Player["Nyx"]->getIsDead() == true)
 		{
-			GameLevel::gameOver();
-			m_parent->GetGameState("GameOver")->SetPaused(false);
+			Player["Nyx"]->setPosition(glm::vec3(200.0f, 200.0f, 200.0f));
+			if (deathTimer == false)
+			{
+				timeOfDeath = totalTime;
+				deathTimer = true;
+			}
+			if ((deathTimer == true) && (totalTime > (timeOfDeath + 3.0f)))
+			{
+				GameLevel::gameOver();
+				m_parent->GetGameState("GameOver")->SetPaused(false);
+			}
 		}
 
 		deferredFBO.Bind();
@@ -439,20 +448,15 @@ void GameLevel::Update()
 			(*itr)->render(defaultMesh, &GBuffer);
 		}
 
-		GBuffer.unBind();
-		deferredFBO.Unbind();
-		
-		///Attempted Transparency Pass--------------------------------
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		
-		transparencyFBO.Bind();
+
 		defaultShader.bind();
 
 		defaultShader.sendUniformMat4("uView", &view.getMatrix()[0][0], false);
 		defaultShader.sendUniformMat4("uProj", &persp[0][0], false);
 		defaultShader.sendUniform("LightPosition", down);
-		
+
 		for (auto itr = transparentGObjects.begin(), itrEnd = transparentGObjects.end();
 			itr != itrEnd; itr++)
 		{
@@ -466,12 +470,13 @@ void GameLevel::Update()
 		}
 
 		defaultShader.unBind();
-		transparencyFBO.Unbind();
 
 		glDisable(GL_BLEND);
-		///-----------------------------------------------------------
 
-		finalSceneFBO.Bind();
+		GBuffer.unBind();
+		deferredFBO.Unbind();
+		
+		finalSceneFBO1.Bind();
 		deferredShading.bind();
 
 		deferredShading.sendUniformMat4("uinverseViewMatrix", &glm::inverse(view.getMatrix())[0][0], false);
@@ -482,7 +487,6 @@ void GameLevel::Update()
 		deferredShading.sendUniformPointLight("lights", &pointLight3, 2);
 
 		glBindVertexArray(sceneObjects["Quad3"]->getRenderable());
-
 
 		deferredFBO.BindColorAsTexture(GL_TEXTURE0, 0);
 		deferredFBO.BindColorAsTexture(GL_TEXTURE1, 1);
@@ -496,9 +500,79 @@ void GameLevel::Update()
 		glBindVertexArray(0);
 
 		deferredShading.unBind();
+		glViewport(0, 0, windowWidth / 2, windowHeight / 2);
+		finalSceneFBO1.Unbind();
 
-		finalSceneFBO.Unbind();
-		finalSceneFBO.DrawToBackBuffer();
+		bloomFBO1.Bind();
+		bloomHighPass.bind();
+		
+		bloomHighPass.sendUniform("uScene", 0);
+		
+		glBindVertexArray(sceneObjects["Quad3"]->getRenderable());
+		
+		finalSceneFBO1.BindColorAsTexture(GL_TEXTURE0, 0);
+		
+		glDrawArrays(GL_TRIANGLES, 0, 6);
+		
+		glBindVertexArray(0);
+		
+		bloomHighPass.unBind();
+		bloomFBO1.Unbind();
+		
+		bloomFBO2.Bind();
+		bloomHorizontalBlur.bind();
+		
+		bloomHorizontalBlur.sendUniform("texelWidth", (1.0f / windowWidth));
+		
+		glBindVertexArray(sceneObjects["Quad3"]->getRenderable());
+		
+		bloomFBO1.BindColorAsTexture(GL_TEXTURE0, 0);
+		
+		glDrawArrays(GL_TRIANGLES, 0, 6);
+		
+		glBindVertexArray(0);
+		
+		bloomHorizontalBlur.unBind();
+		bloomFBO2.Unbind();
+		
+		bloomFBO1.Bind();
+		bloomVerticalBlur.bind();
+		
+		bloomVerticalBlur.sendUniform("texelHeight", (1.0f / windowHeight));
+		
+		glBindVertexArray(sceneObjects["Quad3"]->getRenderable());
+		
+		bloomFBO2.BindColorAsTexture(GL_TEXTURE0, 0);
+		
+		glDrawArrays(GL_TRIANGLES, 0, 6);
+		
+		glBindVertexArray(0);
+		
+		bloomVerticalBlur.unBind();
+		bloomFBO1.Unbind();
+
+		glViewport(0, 0, windowWidth, windowHeight);
+		finalSceneFBO2.Bind();
+		bloomComposite.bind();
+		bloomComposite.sendUniform("uScene", 0);
+		
+		finalSceneFBO1.BindColorAsTexture(GL_TEXTURE0, 0);
+		
+		bloomComposite.sendUniform("uBloomScene", 1);
+		
+		bloomFBO1.BindColorAsTexture(GL_TEXTURE1, 0);
+		
+		glBindVertexArray(sceneObjects["Quad3"]->getRenderable());
+		
+		glDrawArrays(GL_TRIANGLES, 0, 6);
+		
+		glBindVertexArray(0);
+		
+		bloomComposite.unBind();
+		finalSceneFBO2.Unbind();
+
+		//bloomFBO1.DrawToBackBuffer();
+		finalSceneFBO2.DrawToBackBuffer();
 	}
 
 	if (devCommand.GetKeyDown(ENG::KeyCode::P) || sf::Joystick::isButtonPressed(0, 7))
@@ -557,18 +631,34 @@ void GameLevel::enter()
 	sceneObjects["QuadLight"]->setLoss(true);
 	sceneObjects["QuadLight"]->setPosition(glm::vec3(0.0f, 0.6f, -55.0f));
 
+	transparentGObjects.push_back(sceneObjects["Warning3"]);
+	sceneObjects["Warning3"]->setPosition(glm::vec3(0.0f, 10.0f, -55.0f));
 	transparentGObjects.push_back(sceneObjects["Warning"]);
 	sceneObjects["Warning"]->setPosition(glm::vec3(0.0f, 10.0f, -55.0f));
 	transparentGObjects.push_back(sceneObjects["Warning2"]);
 	sceneObjects["Warning2"]->setPosition(glm::vec3(0.0f, 10.0f, -55.0f));
-	transparentGObjects.push_back(sceneObjects["Warning3"]);
-	sceneObjects["Warning3"]->setPosition(glm::vec3(0.0f, 10.0f, -55.0f));
-
+	
 	sceneObjects["InvisWall"]->setPosition(glm::vec3(0.0f, 0.0f, -35.0f));
 	sceneObjects["InvisWall2"]->setPosition(glm::vec3(0.0f, 0.0f, 35.0f));
 	sceneObjects["InvisWall3"]->setPosition(glm::vec3(-35.0f, 0.0f, 0.0f));
 	sceneObjects["InvisWall4"]->setPosition(glm::vec3(35.0f, 0.0f, 0.0f));
-	
+
+	Player["Nyx"]->uDiffuseAdd = glm::vec3(0.0f, 0.0f, 0.0f);
+	Player["Nyx"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);
+	Player["Nyx"]->uSpecularAdd = glm::vec3(0.2f, 0.1f, 0.2f);
+	Player["Nyx"]->uSpecularMult = glm::vec3(0.1f, 0.1f, 0.1f);
+	Player["Nyx"]->uAmbientAdd = glm::vec3(0.2f, 0.2f, 0.2f);
+	Player["Nyx"]->uAmbientMult = glm::vec3(1.0f, 1.0f, 1.0f);
+	Player["Nyx"]->uEmissiveAdd = glm::vec3(0.2f, 0.1f, 0.2f);
+	Player["Nyx"]->uEmissiveMult = glm::vec3(1.0f, 1.0f, 1.0f);
+
+	sceneObjects["Room"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);
+	sceneObjects["Room"]->uAmbientAdd = glm::vec3(0.2f, 0.2f, 0.2f);
+
+	sceneObjects["SpotLight"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);
+	sceneObjects["SpotLight2"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);
+	sceneObjects["QuadLight"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);
+
 	if (!hasLoadedOnce)
 	{
 		//PUSH BACK COLLIDABLE OBJECTS
@@ -603,6 +693,8 @@ void GameLevel::gameOver()
 	removeGameObjects();
 
 	Sounds["bgm"]->channel->stop();
+	Sounds["die"]->channel->stop();
+	Sounds["warn"]->channel->stop();
 
 	hasBeenInitialized = false;
 	if (m_paused == false)

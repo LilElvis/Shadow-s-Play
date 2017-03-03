@@ -20,6 +20,9 @@ namespace ENG
 		bool getLifeLost();
 		bool getIsDead();
 		bool getNyxPaused();
+		glm::vec3 NyxSeekPoint(glm::vec3, glm::vec3, float);
+		float angleVec(glm::vec3, glm::vec3);
+
 	private:
 		float timeSinceStart;
 		glm::vec3 startingPosition;
@@ -28,6 +31,7 @@ namespace ENG
 		bool lifeLost;
 		bool isDead;
 		bool paused;
+		glm::vec3 seekPoint = glm::vec3(0.0f, 0.0f, 0.0f);
 
 		Input input;
 		float appliedAcceleration = 30.0f;

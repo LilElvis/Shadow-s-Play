@@ -150,7 +150,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\Shadow%27s Play\Shadow%27s Play\Shadow%27s Play\FrameBufferObject.cpp" />
+    <ClCompile Include="..\..\Shadow%27s Play\Shadow%27s Play\FrameBufferObject.cpp" />
     <ClCompile Include="..\..\Shadow%27s Play\Shadow%27s Play\GameObject.cpp" />
     <ClCompile Include="..\..\Shadow%27s Play\Shadow%27s Play\GameStates.cpp" />
     <ClCompile Include="..\..\Shadow%27s Play\Shadow%27s Play\Input.cpp" />
@@ -167,10 +167,10 @@
     <ClCompile Include="..\..\Shadow%27s Play\Shadow%27s Play\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\Shadow%27s Play\Shadow%27s Play\Shadow%27s Play\FrameBufferObject.h" />
     <ClInclude Include="..\..\..\Shadow%27s Play\Shadow%27s Play\Shadow%27s Play\Lights.h" />
     <ClInclude Include="..\..\Shadow%27s Play\Shadow%27s Play\Animation.h" />
     <ClInclude Include="..\..\Shadow%27s Play\Shadow%27s Play\AnimationMath.h" />
+    <ClInclude Include="..\..\Shadow%27s Play\Shadow%27s Play\FrameBufferObject.h" />
     <ClInclude Include="..\..\Shadow%27s Play\Shadow%27s Play\GameObject.h" />
     <ClInclude Include="..\..\Shadow%27s Play\Shadow%27s Play\GameStates.h" />
     <ClInclude Include="..\..\Shadow%27s Play\Shadow%27s Play\Input.h" />

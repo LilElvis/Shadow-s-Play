@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "AnimationMath.h"
 
 namespace ENG
 {
@@ -8,6 +9,30 @@ namespace ENG
 		lives = 2;
 		isDead = false;
 		lifeLost = false;
+	}
+
+	glm::vec3 Player::NyxSeekPoint(glm::vec3 moving, glm::vec3 toseek, float dist)
+	{
+		glm::vec3 newPosition(moving.x - toseek.x, 0.0f, moving.z - toseek.z);
+		glm::vec3 forwardssss(0.0f);
+		glm::normalize(newPosition);
+
+		if (glm::length(newPosition) > dist)
+		{
+			newPosition.x *= dist;
+			newPosition.z *= dist;
+		}
+		glm::vec3 normalVec = glm::normalize(newPosition);
+
+		forwardssss.x = normalVec.x;
+		forwardssss.z = normalVec.z;
+
+		return newPosition;
+	}
+
+	float Player::angleVec(glm::vec3 vecOne, glm::vec3 vecTwo)
+	{
+		 return acosf(glm::dot(vecOne, vecTwo) / (glm::length(vecOne) * glm::length(vecTwo)));
 	}
 
 	void Player::update(float t)
@@ -27,33 +52,21 @@ namespace ENG
 		if ((sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Y) < -20.0f && colliding == false) || ((input.GetKey(KeyCode::W) && colliding == false)) && !paused)
 		{
 			acceleration.z = -appliedAcceleration;
-
-			transform.zeroMatrix();
-			transform.rotateY(3.14159f);
 		}
 
 		if ((sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Y) > 20.0f && colliding == false) || ((input.GetKey(KeyCode::S) && colliding == false)) && !paused)
 		{
 			acceleration.z = appliedAcceleration;
-
-			transform.zeroMatrix();
-			transform.rotateY(0.0f);
 		}
 
 		if ((sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::X) > 20.0f && colliding == false) || ((input.GetKey(KeyCode::D) && colliding == false)) && !paused)
 		{
 			acceleration.x = appliedAcceleration;
-
-			transform.zeroMatrix();
-			transform.rotateY(1.57079f);
 		}
 
 		if ((sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::X) < -20.0f && colliding == false) || ((input.GetKey(KeyCode::A) && colliding == false)) && !paused)
 		{
 			acceleration.x = -appliedAcceleration;
-
-			transform.zeroMatrix();
-			transform.rotateY(-1.57079f);
 		}
 
 		//TIME COUNT SINCE INPUT BEGAN
@@ -82,8 +95,17 @@ namespace ENG
 			if (velocity.z >= maxVelocity)
 				velocity.z = maxVelocity;
 		
-			setPosition(getPosition() + (velocity * t) + (0.5f * acceleration * (t * t)));
+			seekPoint += (velocity * t) + (0.5f * acceleration * (t * t));
+			clamp(getPosition(), getPosition() - 10.0f, getPosition() + 10.0f);
+ 			setPosition(glm::vec3(	getPosition().x - NyxSeekPoint(getPosition(), seekPoint, 1.0f).x, 
+									getPosition().y + NyxSeekPoint(getPosition(), seekPoint, 1.0f).y,
+									getPosition().z - NyxSeekPoint(getPosition(), seekPoint, 1.0f).z));
+			transform.rotateY(angleVec(getLastPosition(), seekPoint));
+			transform.zeroMatrix();
+			std::cout << getPosition().x << " "<< getPosition().y << " " << getPosition().z << std::endl;
+			std::cout << seekPoint.x << " " << seekPoint.y << " " << seekPoint.z << " " << std::endl;
 		}
+
 		acceleration = glm::vec3(0.0f);
 		velocity = glm::vec3(0.0f);
 		
@@ -122,12 +144,14 @@ namespace ENG
 							lives -= 1;
 							std::cout << "YOU LOST A LIFE!\n";
 							setPosition(startingPosition);
+							seekPoint = startingPosition;
 							lifeLost = true;
 						}
 						else
 						{
 							std::cout << "YOU LOSE!!\n";
 							setPosition(startingPosition);
+							seekPoint = startingPosition;
 							isDead = true;
 						}
 					}
@@ -144,6 +168,7 @@ namespace ENG
 	//RESETS NECESSARY VARIABLES PER LEVEL
 	void Player::reset()
 	{
+		setPosition(startingPosition);
 		std::cout << "\nNYX RESET\n\n";
 		lives = 2;
 		isDead = false;

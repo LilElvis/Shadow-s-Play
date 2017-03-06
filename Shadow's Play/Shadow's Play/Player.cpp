@@ -32,7 +32,28 @@ namespace ENG
 
 	float Player::angleVec(glm::vec3 vecOne, glm::vec3 vecTwo)
 	{
-		 return acosf(glm::dot(vecOne, vecTwo) / (glm::length(vecOne) * glm::length(vecTwo)));
+		 return acosf((vecOne.x * vecTwo.x + vecOne.y * vecTwo.y + vecOne.z * vecTwo.z) / (glm::length(vecOne) * glm::length(vecTwo)));
+		 //return (vecOne.x * vecTwo.x + vecOne.y * vecTwo.y + vecOne.z * vecTwo.z) / (glm::length(vecOne) * glm::length(vecTwo));
+
+	}
+
+	glm::vec3 Player::NyxLookAt(glm::vec3 lookPoint)
+	{
+		//glm::lookAt(getPosition(), lookPoint, glm::vec3(0.0f, 1.0f, 0.0f));
+		//transform.rotateY();
+		return glm::vec3(0);
+	}
+
+	void Player::movement(float _x, float _y, float _z)
+	{
+		//transform.zeroMatrix();
+		//transform.rotateY(angleVec(getPosition(), glm::vec3(_x, _y, _z)));
+		//transform.translate(_x - 1, _y, _z -1);
+		//transform.zeroMatrix();
+		setPosition(glm::vec3(	getLastPosition().x - _x,
+								getLastPosition().y,
+								getLastPosition().z - _z));
+	//	forwards = normalize(getPosition());
 	}
 
 	void Player::update(float t)
@@ -96,18 +117,55 @@ namespace ENG
 				velocity.z = maxVelocity;
 		
 			seekPoint += (velocity * t) + (0.5f * acceleration * (t * t));
+			//clamp(seekPoint, glm::vec3(-34.0f, 0.0f, -34.0f), glm::vec3(34.0f, 0.0f, 34.0f));
 			clamp(getPosition(), getPosition() - 10.0f, getPosition() + 10.0f);
- 			setPosition(glm::vec3(	getPosition().x - NyxSeekPoint(getPosition(), seekPoint, 1.0f).x, 
-									getPosition().y + NyxSeekPoint(getPosition(), seekPoint, 1.0f).y,
-									getPosition().z - NyxSeekPoint(getPosition(), seekPoint, 1.0f).z));
-			transform.rotateY(angleVec(getLastPosition(), seekPoint));
-			transform.zeroMatrix();
-			std::cout << getPosition().x << " "<< getPosition().y << " " << getPosition().z << std::endl;
-			std::cout << seekPoint.x << " " << seekPoint.y << " " << seekPoint.z << " " << std::endl;
+			if (seekPoint.x >= 0.0f)
+			{
+				/*if(angleVec(seekPoint, glm::vec3(0.0f, 0.0f, 1.0f)) <= 0.0f)
+				{
+					transform.zeroMatrix();
+					transform.rotateY(angleVec(seekPoint, glm::vec3(0.0f, 0.0f, 1.0f)));
+				}
+				else
+				{
+					transform.zeroMatrix();
+					transform.rotateY(angleVec(seekPoint, glm::vec3(0.0f, 0.0f, 1.0f)) * 1.5f);
+				}*/
+				transform.zeroMatrix();
+				transform.rotateY(angleVec(seekPoint, glm::vec3(0.0f, 0.0f, 1.0f)));
+			}
+			else if (seekPoint.x <= 0.0f)
+			{
+				/*if (angleVec(seekPoint, glm::vec3(0.0f, 0.0f, 1.0f)) >= 3.14f)
+				{
+					transform.zeroMatrix();
+					transform.rotateY(angleVec(seekPoint, glm::vec3(0.0f, 0.0f, 1.0f)));
+				}
+				else
+				{
+					transform.zeroMatrix();
+					transform.rotateY(-angleVec(seekPoint, glm::vec3(0.0f, 0.0f, 1.0f)) * 1.5f);
+				}*/
+				transform.zeroMatrix();
+				transform.rotateY(-angleVec(seekPoint, glm::vec3(0.0f, 0.0f, 1.0f)));
+			}
+
+			//transform.zeroMatrix();
+			//transform.rotateY(atan2(velocity.x, -velocity.z)* (3.1416f / 180.0f));
+			
+			//glm::rotate(glm::mat4(0.0f), atan2(velocity.x, -velocity.z), seekPoint);
+
+			movement(NyxSeekPoint(getPosition(), seekPoint, 1.0f).x, 0.0f, NyxSeekPoint(getPosition(), seekPoint, 1.0f).z);
+
+			//std::cout << getPosition().x << " "<< getPosition().y << " " << getPosition().z << std::endl;
+			//std::cout << seekPoint.x << " " << seekPoint.y << " " << seekPoint.z << " " << std::endl;
+			//std::cout << angleVec(seekPoint, glm::vec3(0.0f, 0.0f, 1.0f)) << std::endl;
+			//std::cout << glm::length(getPosition()) << std::endl;
 		}
 
 		acceleration = glm::vec3(0.0f);
 		velocity = glm::vec3(0.0f);
+		
 		
 		//INSURES TIME NEVER GOES NEGATIVE
 		if (timeSinceStart <= 0.0f)
@@ -169,6 +227,7 @@ namespace ENG
 	void Player::reset()
 	{
 		setPosition(startingPosition);
+		seekPoint = glm::vec3(0.1f, 0.0f, 0.1f);
 		std::cout << "\nNYX RESET\n\n";
 		lives = 2;
 		isDead = false;

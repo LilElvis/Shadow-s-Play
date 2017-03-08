@@ -31,12 +31,25 @@ struct Light
 
 const int maxNumberOfLights = 64;
 
-uniform int uNumLights = 1;
+uniform int uNumLights = 0;
 
 uniform Light lights[maxNumberOfLights];
 
+struct projectedTexLight
+{
+	mat4 lightViewMatrix;
+	sampler2D lightTexture;
+	vec3 lightDirection;
+	float intensity;
+};
+
+const int maxNumberOfProjectedTexLights = 4;
+
+uniform int uNumOfProjectedTexLights = 0;
+
+uniform projectedTexLight projectedTexLights[maxNumberOfProjectedTexLights];
+
 in vec2 texcoord;
-in vec3 pos;
 
 uniform float uTime;
 
@@ -79,31 +92,43 @@ void main()
 
 	vec3 viewDirection = normalize(-position.xyz - cameraPos);
 
-	vec3 distanceFromLight;
-
 	outColor.rgb = vec3(0,0,0);
 
-	for (int i = 0; i < uNumLights; ++i)
-	{
-		float distance = length(lights[i].position.rgb - position.xyz);
-		
-		vec3 lightDirection = normalize(lights[i].position.rgb - position.xyz);
-		
-		vec3 diffuseLight = max(dot(normal, lightDirection), 0.0) * lights[i].color.rgb * lights[i].color.a;
-		
-		vec3 halfVector = normalize(lightDirection + viewDirection);
-		
-		vec3 specLight = lights[i].color.rgb * lights[i].color.a * vec3(pow(max(dot(normal, halfVector), 0.0), 8.0));
-		
-		float attenuation = 1.0/(lights[i].aConstant + lights[i].aLinear * distance + lights[i].aQuadratic * distance);
-		
-		outDiffuse += diffuseLight * attenuation;
-		
-		outSpecular += specLight * attenuation;
-		
-		distanceFromLight = position.xyz * 0.01;
-	}
+	//for (int i = 0; i < uNumLights; ++i)
+	//{
+	//	float distance = length(lights[i].position.rgb - position.xyz);
+	//	
+	//	vec3 lightDirection = normalize(lights[i].position.rgb - position.xyz);
+	//	
+	//	vec3 diffuseLight = max(dot(normal, lightDirection), 0.0) * lights[i].color.rgb * lights[i].color.a;
+	//	
+	//	vec3 halfVector = normalize(lightDirection + viewDirection);
+	//	
+	//	vec3 specLight = lights[i].color.rgb * lights[i].color.a * vec3(pow(max(dot(normal, halfVector), 0.0), 8.0));
+	//	
+	//	float attenuation = 1.0/(lights[i].aConstant + lights[i].aLinear * distance + lights[i].aQuadratic * distance);
+	//	
+	//	outDiffuse += diffuseLight * attenuation;
+	//	
+	//	outSpecular += specLight * attenuation;
+	//}
 
+	for (int i = 0; i < uNumOfProjectedTexLights; ++i)
+	{
+		vec4 projectionCoord = projectedTexLights[i].lightViewMatrix * position;
+
+		vec3 lightTexColor = texture(projectedTexLights[i].lightTexture, projectionCoord.xy).rgb; 
+		
+		vec3 diffuseLight = vec3(1.0f) * max(dot(normal, projectedTexLights[i].lightDirection), 0.0) * projectedTexLights[i].intensity;//* lightTexColor; // 
+
+		vec3 halfVector = normalize(projectedTexLights[i].lightDirection + viewDirection);
+		
+		vec3 specLight = lightTexColor * projectedTexLights[i].intensity * vec3(pow(max(dot(normal, halfVector), 0.0), 8.0));
+				
+		outDiffuse += diffuseLight;
+		
+		outSpecular += specLight;
+	}
 
 	outColor.rgb = (texture(uAmbientMap, texcoord).rgb + outDiffuse) * albedo;
 	outColor.rgb += specular * outSpecular;

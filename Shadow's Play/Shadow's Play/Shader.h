@@ -39,6 +39,7 @@ namespace ENG
 		void sendUniformMat3(const std::string &, float*, bool);
 		void sendUniformMat4(const std::string &, float*, bool);
 		void sendUniformPointLight(const std::string &, PointLight *, int);
+		void sendUniformProjectedTexLight(const std::string &, ProjectedTexLight *, int texSlot, int);
 
 	private:
 		bool isInit = false;

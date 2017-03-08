@@ -173,14 +173,15 @@ static glm::vec3 RoomMax = glm::vec3(bounds, 10.5f, bounds);
 static glm::vec3 RoomMin = glm::vec3(-bounds, 10.0f, -bounds);
 
 //LIGHTS
-static ENG::PointLight pointLight;
-static ENG::PointLight pointLight2;
-static ENG::PointLight pointLight3;
+static ENG::ProjectedTexLight spotLight;
+static ENG::ProjectedTexLight spotLight2;
+static ENG::ProjectedTexLight spotLight3;
 
-static ENG::PointLight warningLight;
-static ENG::PointLight warningLight2;
-static ENG::PointLight warningLight3;
+static ENG::PointLight menuLight;
+static ENG::PointLight menuLight2;
 
 static float flashValue;
+
+static glm::mat4 biasMatrix;
 
 //static glm::mat4 uProjectionBiasMatrixInverse;

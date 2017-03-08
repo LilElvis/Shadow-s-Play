@@ -47,6 +47,12 @@ void Initialize()
 		0.0f, 0.0f, 2.0f, -1.0f,
 		0.0f, 0.0f, 0.0f,  1.0f);
 
+	glm::mat4 biasMatrix = glm::mat4(
+		0.5f, 0.0f, 0.0f, 0.0f,
+		0.0f, 0.5f, 0.0f, 0.0f,
+		0.0f, 0.0f, 0.5f, 0.0f,
+		0.5f, 0.5f, 0.5f, 1.0f);
+
 	//LOAD DEFAULT TEXTURES
 	defaultTexture->LoadFromFile("Emissive", "../assets/textures/default/Emissive.png");
 	defaultTexture->LoadFromFile("Specular", "../assets/textures/default/Specular.png");
@@ -70,9 +76,15 @@ void Initialize()
 	static ENG::Player Nyx("Nyx", defaultMesh->listOfMeshes["Nyx"]->VAO, *defaultTexture->listOfTextures["Nyx"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["NyxEmissive"], deferredFBO.getLayerNumber());
 	Player["Nyx"] = &Nyx;
 
+	defaultMesh->LoadFromFile("MainMenu", "../assets/objects/MenuPlane.obj");
+	defaultTexture->LoadFromFile("MainMenu", "../assets/textures/tempMenu.png");
+	static ENG::SceneObject MainMenu("MainMenu", defaultMesh->listOfMeshes["MainMenu"]->VAO, *defaultTexture->listOfTextures["MainMenu"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], deferredFBO.getLayerNumber());
+	sceneObjects["MainMenu"] = &MainMenu;
+
 	defaultMesh->LoadFromFile("Room", "../assets/objects/MapTemp.obj");
 	defaultTexture->LoadFromFile("Room", "../assets/textures/Map.png");
-	static ENG::SceneObject Room("Room", defaultMesh->listOfMeshes["Room"]->VAO, *defaultTexture->listOfTextures["Room"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], deferredFBO.getLayerNumber());
+	defaultTexture->LoadFromFile("RoomEmissive", "../assets/textures/MapEmissive.png");
+	static ENG::SceneObject Room("Room", defaultMesh->listOfMeshes["Room"]->VAO, *defaultTexture->listOfTextures["Room"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["RoomEmissive"], deferredFBO.getLayerNumber());
 	sceneObjects["Room"] = &Room;
 
 	defaultMesh->LoadFromFile("Warning", "../assets/objects/Warning.obj");
@@ -229,19 +241,25 @@ void MainMenu::Update()
 		hasBeenInitialized = true;
 	}
 
-	sceneObjects["Quad"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);
-	sceneObjects["Quad"]->uAmbientAdd = glm::vec3(1.0f, 1.0f, 1.0f);
-	sceneObjects["Quad"]->uDiffuseMult = glm::vec3(sinf(totalTime) * 0.2f + 1.0f, sinf(totalTime) * 0.2f + 1.0f, sinf(totalTime) * 0.2f + 1.0f);
+	//if (devCommand.GetKey(ENG::KeyCode::Right))
+	//{
+	//	view.rotateY(0.017453f);
+	//}
+	//if (devCommand.GetKey(ENG::KeyCode::Left))
+	//{
+	//	view.rotateY(-0.017453f);
+	//}
 
-	totalTime += 1 / 60.0f;
 
-	deltaTime = (totalTime - previousTime);
+	deferredFBO.Bind();
 
-	previousTime = totalTime;
+	GBuffer.bind();
+
+	GBuffer.sendUniformMat4("uView", &view.getMatrix()[0][0], false);
+	GBuffer.sendUniformMat4("uProj", &persp[0][0], false);
+	GBuffer.sendUniform("LightPosition", down);
 
 	gameWindow->checkAndClear();
-	
-	passThrough.bind();
 
 	for (auto itr = gObjects.begin(), itrEnd = gObjects.end();
 		itr != itrEnd; itr++)
@@ -252,8 +270,133 @@ void MainMenu::Update()
 	for (auto itr = gObjects.begin(), itrEnd = gObjects.end();
 		itr != itrEnd; itr++)
 	{
-		(*itr)->render(defaultMesh, &passThrough);
+		(*itr)->render(defaultMesh, &GBuffer);
 	}
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	defaultShader.bind();
+
+	defaultShader.sendUniformMat4("uView", &view.getMatrix()[0][0], false);
+	defaultShader.sendUniformMat4("uProj", &persp[0][0], false);
+	defaultShader.sendUniform("LightPosition", down);
+
+	for (auto itr = transparentGObjects.begin(), itrEnd = transparentGObjects.end();
+		itr != itrEnd; itr++)
+	{
+		(*itr)->update(deltaTime);
+	}
+
+	for (auto itr = transparentGObjects.begin(), itrEnd = transparentGObjects.end();
+		itr != itrEnd; itr++)
+	{
+		(*itr)->render(defaultMesh, &defaultShader);
+	}
+
+	defaultShader.unBind();
+
+	glDisable(GL_BLEND);
+
+	GBuffer.unBind();
+	deferredFBO.Unbind();
+
+	finalSceneFBO1.Bind();
+	deferredShading.bind();
+
+	deferredShading.sendUniformMat4("uinverseViewMatrix", &glm::inverse(view.getMatrix())[0][0], false);
+	deferredShading.sendUniformMat4("uinversePerspectiveMatrix", &glm::inverse(persp)[0][0], false);
+	deferredShading.sendUniform("uNumLights", 2);
+	deferredShading.sendUniformPointLight("lights", &menuLight, 0);
+	deferredShading.sendUniformPointLight("lights", &menuLight2, 1);
+
+	glBindVertexArray(sceneObjects["Quad3"]->getRenderable());
+
+	deferredFBO.BindColorAsTexture(GL_TEXTURE0, 0);
+	deferredFBO.BindColorAsTexture(GL_TEXTURE1, 1);
+	deferredFBO.BindColorAsTexture(GL_TEXTURE2, 2);
+	deferredFBO.BindColorAsTexture(GL_TEXTURE3, 3);
+	deferredFBO.BindColorAsTexture(GL_TEXTURE4, 4);
+	deferredFBO.BindDepthAsTexture(GL_TEXTURE5);
+
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+
+	glBindVertexArray(0);
+
+	deferredShading.unBind();
+	glViewport(0, 0, windowWidth / 2, windowHeight / 2);
+	finalSceneFBO1.Unbind();
+
+	bloomFBO1.Bind();
+	bloomHighPass.bind();
+
+	bloomHighPass.sendUniform("uScene", 0);
+
+	glBindVertexArray(sceneObjects["Quad3"]->getRenderable());
+
+	finalSceneFBO1.BindColorAsTexture(GL_TEXTURE0, 0);
+
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+
+	glBindVertexArray(0);
+
+	bloomHighPass.unBind();
+	bloomFBO1.Unbind();
+
+	bloomFBO2.Bind();
+	bloomHorizontalBlur.bind();
+
+	bloomHorizontalBlur.sendUniform("texelWidth", (1.0f / windowWidth));
+
+	glBindVertexArray(sceneObjects["Quad3"]->getRenderable());
+
+	bloomFBO1.BindColorAsTexture(GL_TEXTURE0, 0);
+
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+
+	glBindVertexArray(0);
+
+	bloomHorizontalBlur.unBind();
+	bloomFBO2.Unbind();
+
+	bloomFBO1.Bind();
+	bloomVerticalBlur.bind();
+
+	bloomVerticalBlur.sendUniform("texelHeight", (1.0f / windowHeight));
+
+	glBindVertexArray(sceneObjects["Quad3"]->getRenderable());
+
+	bloomFBO2.BindColorAsTexture(GL_TEXTURE0, 0);
+
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+
+	glBindVertexArray(0);
+
+	bloomVerticalBlur.unBind();
+	bloomFBO1.Unbind();
+
+	glViewport(0, 0, windowWidth, windowHeight);
+	finalSceneFBO2.Bind();
+	bloomComposite.bind();
+	bloomComposite.sendUniform("uScene", 0);
+
+	finalSceneFBO1.BindColorAsTexture(GL_TEXTURE0, 0);
+
+	bloomComposite.sendUniform("uBloomScene", 1);
+
+	bloomFBO1.BindColorAsTexture(GL_TEXTURE1, 0);
+
+	glBindVertexArray(sceneObjects["Quad3"]->getRenderable());
+
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+
+	glBindVertexArray(0);
+
+	bloomComposite.unBind();
+	finalSceneFBO2.Unbind();
+
+	//bloomFBO1.DrawToBackBuffer();
+	finalSceneFBO2.DrawToBackBuffer();
 
 	gameWindow->GetSFMLWindow()->display();
 
@@ -274,9 +417,25 @@ void MainMenu::enter()
 		MainMenu::SetPaused(m_paused);
 	}
 
-	gObjects.push_back(sceneObjects["Quad"]);
-	sceneObjects["Quad"]->setPosition(glm::vec3(0.0f, 0.0f, -10.0f));
-	hasLoadedOnce = true;
+	//POSITION OBJECTS
+	Reset();
+
+	gObjects.push_back(sceneObjects["MainMenu"]);
+	sceneObjects["MainMenu"]->setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
+
+	if (!hasLoadedOnce)
+	{
+		menuLight.position = glm::vec3(0.0f, 2.0f, -15.0f);
+		menuLight.color = glm::vec4(1.0f);
+		menuLight.aConstant = menuLight.aConstant * 0.1f;
+		menuLight.aLinear = menuLight.aLinear * 0.1f;
+		menuLight.aQuadratic = menuLight.aQuadratic * 0.1f;
+
+		menuLight2.position = glm::vec3(-20.0f, 2.0f, 10.0f);
+		menuLight2.color = glm::vec4(1.0f);
+
+		hasLoadedOnce = true;
+	}
 
 }
 
@@ -370,17 +529,27 @@ void GameLevel::Update()
 		sceneObjects["SpotLight2"]->uEmissiveAdd = glm::vec3(sinf(globalT * 1.0f) * 0.25f, sinf(globalT * 1.0f) * 0.25f, sinf(globalT * 1.0f) * 0.25f);
 		
 		sceneObjects["SpotLight"]->setPosition(lerp(points[randomLERPStart], points[randomLERPEnd], globalT));
-		pointLight.position = (sceneObjects["SpotLight"]->getPosition() + glm::vec3(0.0f, 1.5f, 0.0f));
+		//pointLight.position = (sceneObjects["SpotLight"]->getPosition() + glm::vec3(0.0f, 1.5f, 0.0f));
+		spotLight.lightViewMatrix = biasMatrix * spotLight.orthoMatrix * sceneObjects["SpotLight"]->getTransform()->getMatrix() * view.getMatrix();
+		
+		//std::cout
+		//	<< sceneObjects["SpotLight"]->getTransform()->getMatrix()[0][3] << " "
+		//	<< sceneObjects["SpotLight"]->getTransform()->getMatrix()[1][3] << " "
+		//	<< sceneObjects["SpotLight"]->getTransform()->getMatrix()[2][3] << "\n";
 
 		sceneObjects["SpotLight2"]->setPosition(bezier(points[randomCurveStart], points[randomCurveControl], points[randomCurveEnd], globalT));
-		pointLight2.position = (sceneObjects["SpotLight2"]->getPosition() + glm::vec3(0.0f, 1.5f, 0.0f));
+		//pointLight2.position = (sceneObjects["SpotLight2"]->getPosition() + glm::vec3(0.0f, 1.5f, 0.0f));
+
+		spotLight2.lightViewMatrix = sceneObjects["SpotLight2"]->getTransform()->getMatrix() * spotLight2.orthoMatrix;
 
 		if (globalT > 0.7f && globalT < 0.98f)
 			sceneObjects["QuadLight"]->setPosition(points[randomQuadPos]);
 		else
 			sceneObjects["QuadLight"]->setPosition(glm::vec3(0.0f, 0.6f, 100.0f));
 
-		pointLight3.position = (sceneObjects["QuadLight"]->getPosition() + glm::vec3(0.0f, 1.5f, 0.0f));
+		//pointLight3.position = (sceneObjects["QuadLight"]->getPosition() + glm::vec3(0.0f, 1.5f, 0.0f));
+
+		spotLight3.lightViewMatrix = sceneObjects["QuadLight"]->getTransform()->getMatrix() * spotLight3.orthoMatrix;
 
 		if (!wasWarned1)
 			sceneObjects["Warning"]->setPosition(clamp(sceneObjects["SpotLight"]->getPosition(), RoomMin, RoomMax));
@@ -481,10 +650,19 @@ void GameLevel::Update()
 
 		deferredShading.sendUniformMat4("uinverseViewMatrix", &glm::inverse(view.getMatrix())[0][0], false);
 		deferredShading.sendUniformMat4("uinversePerspectiveMatrix", &glm::inverse(persp)[0][0], false);
-		deferredShading.sendUniform("uNumLights", 3);
-		deferredShading.sendUniformPointLight("lights", &pointLight, 0);
-		deferredShading.sendUniformPointLight("lights", &pointLight2, 1);
-		deferredShading.sendUniformPointLight("lights", &pointLight3, 2);
+		//deferredShading.sendUniform("uNumLights", 3);
+		//deferredShading.sendUniformPointLight("lights", &pointLight, 0);
+		//deferredShading.sendUniformPointLight("lights", &pointLight2, 1);
+		//deferredShading.sendUniformPointLight("lights", &pointLight3, 2);
+
+		deferredShading.sendUniform("uNumOfProjectedTexLights", 3);
+		deferredShading.sendUniformProjectedTexLight("projectedTexLights", &spotLight, 16, 0);
+		deferredShading.sendUniformProjectedTexLight("projectedTexLights", &spotLight2, 17, 1);
+		deferredShading.sendUniformProjectedTexLight("projectedTexLights", &spotLight3, 18, 2);
+
+		defaultTexture->listOfTextures["SpotLight"]->Bind(16);
+		defaultTexture->listOfTextures["SpotLight2"]->Bind(17);
+		defaultTexture->listOfTextures["QuadLight"]->Bind(18);
 
 		glBindVertexArray(sceneObjects["Quad3"]->getRenderable());
 
@@ -571,7 +749,6 @@ void GameLevel::Update()
 		bloomComposite.unBind();
 		finalSceneFBO2.Unbind();
 
-		//bloomFBO1.DrawToBackBuffer();
 		finalSceneFBO2.DrawToBackBuffer();
 	}
 
@@ -672,17 +849,35 @@ void GameLevel::enter()
 		collidables.push_back(sceneObjects["InvisWall3"]);
 		collidables.push_back(sceneObjects["InvisWall4"]);
 
-		pointLight.position = sceneObjects["SpotLight"]->getPosition();
-		pointLight.color = glm::vec4(1.0f, 0.63f, 0.72f, 1.0f);
+		spotLight.intensity = 10.0f;
+		spotLight.lightDirection = glm::vec3(0.0f, -1.0f, 0.0f);
+		spotLight.lightViewMatrix = glm::mat4();
+		spotLight.orthoMatrix = glm::ortho(-8.0f, 8.0f, -8.0f, -8.0f, -100.0f, 100.0f);
+		spotLight.lightTexture = defaultTexture->listOfTextures["SpotLight"];
 
-		pointLight2.position = sceneObjects["SpotLight2"]->getPosition();
-		pointLight2.color = glm::vec4(0.48f, 0.41f, 0.93f, 1.0f);
+		spotLight2.intensity = 10.0f;
+		spotLight2.lightDirection = glm::vec3(0.0f, -1.0f, 0.0f);
+		spotLight2.lightViewMatrix = glm::mat4();
+		spotLight.orthoMatrix = glm::ortho(-8.0f, 8.0f, -8.0f, -8.0f, -100.0f, 100.0f);
+		spotLight2.lightTexture = defaultTexture->listOfTextures["SpotLight2"];
 
-		pointLight3.position = sceneObjects["QuadLight"]->getPosition();
-		pointLight3.color = glm::vec4(0.2f, 0.8f, 0.2f, 1.0f);
-		pointLight3.aConstant = pointLight3.aConstant * 0.1f;
-		pointLight3.aLinear = pointLight3.aLinear * 0.1f;
-		pointLight3.aQuadratic = pointLight3.aQuadratic * 0.1f;
+		spotLight3.intensity = 10.0f;
+		spotLight3.lightDirection = glm::vec3(0.0f, -1.0f, 0.0f);
+		spotLight3.lightViewMatrix = glm::mat4();
+		spotLight.orthoMatrix = glm::ortho(-17.5f, 17.5f, -17.5f, 17.5f, -100.0f, 100.0f);
+		spotLight3.lightTexture = defaultTexture->listOfTextures["QuadLight"];
+
+		//pointLight.position = sceneObjects["SpotLight"]->getPosition();
+		//pointLight.color = glm::vec4(1.0f, 0.63f, 0.72f, 1.0f);
+		//
+		//pointLight2.position = sceneObjects["SpotLight2"]->getPosition();
+		//pointLight2.color = glm::vec4(0.48f, 0.41f, 0.93f, 1.0f);
+		//
+		//pointLight3.position = sceneObjects["QuadLight"]->getPosition();
+		//pointLight3.color = glm::vec4(0.2f, 0.8f, 0.2f, 1.0f);
+		//pointLight3.aConstant = pointLight3.aConstant * 0.1f;
+		//pointLight3.aLinear = pointLight3.aLinear * 0.1f;
+		//pointLight3.aQuadratic = pointLight3.aQuadratic * 0.1f;
 
 		hasLoadedOnce = true;
 	}

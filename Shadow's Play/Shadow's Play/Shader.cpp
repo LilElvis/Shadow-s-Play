@@ -195,6 +195,14 @@ namespace ENG
 		sendUniform(name + "[" + std::to_string(index) + "].aLinear", light->aLinear);
 		sendUniform(name + "[" + std::to_string(index) + "].aQuadratic", light->aQuadratic);
 	}
+	
+	void Shader::sendUniformProjectedTexLight(const std::string & name, ProjectedTexLight* light, int texSlot, int index)
+	{
+		sendUniformMat4(name + "[" + std::to_string(index) + "].lightViewMatrix", &light->lightViewMatrix[0][0], false);
+		sendUniform(name + "[" + std::to_string(index) + "].lightTexture", texSlot);
+		sendUniform(name + "[" + std::to_string(index) + "].lightDirection", light->lightDirection);
+		sendUniform(name + "[" + std::to_string(index) + "].intensity", light->intensity);
+	}
 
 	//READS SHADER FILES
 	std::string Shader::readFile(const std::string &fileName)

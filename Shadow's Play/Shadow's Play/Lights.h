@@ -2,6 +2,7 @@
 
 #include "glm\matrix.hpp"
 #include "glm\gtc\matrix_transform.hpp"
+#include "Texture.h"
 
 namespace ENG
 {
@@ -13,5 +14,15 @@ namespace ENG
 		float aConstant = 0.1;
 		float aLinear = 0.1;
 		float aQuadratic = 0.1875;
+	};
+
+	class ProjectedTexLight
+	{
+	public:
+		glm::mat4 lightViewMatrix;
+		glm::mat4 orthoMatrix;
+		Texture* lightTexture;
+		glm::vec3 lightDirection;
+		float intensity;
 	};
 }

@@ -67,12 +67,15 @@ void Initialize()
 	defaultMesh->LoadFromFile("Nyx", "../assets/objects/Nyx/Nyx.obj");
 	defaultTexture->LoadFromFile("Nyx", "../assets/textures/Nyx.png");
 	defaultTexture->LoadFromFile("NyxEmissive", "../assets/textures/NyxEmissive.png");
-	static ENG::Player Nyx("Nyx", defaultMesh->listOfMeshes["Nyx"]->VAO, *defaultTexture->listOfTextures["Nyx"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["NyxEmissive"], deferredFBO.getLayerNumber());
+	defaultTexture->LoadFromFile("NyxNormal", "../assets/textures/NyxNormal.png");
+	static ENG::Player Nyx("Nyx", defaultMesh->listOfMeshes["Nyx"]->VAO, *defaultTexture->listOfTextures["Nyx"], *defaultTexture->listOfTextures["NyxNormal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["NyxEmissive"], deferredFBO.getLayerNumber());
 	Player["Nyx"] = &Nyx;
 
 	defaultMesh->LoadFromFile("Room", "../assets/objects/MapTemp.obj");
 	defaultTexture->LoadFromFile("Room", "../assets/textures/Map.png");
-	static ENG::SceneObject Room("Room", defaultMesh->listOfMeshes["Room"]->VAO, *defaultTexture->listOfTextures["Room"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], deferredFBO.getLayerNumber());
+	defaultTexture->LoadFromFile("RoomEmissive", "../assets/textures/MapEmissive.png");
+	defaultTexture->LoadFromFile("RoomNormal", "../assets/textures/MapNormal.png");
+	static ENG::SceneObject Room("Room", defaultMesh->listOfMeshes["Room"]->VAO, *defaultTexture->listOfTextures["Room"], *defaultTexture->listOfTextures["RoomNormal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["RoomEmissive"], deferredFBO.getLayerNumber());
 	sceneObjects["Room"] = &Room;
 
 	defaultMesh->LoadFromFile("Warning", "../assets/objects/Warning.obj");

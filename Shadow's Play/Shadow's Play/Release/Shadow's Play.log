@@ -1,11 +1,11 @@
 ﻿  Player.cpp
 c:\repos\shadow's play\shadow's play\shadow's play\Lights.h(13): warning C4305: 'initializing': truncation from 'double' to 'float'
 c:\repos\shadow's play\shadow's play\shadow's play\Lights.h(14): warning C4305: 'initializing': truncation from 'double' to 'float'
-..\..\Shadow's Play\Shadow's Play\Player.cpp(138): warning C4018: '<': signed/unsigned mismatch
+..\..\Shadow's Play\Shadow's Play\Player.cpp(123): warning C4018: '<': signed/unsigned mismatch
   Generating code
   1 of 2956 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    1 functions had inline decision re-evaluated but remain unchanged
+    24 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   Shadow's Play.vcxproj -> C:\Repos\Shadow's Play\Shadow's Play\Release\Shadow's Play.exe
   Shadow's Play.vcxproj -> C:\Repos\Shadow's Play\Shadow's Play\Release\Shadow's Play.pdb (Full PDB)

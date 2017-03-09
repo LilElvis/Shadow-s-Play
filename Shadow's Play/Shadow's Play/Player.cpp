@@ -31,11 +31,6 @@ namespace ENG
 		return newPosition;
 	}
 
-	float Player::angleVec(glm::vec3 vecOne, glm::vec3 vecTwo)
-	{
-		 return acosf((vecOne.x * vecTwo.x + vecOne.y * vecTwo.y + vecOne.z * vecTwo.z) / (glm::length(vecOne) * glm::length(vecTwo)));
-	}
-
 	void Player::movement(float _x, float _y, float _z)
 	{
 		setPosition(glm::vec3(	getLastPosition().x - _x,
@@ -104,7 +99,9 @@ namespace ENG
 				velocity.z = maxVelocity;
 		
 			seekPoint += (velocity * t) + (0.5f * acceleration * (t * t));
-			clamp(getPosition(), getPosition() - 10.0f, getPosition() + 10.0f);
+			clamp(getPosition(), getPosition() - 4.0f, getPosition() + 4.0f);
+			transform.zeroMatrix();
+			transform.rotateY(atan2(-NyxSeekPoint(getPosition(), seekPoint, 1.0f).x, -NyxSeekPoint(getPosition(), seekPoint, 1.0f).z));
 			movement(NyxSeekPoint(getPosition(), seekPoint, 1.0f).x, 0.0f, NyxSeekPoint(getPosition(), seekPoint, 1.0f).z);
 			//std::cout << (atan2(-NyxSeekPoint(getLastPosition(), seekPoint, 1.0f).x, -NyxSeekPoint(getLastPosition(), seekPoint, 1.0f).z)) << std::endl;
 		}

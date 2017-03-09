@@ -28,6 +28,8 @@ namespace ENG
 			GLuint VBO_Verticies;
 			GLuint VBO_UVs;
 			GLuint VBO_Normals;
+			GLuint VBO_Tangents;
+			GLuint VBO_BiTangents;
 			GLuint VAO;
 	private:
 		Mesh();

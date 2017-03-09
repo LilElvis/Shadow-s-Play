@@ -24,6 +24,8 @@ uniform vec3 uEmissiveMult = vec3(1.0f);
 in vec2 texcoord;
 in vec3 norm;
 in vec3 pos;
+in vec3 tang;
+in vec3 biTang;
 
 layout (location = 0) out vec4 outColor;
 layout (location = 1) out vec3 outNormal;
@@ -35,10 +37,19 @@ void main()
 {
 	vec3 normal = normalize(norm);
 
+	vec3 tangent = normalize(tang);
+
+	vec3 biTangent = normalize(biTang);
+
+	mat3 tanToWorldSpace = mat3(tangent.x, biTangent.x, normal.x,
+								tangent.y, biTangent.y, normal.y,
+								tangent.z, biTangent.z, normal.z);
+
 	outColor.rgb = (texture(uAlbedoTex, texcoord).rgb + uDiffuseAdd) * uDiffuseMult;
 
 	//Make normals from 0 to 1 for optimization
-	outNormal.rgb = (normal * 0.5 + 0.5);
+	outNormal.rgb = normalize(((texture(uNormalTex, texcoord).xyz) * 2.0 - 1) * tanToWorldSpace) * 0.5 + 0.5;
+	//outNormal.rgb = normalize(((vec3(0.5, 0.5, 1.0)) * 2.0 + 1) * tanToWorldSpace) * 0.5 + 0.5;
 
 	outAmbient.rgb = uAmbientAdd * uAmbientMult;
 

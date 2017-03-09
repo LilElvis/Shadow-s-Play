@@ -1,4 +1,6 @@
 #include "Mesh.h"
+#include "glm\common.hpp"
+#include "glm\matrix.hpp"
 
 #define CHAR_BUFFER_SIZE 128
 #define BUFFER_OFFSET(i) ((char *)0 + (i))
@@ -72,9 +74,9 @@ namespace ENG
 		char inputString[CHAR_BUFFER_SIZE];
 
 		//PACKED DATA
-		std::vector<sf::Vector3f> vertexData;
-		std::vector<sf::Vector2f> textureData;
-		std::vector<sf::Vector3f> normalData;
+		std::vector<glm::vec3> vertexData;
+		std::vector<glm::vec2> textureData;
+		std::vector<glm::vec3> normalData;
 
 		std::vector<MeshFace> faceData;
 
@@ -82,6 +84,8 @@ namespace ENG
 		std::vector<float> unPackedVertexData;
 		std::vector<float> unPackedTextureData;
 		std::vector<float> unPackedNormalData;
+		std::vector<float> calculatedTangentData;
+		std::vector<float> calculatedBiTangentData;
 
 		//READ/RECORD THE DATA
 		while (!input.eof())
@@ -96,7 +100,7 @@ namespace ENG
 			else if (std::strstr(inputString, "vn") != nullptr)
 			{
 				//THIS LINE HAS NORMAL DATA
-				sf::Vector3f temp;
+				glm::vec3 temp;
 
 				std::sscanf(inputString, "vn %f %f %f", &temp.x, &temp.y, &temp.z);
 				normalData.push_back(temp);
@@ -104,7 +108,7 @@ namespace ENG
 			else if (std::strstr(inputString, "vt") != nullptr)
 			{
 				//THIS LINE HAS UV DATA
-				sf::Vector2f temp;
+				glm::vec2 temp;
 
 				std::sscanf(inputString, "vt %f %f", &temp.x, &temp.y);
 				textureData.push_back(temp);
@@ -112,7 +116,7 @@ namespace ENG
 			else if (std::strstr(inputString, "v") != nullptr)
 			{
 				//THIS LINE HAS VERTEX DATA
-				sf::Vector3f temp;
+				glm::vec3 temp;
 
 				std::sscanf(inputString, "v %f %f %f", &temp.x, &temp.y, &temp.z);
 				vertexData.push_back(temp);
@@ -139,6 +143,31 @@ namespace ENG
 		//UNPACK THE DATA
 		for (unsigned i = 0; i < faceData.size(); i++)
 		{
+			glm::vec3 vertexA, vertexB, vertexC;
+			glm::vec2 uvA, uvB, uvC;
+
+			vertexA = vertexData[faceData[i].verticies[0] - 1];
+			vertexB = vertexData[faceData[i].verticies[1] - 1];
+			vertexC = vertexData[faceData[i].verticies[2] - 1];
+
+			uvA = textureData[faceData[i].textureUVs[0] - 1];
+			uvB = textureData[faceData[i].textureUVs[1] - 1];
+			uvC = textureData[faceData[i].textureUVs[2] - 1];
+
+			glm::vec3 deltaPosA, deltaPosB;
+			glm::vec2 deltaUVA, deltaUVB;
+
+			deltaPosA = vertexB - vertexA;
+			deltaPosB = vertexC - vertexA;
+
+			deltaUVA = uvB - uvA;
+			deltaUVB = uvC - uvA;
+
+			float f = 1.0f/(deltaUVA.x * deltaUVB.y - deltaUVA.y * deltaUVB.x);
+			glm::vec3 tangent, biTangent;
+			tangent = f * (deltaPosA * deltaUVB.y - deltaPosB * deltaUVA.y);
+			biTangent = f * (deltaPosB * deltaUVA.x - deltaPosA * deltaUVB.x);
+
 			for (unsigned j = 0; j < 3; j++)
 			{
 				unPackedNormalData.push_back(normalData[faceData[i].normals[j] - 1].x);
@@ -151,6 +180,14 @@ namespace ENG
 				unPackedVertexData.push_back(vertexData[faceData[i].verticies[j] - 1].x);
 				unPackedVertexData.push_back(vertexData[faceData[i].verticies[j] - 1].y);
 				unPackedVertexData.push_back(vertexData[faceData[i].verticies[j] - 1].z);
+
+				calculatedTangentData.push_back(tangent.x);
+				calculatedTangentData.push_back(tangent.y);
+				calculatedTangentData.push_back(tangent.z);
+
+				calculatedBiTangentData.push_back(biTangent.x);
+				calculatedBiTangentData.push_back(biTangent.y);
+				calculatedBiTangentData.push_back(biTangent.z);
 			}
 		}
 
@@ -162,11 +199,15 @@ namespace ENG
 		glGenBuffers(1, &VBO_Verticies);
 		glGenBuffers(1, &VBO_UVs);
 		glGenBuffers(1, &VBO_Normals);
+		glGenBuffers(1, &VBO_Tangents);
+		glGenBuffers(1, &VBO_BiTangents);
 		glBindVertexArray(VAO);
 
 		glEnableVertexAttribArray(0); //Vertex
 		glEnableVertexAttribArray(1); //UVs
 		glEnableVertexAttribArray(2); //Normals
+		glEnableVertexAttribArray(3); //Tangents
+		glEnableVertexAttribArray(4); //BiTangents
 
 		glBindBuffer(GL_ARRAY_BUFFER, VBO_Verticies);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(float)* unPackedVertexData.size(), &unPackedVertexData[0], GL_STATIC_DRAW);
@@ -180,7 +221,13 @@ namespace ENG
 		glBufferData(GL_ARRAY_BUFFER, sizeof(float)* unPackedNormalData.size(), &unPackedNormalData[0], GL_STATIC_DRAW);
 		glVertexAttribPointer((GLuint)2, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, BUFFER_OFFSET(0));
 		
-		//CHANNELS 3 AND 4 WILL BE RESERVED FOR TANGENTS AND BI-TANGENTS
+		glBindBuffer(GL_ARRAY_BUFFER, VBO_Tangents);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float)* calculatedTangentData.size(), &calculatedTangentData[0], GL_STATIC_DRAW);
+		glVertexAttribPointer((GLuint)3, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, BUFFER_OFFSET(0));
+
+		glBindBuffer(GL_ARRAY_BUFFER, VBO_BiTangents);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float)* calculatedBiTangentData.size(), &calculatedBiTangentData[0], GL_STATIC_DRAW);
+		glVertexAttribPointer((GLuint)4, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, BUFFER_OFFSET(0));
 		
 		//PUSH TO LIST
 
@@ -189,6 +236,8 @@ namespace ENG
 		tempMesh->VBO_Normals = VBO_Normals;
 		tempMesh->VBO_UVs = VBO_UVs;
 		tempMesh->VBO_Verticies = VBO_Verticies;
+		tempMesh->VBO_Tangents = VBO_Tangents;
+		tempMesh->VBO_BiTangents = VBO_BiTangents;
 		tempMesh->VAO = VAO;
 			
 		tempMesh->NumberOfFaces = NumberOfFaces;
@@ -208,6 +257,8 @@ namespace ENG
 		unPackedNormalData.clear();
 		unPackedTextureData.clear();
 		unPackedVertexData.clear();
+		calculatedTangentData.clear();
+		calculatedBiTangentData.clear();
 
 		return true;
 	}

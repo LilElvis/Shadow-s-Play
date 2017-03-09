@@ -10,7 +10,6 @@ namespace ENG
 	{
 	public:
 		Player(std::string, GLuint, Texture, Texture, Texture, Texture, GLuint);
-		float angleVec(glm::vec3, glm::vec3);
 		glm::vec3 NyxSeekPoint(glm::vec3, glm::vec3, float);
 		void movement(float, float, float);
 		void update(float);
@@ -23,7 +22,6 @@ namespace ENG
 		bool getLifeLost();
 		bool getIsDead();
 		bool getNyxPaused();
-		//glm::vec3 previousVel();
 
 	private:
 		float timeSinceStart;

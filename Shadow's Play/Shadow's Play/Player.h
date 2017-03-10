@@ -22,6 +22,10 @@ namespace ENG
 		bool getLifeLost();
 		bool getIsDead();
 		bool getNyxPaused();
+		float last_y_rotate = 0;
+
+		glm::vec2 up = glm::vec2(0, 1);
+		glm::vec2 guy_2d = glm::vec2(acceleration.x, acceleration.z);
 
 	private:
 		float timeSinceStart;
@@ -35,7 +39,7 @@ namespace ENG
 		glm::vec3 forwards;
 
 		Input input;
-		float appliedAcceleration = 30.0f;
-		float maxVelocity = 20.0f;
+		float appliedAcceleration = 40.0f;
+		float maxVelocity = 30.0f;
 	};
 }

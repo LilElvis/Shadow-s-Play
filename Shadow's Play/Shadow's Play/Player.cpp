@@ -41,8 +41,24 @@ namespace ENG
 	void Player::update(float t)
 	{
 		//COLLISION CHECK
-		if (colliding == true)
+		if (colliding == true && seekPoint.x >= 33.0f)
 		{
+			seekPoint.x = 32.9f;
+			setPosition(getLastPosition());
+		}
+		else if (colliding == true && seekPoint.x <= -33.0f)
+		{
+			seekPoint.x = -32.9f;
+			setPosition(getLastPosition());
+		}
+		else if (colliding == true && seekPoint.z >= 33.0f)
+		{
+			seekPoint.z = 32.9f;
+			setPosition(getLastPosition());
+		}
+		else if (colliding == true && seekPoint.z <= -33.0f)
+		{
+			seekPoint.z = -32.9f;
 			setPosition(getLastPosition());
 		}
 		else
@@ -81,9 +97,10 @@ namespace ENG
 		{ 
 			timeSinceStart-= (t * 5.0f);
 		}
-			
+
+		std::cout << last_y_rotate << std::endl;
 		//UPDATE POSITION
-		if (input.keyWasPressed)
+		if (glm::length(acceleration) > 0)
 		{
 			velocity = (acceleration*timeSinceStart);
 		
@@ -99,11 +116,24 @@ namespace ENG
 				velocity.z = maxVelocity;
 		
 			seekPoint += (velocity * t) + (0.5f * acceleration * (t * t));
-			clamp(getPosition(), getPosition() - 4.0f, getPosition() + 4.0f);
+			clamp(getPosition(), getPosition() - 10.0f, getPosition() + 10.0f);
 			transform.zeroMatrix();
-			transform.rotateY(atan2(-NyxSeekPoint(getPosition(), seekPoint, 1.0f).x, -NyxSeekPoint(getPosition(), seekPoint, 1.0f).z));
+
+			float angle = glm::acos(glm::dot(up, guy_2d) / (glm::length(up) * glm::length(guy_2d)));
+			if (guy_2d.x < 0) angle *= -1;
+
+			transform.rotateY(angle);
+
+			last_y_rotate = angle;
+
 			movement(NyxSeekPoint(getPosition(), seekPoint, 1.0f).x, 0.0f, NyxSeekPoint(getPosition(), seekPoint, 1.0f).z);
-			//std::cout << (atan2(-NyxSeekPoint(getLastPosition(), seekPoint, 1.0f).x, -NyxSeekPoint(getLastPosition(), seekPoint, 1.0f).z)) << std::endl;
+			//std::cout << seekPoint.x << " " << seekPoint.z << std::endl;
+
+		}
+		else
+		{
+			transform.zeroMatrix();
+			transform.rotateY(last_y_rotate);
 		}
 
 		acceleration = glm::vec3(0.0f);

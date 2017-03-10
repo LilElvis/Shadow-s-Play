@@ -119,6 +119,9 @@ namespace ENG
 			clamp(getPosition(), getPosition() - 10.0f, getPosition() + 10.0f);
 			transform.zeroMatrix();
 
+			glm::vec2 up = glm::vec2(0, 1);
+			glm::vec2 guy_2d = glm::vec2(acceleration.x, acceleration.z);
+
 			float angle = glm::acos(glm::dot(up, guy_2d) / (glm::length(up) * glm::length(guy_2d)));
 			if (guy_2d.x < 0) angle *= -1;
 
@@ -127,8 +130,6 @@ namespace ENG
 			last_y_rotate = angle;
 
 			movement(NyxSeekPoint(getPosition(), seekPoint, 1.0f).x, 0.0f, NyxSeekPoint(getPosition(), seekPoint, 1.0f).z);
-			//std::cout << seekPoint.x << " " << seekPoint.z << std::endl;
-
 		}
 		else
 		{

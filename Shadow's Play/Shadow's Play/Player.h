@@ -24,9 +24,6 @@ namespace ENG
 		bool getNyxPaused();
 		float last_y_rotate = 0;
 
-		glm::vec2 up = glm::vec2(0, 1);
-		glm::vec2 guy_2d = glm::vec2(acceleration.x, acceleration.z);
-
 	private:
 		float timeSinceStart;
 		glm::vec3 startingPosition;

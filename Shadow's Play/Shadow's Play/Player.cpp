@@ -37,9 +37,10 @@ namespace ENG
 								getLastPosition().y,
 								getLastPosition().z - _z));
 	}
-
+	
 	void Player::update(float t)
 	{
+		speed();
 		//COLLISION CHECK
 		if (colliding == true && seekPoint.x >= 33.0f)
 		{
@@ -129,7 +130,7 @@ namespace ENG
 
 			last_y_rotate = angle;
 
-			movement(NyxSeekPoint(getPosition(), seekPoint, 1.0f).x, 0.0f, NyxSeekPoint(getPosition(), seekPoint, 1.0f).z);
+			movement(NyxSeekPoint(getPosition(), seekPoint, nyxSpeed).x, 0.0f, NyxSeekPoint(getPosition(), seekPoint, nyxSpeed).z);
 		}
 		else
 		{
@@ -145,6 +146,18 @@ namespace ENG
 		if (timeSinceStart <= 0.0f)
 		{
 			timeSinceStart = 0.0f;
+		}
+	}
+
+	void Player::speed()
+	{
+		if ((input.GetKey(KeyCode::Space) || sf::Joystick::isButtonPressed(0, 1) || sf::Joystick::isButtonPressed(0, 2) || sf::Joystick::isButtonPressed(0, 3) || sf::Joystick::isButtonPressed(0, 4)) && !paused /*&& (timeSinceStart / 5.0f == 1.0f)*/)
+		{
+			nyxSpeed = 1.0f;
+		}
+		else
+		{
+			nyxSpeed = 0.1f;
 		}
 	}
 

@@ -38,6 +38,7 @@ int main()
 	while (gameWindow->GetSFMLWindow()->isOpen())
 	{
 		Manager.Update();
+		Sound::systemUpdate();
 
 		if (ENG::Input::GetKeyDown(ENG::KeyCode::Escape))
 		{

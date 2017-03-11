@@ -14,8 +14,6 @@ void CheckResult(FMOD_RESULT result);
 
 class SoundEngine
 {
-private:
-	bool systemInit;
 public:
 	SoundEngine();
 	~SoundEngine();
@@ -24,6 +22,7 @@ public:
 
 	FMOD::System *system;
 	void         *driverData;
+	bool init;
 
 	//Listener
 	FMOD_VECTOR listenerForward;
@@ -37,14 +36,15 @@ class Sound
 public:
 	Sound();
 	~Sound();
-	bool load(char*, bool);
-	void play();
+	bool load(char* fileName, bool is3d, bool isLoop);
+	FMOD::Channel* play();
+	void setPosition(FMOD::Channel *channel, FMOD_VECTOR position, FMOD_VECTOR velocity);
+	void setRolloff(FMOD::Channel *channel, bool linear, float min, float max);
 	static void systemUpdate();
 
 	FMOD::Sound     *sound;
 	FMOD::Channel   *channel;
-	FMOD_VECTOR pos;
-	FMOD_VECTOR vel;
+	bool is3d;
 
 	static SoundEngine Sys;
 };

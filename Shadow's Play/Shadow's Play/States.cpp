@@ -146,13 +146,34 @@ void Initialize()
 	//INITIALIZE/LOAD SOUNDS
 	soundEngine.Init();
 	Sounds["bgm"] = new Sound();
-	Sounds["bgm"]->load("../assets/sounds/bgm.wav", true);
+	Sounds["bgm"]->load("../assets/sounds/game_soundtrack.mp3", true, true);
 	
 	Sounds["die"] = new Sound();
-	Sounds["die"]->load("../assets/sounds/die.wav", false);
+	Sounds["die"]->load("../assets/sounds/die.wav", true, false);
 
 	Sounds["warn"] = new Sound();
-	Sounds["warn"]->load("../assets/sounds/warning.wav", false);
+	Sounds["warn"]->load("../assets/sounds/warning.wav", true, false);
+
+	Sounds["mainMenu"] = new Sound();
+	Sounds["mainMenu"]->load("../assets/sounds/pause_menu.mp3", true, true);
+
+	mainMenuChannel = NULL;
+	bgmChannel = NULL;
+	dieChannel = NULL;
+	warningChannel = NULL;
+	pauseMenuChannel = NULL;
+	dashChannel = NULL;
+
+	playerPos;
+	playerVel;
+	diePos;
+	dieVel;
+	warningPos;
+	warningVel;
+
+	pitchShift = NULL;
+	lowPass = NULL;
+	echo = NULL;
 
 	//SET BOUNDING BOXES
 
@@ -244,6 +265,10 @@ void MainMenu::Update()
 
 	gameWindow->checkAndClear();
 	
+	Sounds["mainMenu"]->channel->setVolume(0.6f);
+
+	Sound::systemUpdate();
+	
 	passThrough.bind();
 
 	for (auto itr = gObjects.begin(), itrEnd = gObjects.end();
@@ -264,6 +289,7 @@ void MainMenu::Update()
 	{
 		MainMenu::exit();
 		m_parent->GetGameState("GameLevel")->SetPaused(false);
+		Sounds["mainMenu"]->channel->stop();
 	}
 
 	ENG::Input::ResetKeys();
@@ -276,6 +302,8 @@ void MainMenu::enter()
 		m_paused = false;
 		MainMenu::SetPaused(m_paused);
 	}
+
+	mainMenuChannel = Sounds["mainMenu"]->play();
 
 	gObjects.push_back(sceneObjects["Quad"]);
 	sceneObjects["Quad"]->setPosition(glm::vec3(0.0f, 0.0f, -10.0f));
@@ -310,29 +338,19 @@ void GameLevel::Update()
 			hasBeenInitialized = true;
 		}
 
-		//if (devCommand.GetKey(ENG::KeyCode::Right))
-		//{
-		//	view.rotateY(0.017453f);
-		//}
-		//if (devCommand.GetKey(ENG::KeyCode::Left))
-		//{
-		//	view.rotateY(-0.017453f);
-		//}
-
 		flashValue = (0.9f * sin(totalTime) + 0.55f);
+
 
 		if (Player["Nyx"]->getLifeLost())
 		{
 			Player["Nyx"]->setLifeLost(false);
-			Sounds["die"]->play();
+			dieChannel = Sounds["die"]->play();
 			globalT = 0.99f;
 		}
 
 		if (globalT >= 1.0f)
 		{
 			globalT = 0.0f;
-
-			Sounds["warn"]->play();
 
 			randomLERPStart = randomNumber(1, 12);
 			randomLERPEnd = randomLERPStart + randomNumber(4, 8);
@@ -358,6 +376,8 @@ void GameLevel::Update()
 
 			rampValue += 0.00005f;
 		}
+
+		
 
 		globalT += rampValue;
 
@@ -427,6 +447,54 @@ void GameLevel::Update()
 				GameLevel::gameOver();
 				m_parent->GetGameState("GameOver")->SetPaused(false);
 			}
+		}
+	
+		//Sound Update
+
+		Sounds["bgm"]->channel->setVolume(0.6f);
+		Sounds["die"]->channel->setVolume(1.0f);
+		Sounds["warn"]->channel->setVolume(25.0f);
+
+		playerPos.x = Player["Nyx"]->getPosition().x;
+		playerPos.y = Player["Nyx"]->getPosition().y;
+		playerPos.z = Player["Nyx"]->getPosition().z;
+
+		playerVel.x = Player["Nyx"]->getVelocity().x;
+		playerVel.y = Player["Nyx"]->getVelocity().y;
+		playerVel.z = Player["Nyx"]->getVelocity().z;
+
+		diePos = playerPos;
+		dieVel = playerVel;
+
+		warningPos.x = sceneObjects["Warning3"]->getPosition().x;
+		warningPos.y = sceneObjects["Warning3"]->getPosition().y;
+		warningPos.z = sceneObjects["Warning3"]->getPosition().z;
+
+		warningVel.x = sceneObjects["Warning3"]->getVelocity().x;
+		warningVel.y = sceneObjects["Warning3"]->getVelocity().y;
+		warningVel.z = sceneObjects["Warning3"]->getVelocity().z;
+
+		Sounds["bgm"]->setPosition(bgmChannel, playerPos, playerVel);
+		Sounds["die"]->setPosition(dieChannel, diePos, dieVel);
+		Sounds["warn"]->setPosition(warningChannel, warningPos, warningVel);
+		
+		Sound::Sys.listenerPos = playerPos;
+		Sound::Sys.listenerVel = playerVel;
+		
+		Sound::systemUpdate();
+
+		if (glm::distance(Player["Nyx"]->getPosition(), sceneObjects["Warning3"]->getPosition()) <= 19.0f && !inRadius)
+			hasBeenWarned = true;
+
+		if (glm::distance(Player["Nyx"]->getPosition(), sceneObjects["Warning3"]->getPosition()) <= 19.0f)
+			inRadius = true;
+		else
+			inRadius = false;
+		
+		if (hasBeenWarned)
+		{
+			warningChannel = Sounds["warn"]->play();
+			hasBeenWarned = false;
 		}
 
 		deferredFBO.Bind();
@@ -576,6 +644,7 @@ void GameLevel::Update()
 
 		//bloomFBO1.DrawToBackBuffer();
 		finalSceneFBO2.DrawToBackBuffer();
+		
 	}
 
 	if (devCommand.GetKeyDown(ENG::KeyCode::P) || sf::Joystick::isButtonPressed(0, 7))
@@ -593,6 +662,7 @@ void GameLevel::Update()
 
 	gameWindow->GetSFMLWindow()->display();
 
+	//Sound::systemUpdate();
 	ENG::Input::ResetKeys();
 }
 
@@ -613,7 +683,7 @@ void GameLevel::enter()
 	//POSITION OBJECTS
 	Reset();
 
-	Sounds["bgm"]->play();
+	bgmChannel = Sounds["bgm"]->play();
 
 	gObjects.push_back(Player["Nyx"]);
 	Player["Nyx"]->setStartPosition(glm::vec3(0.0f, 0.0f, 0.0f));

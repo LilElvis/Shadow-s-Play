@@ -35,7 +35,6 @@ public:
 private:
 	std::vector<ENG::GameObject*> collidables;
 
-	
 	bool hasBeenInitialized;
 	bool hasLoadedOnce = false;
 };
@@ -107,9 +106,34 @@ static std::unordered_map<std::string, ENG::Player*> Player;
 static std::unordered_map<std::string, ENG::SceneObject*> sceneObjects;
 static std::unordered_map<std::string, ENG::SceneObject*>::iterator sceneObjects_iterator;
 static std::unordered_map<std::string, sf::Sprite> sfSprites;
-static std::unordered_map<std::string, Sound*> Sounds;
 
 static glm::vec3 points[17];
+
+//SOUNDS (FMOD VARIABLES/CHANNELS/VECTORS/DSP's)
+static std::unordered_map<std::string, Sound*> Sounds;
+
+static FMOD::Channel *mainMenuChannel;
+static FMOD::Channel *bgmChannel;
+static FMOD::Channel *dieChannel;
+static FMOD::Channel *warningChannel;
+static FMOD::Channel *pauseMenuChannel;
+static FMOD::Channel *dashChannel;
+
+static FMOD_VECTOR playerPos;
+static FMOD_VECTOR playerVel;
+static FMOD_VECTOR diePos;
+static FMOD_VECTOR dieVel;
+static FMOD_VECTOR warningPos;
+static FMOD_VECTOR warningVel;
+
+static FMOD::DSP *pitchShift;
+static FMOD::DSP *lowPass;
+static FMOD::DSP *echo;
+
+static float defaultVolume;
+
+static bool hasBeenWarned = false;
+static bool inRadius = false;
 
 //DEV CONTROL INPUT HANDLE
 static ENG::Input devCommand;

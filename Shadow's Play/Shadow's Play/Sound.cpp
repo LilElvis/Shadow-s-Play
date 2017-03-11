@@ -17,7 +17,7 @@ SoundEngine::SoundEngine()
 	system = NULL;
 	driverData = NULL;
 
-	systemInit = false;
+	init = false;
 
 	listenerForward = { 0.0f, 0.0f,  1.0f };
 	listenerUp = { 0.0f, 1.0f,  0.0f };
@@ -27,8 +27,6 @@ SoundEngine::SoundEngine()
 
 bool SoundEngine::Init()
 {
-	if (systemInit) return true;
-
 	//Create a System object and initialize.
 	unsigned int version;
 	result = FMOD::System_Create(&system); CheckResult(result);
@@ -42,6 +40,7 @@ bool SoundEngine::Init()
 
 	result = system->init(100, FMOD_INIT_NORMAL, driverData);
 	CheckResult(result);
+
 	if (result != FMOD_OK)
 	{
 		std::cout << "Initialization Failed" << std::endl;
@@ -51,17 +50,14 @@ bool SoundEngine::Init()
 	result = system->set3DSettings(1.0, 1.0f, 1.0f);
 	CheckResult(result);
 
-	systemInit = true;
+	init = true;
 	return true;
 }
 
 SoundEngine::~SoundEngine()
 {
-	if (systemInit)
-	{
-		result = system->close(); CheckResult(result);
-		result = system->release(); CheckResult(result);
-	}
+	result = system->close(); CheckResult(result);
+	result = system->release(); CheckResult(result);
 }
 
 void SoundEngine::Update()
@@ -78,8 +74,6 @@ Sound::Sound()
 {
 	sound = NULL;
 	channel = NULL;
-	pos = { 0.0f, 0.0f, 0.0f };
-	vel = { 0.0f, 0.0f, 0.0f };
 }
 
 Sound::~Sound()
@@ -87,39 +81,80 @@ Sound::~Sound()
 	result = sound->release(); CheckResult(result);
 }
 
-bool Sound::load(char* filename, bool loop)
+bool Sound::load(char* fileName, bool is3d, bool isLoop)
 {
-	Sys.Init();
+	if (!Sys.init)
+	{
+		if (!Sys.Init()) return false;
+	}
 
-	result = Sys.system->createSound(filename, FMOD_3D, 0, &sound);
+	//Load Sounds
+	this->is3d = is3d;
+	if (is3d)
+	{
+		result = Sys.system->createSound(fileName, FMOD_3D, 0, &sound);
+	}
+	else
+	{
+		result = Sys.system->createSound(fileName, FMOD_2D, 0, &sound);
+	}
 	CheckResult(result);
-
 	if (result != FMOD_OK)
 	{
-		std::cout << "Couldn't open file: " << filename << std::endl;
+		std::cout << "Couldn't open file: " << fileName << std::endl;
 		return false;
 	}
 	result = sound->set3DMinMaxDistance(0.5f, 5000.0f); CheckResult(result);
 
-	if (loop)
+	if (isLoop)
 	{
-		result = sound->setMode(FMOD_LOOP_NORMAL); CheckResult(result);
+		sound->setMode(FMOD_LOOP_NORMAL);
 	}
-	if (!loop)
+	if (!isLoop)
 	{
-		result = sound->setMode(FMOD_LOOP_OFF); CheckResult(result);
+		sound->setMode(FMOD_LOOP_OFF);
 	}
 
 	return true;
 }
-void Sound::play()
+FMOD::Channel* Sound::play()
 {
+	FMOD_VECTOR pos = { 0.0f, 0.0f, 0.0f };
+	FMOD_VECTOR vel = { 0.0f, 0.0f, 0.0f };
+	
+	//Play Sounds
 	result = Sys.system->playSound(sound, 0, true, &channel); CheckResult(result);
-	result = channel->set3DAttributes(&pos, &vel); CheckResult(result);
+	if (is3d)
+	{
+		result = channel->set3DAttributes(&pos, &vel); CheckResult(result);
+	}
 	result = channel->setPaused(false); CheckResult(result);
+
+	return channel;
 }
 
 void Sound::systemUpdate()
 {
 	Sys.Update();
+}
+
+void Sound::setPosition(FMOD::Channel *channel, FMOD_VECTOR position, FMOD_VECTOR velocity)
+{
+	if (is3d)
+	{
+		result = channel->set3DAttributes(&position, &velocity); CheckResult(result);
+	}
+}
+
+void Sound::setRolloff(FMOD::Channel *channel, bool linear, float min, float max)
+{
+	channel->set3DMinMaxDistance(min, max);
+	if (linear)
+	{
+		channel->setMode(FMOD_3D_LINEARROLLOFF);
+	}
+	else
+	{
+		channel->setMode(FMOD_3D_INVERSEROLLOFF);
+	}
 }

@@ -173,6 +173,7 @@ namespace ENG
 	class Input
 	{
 	public:
+
 		static bool GetKey(KeyCode::Keys iKey);     // This happens as long as you're holding the button
 		static bool GetKeyDown(KeyCode::Keys iKey); // This happens the frame you hit the keyboard button
 		static bool GetKeyUp(KeyCode::Keys iKey);   // This happens the frame you release the keyboard button

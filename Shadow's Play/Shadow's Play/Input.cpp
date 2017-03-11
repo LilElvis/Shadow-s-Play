@@ -4,6 +4,8 @@ Brought to you by the Game Programming club!
 
 #include "Input.h"
 
+#include <iostream>
+
 namespace ENG
 {
 
@@ -20,7 +22,14 @@ namespace ENG
 
 		// If it's pressed, set the pressed flag to true
 		if (keyPress)
+		{
 			keyWasPressed[iKey] = 1;
+			//std::cout << ("key pressed\n");
+		}
+		else
+		{
+			//std::cout << ("NOPE\n");
+		}
 
 		// Return whether it's pressed or not
 		return keyPress;

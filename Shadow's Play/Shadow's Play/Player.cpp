@@ -1,4 +1,6 @@
 #include "Player.h"
+#include "AnimationMath.h"
+#include "States.h"
 
 namespace ENG
 {
@@ -10,11 +12,54 @@ namespace ENG
 		lifeLost = false;
 	}
 
+	glm::vec3 Player::NyxSeekPoint(glm::vec3 moving, glm::vec3 toseek, float dist)
+	{
+		glm::vec3 newPosition(moving.x - toseek.x, 0.0f, moving.z - toseek.z);
+		glm::vec3 forwardssss(0.0f);
+		glm::normalize(newPosition);
+
+		if (glm::length(newPosition) > dist)
+		{
+			newPosition.x *= dist;
+			newPosition.z *= dist;
+		}
+		glm::vec3 normalVec = glm::normalize(newPosition);
+
+		forwardssss.x = normalVec.x;
+		forwardssss.z = normalVec.z;
+
+		return newPosition;
+	}
+
+	void Player::movement(float _x, float _y, float _z)
+	{
+		setPosition(glm::vec3(	getLastPosition().x - _x,
+								getLastPosition().y,
+								getLastPosition().z - _z));
+	}
+	
 	void Player::update(float t)
 	{
+		speed();
 		//COLLISION CHECK
-		if (colliding == true)
+		if (colliding == true && seekPoint.x >= 33.0f)
 		{
+			seekPoint.x = 32.9f;
+			setPosition(getLastPosition());
+		}
+		else if (colliding == true && seekPoint.x <= -33.0f)
+		{
+			seekPoint.x = -32.9f;
+			setPosition(getLastPosition());
+		}
+		else if (colliding == true && seekPoint.z >= 33.0f)
+		{
+			seekPoint.z = 32.9f;
+			setPosition(getLastPosition());
+		}
+		else if (colliding == true && seekPoint.z <= -33.0f)
+		{
+			seekPoint.z = -32.9f;
 			setPosition(getLastPosition());
 		}
 		else
@@ -27,33 +72,21 @@ namespace ENG
 		if ((sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Y) < -20.0f && colliding == false) || ((input.GetKey(KeyCode::W) && colliding == false)) && !paused)
 		{
 			acceleration.z = -appliedAcceleration;
-
-			transform.zeroMatrix();
-			transform.rotateY(3.14159f);
 		}
 
 		if ((sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Y) > 20.0f && colliding == false) || ((input.GetKey(KeyCode::S) && colliding == false)) && !paused)
 		{
 			acceleration.z = appliedAcceleration;
-
-			transform.zeroMatrix();
-			transform.rotateY(0.0f);
 		}
 
 		if ((sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::X) > 20.0f && colliding == false) || ((input.GetKey(KeyCode::D) && colliding == false)) && !paused)
 		{
 			acceleration.x = appliedAcceleration;
-
-			transform.zeroMatrix();
-			transform.rotateY(1.57079f);
 		}
 
 		if ((sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::X) < -20.0f && colliding == false) || ((input.GetKey(KeyCode::A) && colliding == false)) && !paused)
 		{
 			acceleration.x = -appliedAcceleration;
-
-			transform.zeroMatrix();
-			transform.rotateY(-1.57079f);
 		}
 
 		//TIME COUNT SINCE INPUT BEGAN
@@ -65,9 +98,10 @@ namespace ENG
 		{ 
 			timeSinceStart-= (t * 5.0f);
 		}
-			
+
+		std::cout << last_y_rotate << std::endl;
 		//UPDATE POSITION
-		if (input.keyWasPressed)
+		if (glm::length(acceleration) > 0)
 		{
 			velocity = (acceleration*timeSinceStart);
 		
@@ -82,15 +116,48 @@ namespace ENG
 			if (velocity.z >= maxVelocity)
 				velocity.z = maxVelocity;
 		
-			setPosition(getPosition() + (velocity * t) + (0.5f * acceleration * (t * t)));
+			seekPoint += (velocity * t) + (0.5f * acceleration * (t * t));
+			clamp(getPosition(), getPosition() - 10.0f, getPosition() + 10.0f);
+			transform.zeroMatrix();
+
+			glm::vec2 up = glm::vec2(0, 1);
+			glm::vec2 guy_2d = glm::vec2(acceleration.x, acceleration.z);
+
+			float angle = glm::acos(glm::dot(up, guy_2d) / (glm::length(up) * glm::length(guy_2d)));
+			if (guy_2d.x < 0) angle *= -1;
+
+			transform.rotateY(angle);
+
+			last_y_rotate = angle;
+
+			movement(NyxSeekPoint(getPosition(), seekPoint, nyxSpeed).x, 0.0f, NyxSeekPoint(getPosition(), seekPoint, nyxSpeed).z);
 		}
+		else
+		{
+			transform.zeroMatrix();
+			transform.rotateY(last_y_rotate);
+		}
+
 		acceleration = glm::vec3(0.0f);
 		//velocity = glm::vec3(0.0f);
+		
 		
 		//INSURES TIME NEVER GOES NEGATIVE
 		if (timeSinceStart <= 0.0f)
 		{
 			timeSinceStart = 0.0f;
+		}
+	}
+
+	void Player::speed()
+	{
+		if ((input.GetKey(KeyCode::Space) || sf::Joystick::isButtonPressed(0, 1) || sf::Joystick::isButtonPressed(0, 2) || sf::Joystick::isButtonPressed(0, 3) || sf::Joystick::isButtonPressed(0, 4)) && !paused /*&& (timeSinceStart / 5.0f == 1.0f)*/)
+		{
+			nyxSpeed = 1.0f;
+		}
+		else
+		{
+			nyxSpeed = 0.1f;
 		}
 	}
 
@@ -122,12 +189,14 @@ namespace ENG
 							lives -= 1;
 							std::cout << "YOU LOST A LIFE!\n";
 							setPosition(startingPosition);
+							seekPoint = startingPosition;
 							lifeLost = true;
 						}
 						else
 						{
 							std::cout << "YOU LOSE!!\n";
 							setPosition(startingPosition);
+							seekPoint = startingPosition;
 							isDead = true;
 						}
 					}
@@ -144,6 +213,8 @@ namespace ENG
 	//RESETS NECESSARY VARIABLES PER LEVEL
 	void Player::reset()
 	{
+		setPosition(startingPosition);
+		seekPoint = glm::vec3(0.1f, 0.0f, 0.1f);
 		std::cout << "\nNYX RESET\n\n";
 		lives = 2;
 		isDead = false;

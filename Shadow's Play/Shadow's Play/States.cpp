@@ -552,6 +552,11 @@ void GameLevel::Update()
 
 		deferredShading.sendUniformMat4("uinverseViewMatrix", &glm::inverse(view.getMatrix())[0][0], false);
 		deferredShading.sendUniformMat4("uinversePerspectiveMatrix", &glm::inverse(persp)[0][0], false);
+		
+		viewInverse = glm::inverse(view.getMatrix());
+		updatedCamPos = viewInverse[3];
+		deferredShading.sendUniform("uCameraPos", updatedCamPos);
+		
 		deferredShading.sendUniform("uNumLights", 3);
 		deferredShading.sendUniformPointLight("lights", &pointLight, 0);
 		deferredShading.sendUniformPointLight("lights", &pointLight2, 1);
@@ -590,37 +595,40 @@ void GameLevel::Update()
 		bloomHighPass.unBind();
 		bloomFBO1.Unbind();
 		
-		bloomFBO2.Bind();
-		bloomHorizontalBlur.bind();
-		
-		bloomHorizontalBlur.sendUniform("texelWidth", (1.0f / windowWidth));
-		
-		glBindVertexArray(sceneObjects["Quad3"]->getRenderable());
-		
-		bloomFBO1.BindColorAsTexture(GL_TEXTURE0, 0);
-		
-		glDrawArrays(GL_TRIANGLES, 0, 6);
-		
-		glBindVertexArray(0);
-		
-		bloomHorizontalBlur.unBind();
-		bloomFBO2.Unbind();
-		
-		bloomFBO1.Bind();
-		bloomVerticalBlur.bind();
-		
-		bloomVerticalBlur.sendUniform("texelHeight", (1.0f / windowHeight));
-		
-		glBindVertexArray(sceneObjects["Quad3"]->getRenderable());
-		
-		bloomFBO2.BindColorAsTexture(GL_TEXTURE0, 0);
-		
-		glDrawArrays(GL_TRIANGLES, 0, 6);
-		
-		glBindVertexArray(0);
-		
-		bloomVerticalBlur.unBind();
-		bloomFBO1.Unbind();
+		for (int i = 0; i < int(sinf(totalTime *2.0f) * 10 + 11); i++)
+		{
+			bloomFBO2.Bind();
+			bloomHorizontalBlur.bind();
+
+			bloomHorizontalBlur.sendUniform("texelWidth", (2.0f / windowWidth));
+
+			glBindVertexArray(sceneObjects["Quad3"]->getRenderable());
+
+			bloomFBO1.BindColorAsTexture(GL_TEXTURE0, 0);
+
+			glDrawArrays(GL_TRIANGLES, 0, 6);
+
+			glBindVertexArray(0);
+
+			bloomHorizontalBlur.unBind();
+			bloomFBO2.Unbind();
+
+			bloomFBO1.Bind();
+			bloomVerticalBlur.bind();
+
+			bloomVerticalBlur.sendUniform("texelHeight", (2.0f / windowHeight));
+
+			glBindVertexArray(sceneObjects["Quad3"]->getRenderable());
+
+			bloomFBO2.BindColorAsTexture(GL_TEXTURE0, 0);
+
+			glDrawArrays(GL_TRIANGLES, 0, 6);
+
+			glBindVertexArray(0);
+
+			bloomVerticalBlur.unBind();
+			bloomFBO1.Unbind();
+		}
 
 		glViewport(0, 0, windowWidth, windowHeight);
 		finalSceneFBO2.Bind();
@@ -718,8 +726,8 @@ void GameLevel::enter()
 
 	Player["Nyx"]->uDiffuseAdd = glm::vec3(0.0f, 0.0f, 0.0f);
 	Player["Nyx"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);
-	Player["Nyx"]->uSpecularAdd = glm::vec3(0.2f, 0.1f, 0.2f);
-	Player["Nyx"]->uSpecularMult = glm::vec3(0.1f, 0.1f, 0.1f);
+	Player["Nyx"]->uSpecularAdd = glm::vec3(0.0f, 0.0f, 0.0f);
+	Player["Nyx"]->uSpecularMult = glm::vec3(1.0f, 1.0f, 1.0f);
 	Player["Nyx"]->uAmbientAdd = glm::vec3(0.2f, 0.2f, 0.2f);
 	Player["Nyx"]->uAmbientMult = glm::vec3(1.0f, 1.0f, 1.0f);
 	Player["Nyx"]->uEmissiveAdd = glm::vec3(0.2f, 0.1f, 0.2f);
@@ -727,6 +735,8 @@ void GameLevel::enter()
 
 	sceneObjects["Room"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);
 	sceneObjects["Room"]->uAmbientAdd = glm::vec3(0.2f, 0.2f, 0.2f);
+	sceneObjects["Room"]->uSpecularMult = glm::vec3(1.0f, 1.0f, 1.0f);
+	sceneObjects["Room"]->uSpecularAdd = glm::vec3(0.0f, 0.0f, 0.0f);
 
 	sceneObjects["SpotLight"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);
 	sceneObjects["SpotLight2"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);

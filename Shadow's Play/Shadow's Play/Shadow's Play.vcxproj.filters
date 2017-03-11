@@ -57,7 +57,7 @@
     <ClCompile Include="..\..\Shadow%27s Play\Shadow%27s Play\Sound.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Shadow%27s Play\Shadow%27s Play\Shadow%27s Play\FrameBufferObject.cpp">
+    <ClCompile Include="..\..\Shadow%27s Play\Shadow%27s Play\FrameBufferObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

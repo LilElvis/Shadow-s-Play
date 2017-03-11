@@ -85,7 +85,7 @@ namespace ENG
 			setPosition(getPosition() + (velocity * t) + (0.5f * acceleration * (t * t)));
 		}
 		acceleration = glm::vec3(0.0f);
-		velocity = glm::vec3(0.0f);
+		//velocity = glm::vec3(0.0f);
 		
 		//INSURES TIME NEVER GOES NEGATIVE
 		if (timeSinceStart <= 0.0f)

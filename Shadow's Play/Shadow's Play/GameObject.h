@@ -25,6 +25,7 @@ namespace ENG
 		Transform* getTransform();
 		GLuint getRenderable();
 
+		glm::vec3 getVelocity();
 		void setPosition(glm::vec3);
 		void addAnimation(std::string, GLuint);
 		GLuint getAnimation(std::string);

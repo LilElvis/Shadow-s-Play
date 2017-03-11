@@ -109,6 +109,11 @@ namespace ENG
 		return renderable;
 	}
 
+	glm::vec3 GameObject::getVelocity()
+	{
+		return velocity;
+	}
+
 	void GameObject::setPosition(glm::vec3 posIn)
 	{
 		position = glm::vec3(posIn.x, posIn.y, posIn.z);

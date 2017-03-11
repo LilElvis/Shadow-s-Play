@@ -32,6 +32,10 @@ static glm::vec3 lerp(glm::vec3 P0, glm::vec3 P1, float t)
 {
 	return ((1.0f - t)*P0 + t*P1);
 }
+static float lerp(float P0, float P1, float t)
+{
+	return ((1.0f - t)*P0 + t*P1);
+}
 
 //FUNCTION FOR SPHERICAL LINEAR INTERPOLATION
 static glm::vec3 slerp(glm::vec3 P0, glm::vec3 P1, float t)

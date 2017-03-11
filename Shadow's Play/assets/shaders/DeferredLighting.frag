@@ -15,7 +15,7 @@ layout(binding = 3) uniform sampler2D uEmissiveMap;
 layout(binding = 4) uniform sampler2D uAmbientMap;
 layout(binding = 5) uniform sampler2D uDepthMap;
 
-uniform vec3 cameraPos;
+uniform vec3 uCameraPos;
 
 uniform mat4 uinverseViewMatrix;
 uniform mat4 uinversePerspectiveMatrix;
@@ -77,7 +77,7 @@ void main()
 
 	vec3 outSpecular = vec3(0.0);
 
-	vec3 viewDirection = normalize(-position.xyz - cameraPos);
+	vec3 viewDirection = normalize(-position.xyz - uCameraPos);
 
 	vec3 distanceFromLight;
 

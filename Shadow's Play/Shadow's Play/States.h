@@ -156,6 +156,9 @@ static ENG::Transform view;
 
 static glm::mat4 persp;
 
+static glm::mat4 viewInverse;
+static glm::vec3 updatedCamPos;
+
 static bool isLit;
 static bool wasWarned1 = false;
 static bool wasWarned2 = false;

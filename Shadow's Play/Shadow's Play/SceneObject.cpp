@@ -8,7 +8,7 @@ namespace ENG
 	}
 
 	//UPDATES EACH FRAME
-	void SceneObject::update(float t)
+	void SceneObject::update(float t, float totalTime)
 	{
 		Input input;
 	}

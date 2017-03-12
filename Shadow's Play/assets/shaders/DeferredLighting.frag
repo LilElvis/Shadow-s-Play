@@ -44,9 +44,9 @@ out vec4 outColor;
 
 vec4 getPosition()
 {
-	float z = (texture(uDepthMap, texcoord).r) * 2.0 - 1.0;
+	float depth = (texture(uDepthMap, texcoord).r) * 2.0 - 1.0;
 
-	vec4 clipSpace = vec4(texcoord * 2.0 - 1.0, z, 1.0);
+	vec4 clipSpace = vec4(texcoord * 2.0 - 1.0, depth, 1.0);
 
 	vec4 viewSpace = uinversePerspectiveMatrix * clipSpace;
 
@@ -59,8 +59,6 @@ vec4 getPosition()
 
 void main()
 {
-	float depth = texture(uDepthMap, texcoord).r;
-
 	vec4 position = getPosition();
 	
 	//Make Normals from -1 to 1 again

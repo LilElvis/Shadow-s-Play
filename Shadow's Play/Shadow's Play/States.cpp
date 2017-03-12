@@ -274,7 +274,7 @@ void MainMenu::Update()
 	for (auto itr = gObjects.begin(), itrEnd = gObjects.end();
 		itr != itrEnd; itr++)
 	{
-		(*itr)->update(deltaTime);
+		(*itr)->update(deltaTime, totalTime);
 	}
 
 	for (auto itr = gObjects.begin(), itrEnd = gObjects.end();
@@ -510,7 +510,7 @@ void GameLevel::Update()
 		for (auto itr = gObjects.begin(), itrEnd = gObjects.end();
 			itr != itrEnd; itr++)
 		{
-			(*itr)->update(deltaTime);
+			(*itr)->update(deltaTime, totalTime);
 		}
 
 		for (auto itr = gObjects.begin(), itrEnd = gObjects.end();
@@ -531,7 +531,7 @@ void GameLevel::Update()
 		for (auto itr = transparentGObjects.begin(), itrEnd = transparentGObjects.end();
 			itr != itrEnd; itr++)
 		{
-			(*itr)->update(deltaTime);
+			(*itr)->update(deltaTime, totalTime);
 		}
 
 		for (auto itr = transparentGObjects.begin(), itrEnd = transparentGObjects.end();
@@ -550,10 +550,11 @@ void GameLevel::Update()
 		finalSceneFBO1.Bind();
 		deferredShading.bind();
 
-		deferredShading.sendUniformMat4("uinverseViewMatrix", &glm::inverse(view.getMatrix())[0][0], false);
-		deferredShading.sendUniformMat4("uinversePerspectiveMatrix", &glm::inverse(persp)[0][0], false);
-		
 		viewInverse = glm::inverse(view.getMatrix());
+
+		deferredShading.sendUniformMat4("uinverseViewMatrix", &viewInverse[0][0], false);
+		deferredShading.sendUniformMat4("uinversePerspectiveMatrix", &glm::inverse(persp)[0][0], false);
+
 		updatedCamPos = viewInverse[3];
 		deferredShading.sendUniform("uCameraPos", updatedCamPos);
 		
@@ -821,7 +822,7 @@ void GameOver::Update()
 	for (auto itr = gObjects.begin(), itrEnd = gObjects.end();
 		itr != itrEnd; itr++)
 	{
-		(*itr)->update(deltaTime);
+		(*itr)->update(deltaTime, totalTime);
 	}
 
 	for (auto itr = gObjects.begin(), itrEnd = gObjects.end();

@@ -20,7 +20,7 @@ namespace ENG
 		//UTILITY FUNCTIONS
 		void render(Mesh*, Shader*);
 		void drawTransparent(Mesh*, Shader*);
-		virtual void update(float) = 0;
+		virtual void update(float, float) = 0;
 		virtual void reset() = 0;
 		Transform* getTransform();
 		GLuint getRenderable();

@@ -38,9 +38,10 @@ namespace ENG
 								getLastPosition().z - _z));
 	}
 	
-	void Player::update(float t)
+	void Player::update(float t, float totalTime)
 	{
-		speed();
+		dash(totalTime);
+
 		//COLLISION CHECK
 		if (colliding == true && seekPoint.x >= 33.0f)
 		{
@@ -99,7 +100,7 @@ namespace ENG
 			timeSinceStart-= (t * 5.0f);
 		}
 
-		std::cout << last_y_rotate << std::endl;
+		//std::cout << last_y_rotate << std::endl;
 		//UPDATE POSITION
 		if (glm::length(acceleration) > 0)
 		{
@@ -117,7 +118,7 @@ namespace ENG
 				velocity.z = maxVelocity;
 		
 			seekPoint += (velocity * t) + (0.5f * acceleration * (t * t));
-			clamp(getPosition(), getPosition() - 10.0f, getPosition() + 10.0f);
+			clamp(getPosition(), getPosition() - 12.0f, getPosition() + 12.0f);
 			transform.zeroMatrix();
 
 			glm::vec2 up = glm::vec2(0, 1);
@@ -149,15 +150,21 @@ namespace ENG
 		}
 	}
 
-	void Player::speed()
+	void Player::dash(float totalTime)
 	{
-		if ((input.GetKey(KeyCode::Space) || sf::Joystick::isButtonPressed(0, 1) || sf::Joystick::isButtonPressed(0, 2) || sf::Joystick::isButtonPressed(0, 3) || sf::Joystick::isButtonPressed(0, 4)) && !paused /*&& (timeSinceStart / 5.0f == 1.0f)*/)
+		if ((input.GetKey(KeyCode::Space) && (totalTime - timeOfLastDash) >= dashCooldown
+			|| sf::Joystick::isButtonPressed(0, 0) && (totalTime - timeOfLastDash) >= dashCooldown 
+			|| sf::Joystick::isButtonPressed(0, 1) && (totalTime - timeOfLastDash) >= dashCooldown 
+			|| sf::Joystick::isButtonPressed(0, 2) && (totalTime - timeOfLastDash) >= dashCooldown
+			|| sf::Joystick::isButtonPressed(0, 3) && (totalTime - timeOfLastDash) >= dashCooldown)
+			&& !paused)
 		{
-			nyxSpeed = 1.0f;
+			nyxSpeed = 1.5f;
+			timeOfLastDash = totalTime;
 		}
 		else
 		{
-			nyxSpeed = 0.1f;
+			nyxSpeed = 0.2f;
 		}
 	}
 
@@ -190,6 +197,7 @@ namespace ENG
 							std::cout << "YOU LOST A LIFE!\n";
 							setPosition(startingPosition);
 							seekPoint = startingPosition;
+							timeOfLastDash = 0.0f;
 							lifeLost = true;
 						}
 						else

@@ -8,7 +8,7 @@ namespace ENG
 	{
 	public:
 		SceneObject(std::string, GLuint, Texture, Texture, Texture, Texture, GLuint);
-		void update(float);
+		void update(float, float);
 		void reset();
 	private:
 	};

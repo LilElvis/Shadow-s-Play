@@ -26,7 +26,7 @@ namespace ENG
 	}
 
 	//VIRTUAL FUNCTION NEEDS NO DEFINITION IN THE PARENT
-	void GameObject::update(float t)
+	void GameObject::update(float t, float totalTime)
 	{
 		
 	}

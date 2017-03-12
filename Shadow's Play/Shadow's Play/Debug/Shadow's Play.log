@@ -1,49 +1,46 @@
 ﻿  Window.cpp
 c:\repos\shadow's play\shadow's play\shadow's play\lights.h(13): warning C4305: 'initializing': truncation from 'double' to 'float'
 c:\repos\shadow's play\shadow's play\shadow's play\lights.h(14): warning C4305: 'initializing': truncation from 'double' to 'float'
-c:\repos\shadow's play\shadow's play\shadow's play\lights.h(15): warning C4305: 'initializing': truncation from 'double' to 'float'
 c:\repos\shadow's play\shadow's play\shadow's play\window.cpp(11): warning C4930: 'sf::RenderWindow window(void)': prototyped function not called (was a variable definition intended?)
+  Transform.cpp
   Texture.cpp
 c:\repos\shadow's play\shadow's play\shadow's play\texture.cpp(63): warning C4018: '<': signed/unsigned mismatch
   States.cpp
 c:\repos\shadow's play\shadow's play\shadow's play\lights.h(13): warning C4305: 'initializing': truncation from 'double' to 'float'
 c:\repos\shadow's play\shadow's play\shadow's play\lights.h(14): warning C4305: 'initializing': truncation from 'double' to 'float'
-c:\repos\shadow's play\shadow's play\shadow's play\lights.h(15): warning C4305: 'initializing': truncation from 'double' to 'float'
-c:\repos\shadow's play\shadow's play\shadow's play\states.cpp(689): warning C4305: '+=': truncation from 'double' to 'float'
+c:\repos\shadow's play\shadow's play\shadow's play\states.cpp(879): warning C4305: '+=': truncation from 'double' to 'float'
+  SpeedControl.cpp
   Sound.cpp
 c:\repos\shadow's play\shadow's play\shadow's play\lights.h(13): warning C4305: 'initializing': truncation from 'double' to 'float'
 c:\repos\shadow's play\shadow's play\shadow's play\lights.h(14): warning C4305: 'initializing': truncation from 'double' to 'float'
-c:\repos\shadow's play\shadow's play\shadow's play\lights.h(15): warning C4305: 'initializing': truncation from 'double' to 'float'
   Shader.cpp
 c:\repos\shadow's play\shadow's play\shadow's play\lights.h(13): warning C4305: 'initializing': truncation from 'double' to 'float'
 c:\repos\shadow's play\shadow's play\shadow's play\lights.h(14): warning C4305: 'initializing': truncation from 'double' to 'float'
-c:\repos\shadow's play\shadow's play\shadow's play\lights.h(15): warning C4305: 'initializing': truncation from 'double' to 'float'
   SceneObject.cpp
 c:\repos\shadow's play\shadow's play\shadow's play\lights.h(13): warning C4305: 'initializing': truncation from 'double' to 'float'
 c:\repos\shadow's play\shadow's play\shadow's play\lights.h(14): warning C4305: 'initializing': truncation from 'double' to 'float'
-c:\repos\shadow's play\shadow's play\shadow's play\lights.h(15): warning C4305: 'initializing': truncation from 'double' to 'float'
 c:\repos\shadow's play\shadow's play\shadow's play\sceneobject.cpp(13): warning C4101: 'input': unreferenced local variable
   Player.cpp
 c:\repos\shadow's play\shadow's play\shadow's play\lights.h(13): warning C4305: 'initializing': truncation from 'double' to 'float'
 c:\repos\shadow's play\shadow's play\shadow's play\lights.h(14): warning C4305: 'initializing': truncation from 'double' to 'float'
-c:\repos\shadow's play\shadow's play\shadow's play\lights.h(15): warning C4305: 'initializing': truncation from 'double' to 'float'
-c:\repos\shadow's play\shadow's play\shadow's play\player.cpp(100): warning C4018: '<': signed/unsigned mismatch
+c:\repos\shadow's play\shadow's play\shadow's play\player.cpp(174): warning C4018: '<': signed/unsigned mismatch
+  Mesh.cpp
   Main.cpp
 c:\repos\shadow's play\shadow's play\shadow's play\lights.h(13): warning C4305: 'initializing': truncation from 'double' to 'float'
 c:\repos\shadow's play\shadow's play\shadow's play\lights.h(14): warning C4305: 'initializing': truncation from 'double' to 'float'
-c:\repos\shadow's play\shadow's play\shadow's play\lights.h(15): warning C4305: 'initializing': truncation from 'double' to 'float'
 c:\repos\shadow's play\shadow's play\shadow's play\main.cpp(5): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  Input.cpp
+  GameStates.cpp
   GameObject.cpp
 c:\repos\shadow's play\shadow's play\shadow's play\lights.h(13): warning C4305: 'initializing': truncation from 'double' to 'float'
 c:\repos\shadow's play\shadow's play\shadow's play\lights.h(14): warning C4305: 'initializing': truncation from 'double' to 'float'
-c:\repos\shadow's play\shadow's play\shadow's play\lights.h(15): warning C4305: 'initializing': truncation from 'double' to 'float'
   FrameBufferObject.cpp
 c:\repos\shadow's play\shadow's play\shadow's play\lights.h(13): warning C4305: 'initializing': truncation from 'double' to 'float'
 c:\repos\shadow's play\shadow's play\shadow's play\lights.h(14): warning C4305: 'initializing': truncation from 'double' to 'float'
-c:\repos\shadow's play\shadow's play\shadow's play\lights.h(15): warning C4305: 'initializing': truncation from 'double' to 'float'
 c:\repos\shadow's play\shadow's play\shadow's play\framebufferobject.cpp(27): warning C4018: '<': signed/unsigned mismatch
 c:\repos\shadow's play\shadow's play\shadow's play\framebufferobject.cpp(72): warning C4018: '<': signed/unsigned mismatch
   Generating Code...
+c:\repos\shadow's play\shadow's play\shadow's play\gamestates.cpp(35): warning C4715: 'GameStateManager::GetGameState': not all control paths return a value
   LINK : C:\Repos\Shadow's Play\Shadow's Play\Debug\Shadow's Play.exe not found or not built by the last incremental link; performing full link
   Shadow's Play.vcxproj -> C:\Repos\Shadow's Play\Shadow's Play\Debug\Shadow's Play.exe
   Shadow's Play.vcxproj -> C:\Repos\Shadow's Play\Shadow's Play\Debug\Shadow's Play.pdb (Full PDB)

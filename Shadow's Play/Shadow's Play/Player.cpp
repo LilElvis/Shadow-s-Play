@@ -53,7 +53,8 @@ namespace ENG
 			seekPoint.x = -32.9f;
 			setPosition(getLastPosition());
 		}
-		else if (colliding == true && seekPoint.z >= 33.0f)
+
+		if (colliding == true && seekPoint.z >= 33.0f)
 		{
 			seekPoint.z = 32.9f;
 			setPosition(getLastPosition());
@@ -63,7 +64,8 @@ namespace ENG
 			seekPoint.z = -32.9f;
 			setPosition(getLastPosition());
 		}
-		else
+
+		if (!colliding)
 		{
 			setLastPosition(getPosition());
 		}
@@ -118,7 +120,7 @@ namespace ENG
 				velocity.z = maxVelocity;
 		
 			seekPoint += (velocity * t) + (0.5f * acceleration * (t * t));
-			clamp(getPosition(), getPosition() - 12.0f, getPosition() + 12.0f);
+			clamp(getPosition(), getPosition() - 10.0f, getPosition() + 10.0f);
 			transform.zeroMatrix();
 
 			glm::vec2 up = glm::vec2(0, 1);

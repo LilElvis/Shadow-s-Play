@@ -93,7 +93,15 @@ namespace ENG
 		}
 
 		//TIME COUNT SINCE INPUT BEGAN
-		if ((input.GetKey(ENG::KeyCode::W) || input.GetKey(ENG::KeyCode::S) || input.GetKey(ENG::KeyCode::A) || input.GetKey(ENG::KeyCode::D) || sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Y) < -20.0f || sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Y) > 20.0f || sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::X) > 20.0f || sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::X) < -20.0f) && !paused)
+		if ((input.GetKey(ENG::KeyCode::W) 
+			|| input.GetKey(ENG::KeyCode::S) 
+			|| input.GetKey(ENG::KeyCode::A) 
+			|| input.GetKey(ENG::KeyCode::D) 
+			|| sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Y) < -20.0f 
+			|| sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Y) > 20.0f 
+			|| sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::X) > 20.0f 
+			|| sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::X) < -20.0f) 
+			&& !paused)
 		{
 			timeSinceStart += t;
 		}
@@ -120,7 +128,7 @@ namespace ENG
 				velocity.z = maxVelocity;
 		
 			seekPoint += (velocity * t) + (0.5f * acceleration * (t * t));
-			clamp(getPosition(), getPosition() - 5.0f, getPosition() + 5.0f);
+			clamp(getPosition(), getPosition() - 15.0f, getPosition() + 15.0f);
 			transform.zeroMatrix();
 
 			glm::vec2 up = glm::vec2(0, 1);
@@ -133,7 +141,7 @@ namespace ENG
 
 			last_y_rotate = angle;
 
-			movement(NyxSeekPoint(getPosition(), seekPoint, nyxSpeed).x, 0.0f, NyxSeekPoint(getPosition(), seekPoint, nyxSpeed).z);
+			movement(NyxSeekPoint(getPosition(), seekPoint, speedMult).x, 0.0f, NyxSeekPoint(getPosition(), seekPoint, speedMult).z);
 		}
 		else
 		{
@@ -154,20 +162,36 @@ namespace ENG
 
 	void Player::dash(float totalTime)
 	{
-		if ((input.GetKey(KeyCode::Space) && (totalTime - timeOfLastDash) >= dashCooldown
-			|| sf::Joystick::isButtonPressed(0, 0) && (totalTime - timeOfLastDash) >= dashCooldown 
-			|| sf::Joystick::isButtonPressed(0, 1) && (totalTime - timeOfLastDash) >= dashCooldown 
+		if ((input.GetKey(KeyCode::Space)  
+			&& (totalTime - timeOfLastDash) >= dashCooldown
+			|| sf::Joystick::isButtonPressed(0, 0) && (totalTime - timeOfLastDash) >= dashCooldown
+			|| sf::Joystick::isButtonPressed(0, 1) && (totalTime - timeOfLastDash) >= dashCooldown
 			|| sf::Joystick::isButtonPressed(0, 2) && (totalTime - timeOfLastDash) >= dashCooldown
 			|| sf::Joystick::isButtonPressed(0, 3) && (totalTime - timeOfLastDash) >= dashCooldown)
+			&& (input.GetKey(ENG::KeyCode::W)
+			|| input.GetKey(ENG::KeyCode::S)
+			|| input.GetKey(ENG::KeyCode::A)
+			|| input.GetKey(ENG::KeyCode::D)
+			|| sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Y) < -20.0f
+			|| sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Y) > 20.0f
+			|| sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::X) > 20.0f
+			|| sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::X) < -20.0f)
 			&& !paused)
 		{
-			nyxSpeed = 1.5f;
+			hasDashed = true;
+			speedMult = 1.5f;
 			timeOfLastDash = totalTime;
 		}
 		else
 		{
-			nyxSpeed = 0.2f;
+			hasDashed = false;
+			speedMult = 0.15f;
 		}
+	}
+
+	bool Player::getDashed()
+	{
+		return hasDashed;
 	}
 
 	bool Player::collisionCheck(std::vector<GameObject*> otherOBJ)

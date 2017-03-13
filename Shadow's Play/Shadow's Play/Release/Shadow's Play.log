@@ -1,23 +1,11 @@
-﻿  Main.cpp
+﻿  States.cpp
 c:\repos\shadow's play\shadow's play\shadow's play\Lights.h(13): warning C4305: 'initializing': truncation from 'double' to 'float'
 c:\repos\shadow's play\shadow's play\shadow's play\Lights.h(14): warning C4305: 'initializing': truncation from 'double' to 'float'
-..\..\Shadow's Play\Shadow's Play\Main.cpp(5): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-  Player.cpp
-c:\repos\shadow's play\shadow's play\shadow's play\Lights.h(13): warning C4305: 'initializing': truncation from 'double' to 'float'
-c:\repos\shadow's play\shadow's play\shadow's play\Lights.h(14): warning C4305: 'initializing': truncation from 'double' to 'float'
-..\..\Shadow's Play\Shadow's Play\Player.cpp(176): warning C4018: '<': signed/unsigned mismatch
-  States.cpp
-c:\repos\shadow's play\shadow's play\shadow's play\Lights.h(13): warning C4305: 'initializing': truncation from 'double' to 'float'
-c:\repos\shadow's play\shadow's play\shadow's play\Lights.h(14): warning C4305: 'initializing': truncation from 'double' to 'float'
-..\..\Shadow's Play\Shadow's Play\States.cpp(883): warning C4305: '+=': truncation from 'double' to 'float'
-  Window.cpp
-c:\repos\shadow's play\shadow's play\shadow's play\Lights.h(13): warning C4305: 'initializing': truncation from 'double' to 'float'
-c:\repos\shadow's play\shadow's play\shadow's play\Lights.h(14): warning C4305: 'initializing': truncation from 'double' to 'float'
-..\..\Shadow's Play\Shadow's Play\Window.cpp(11): warning C4930: 'sf::RenderWindow window(void)': prototyped function not called (was a variable definition intended?)
+..\..\Shadow's Play\Shadow's Play\States.cpp(889): warning C4305: '+=': truncation from 'double' to 'float'
   Generating code
-  1 of 2973 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
+  2 of 2974 functions ( 0.1%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    1 functions had inline decision re-evaluated but remain unchanged
+    49 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   Shadow's Play.vcxproj -> C:\Repos\Shadow's Play\Shadow's Play\Release\Shadow's Play.exe
   Shadow's Play.vcxproj -> C:\Repos\Shadow's Play\Shadow's Play\Release\Shadow's Play.pdb (Full PDB)

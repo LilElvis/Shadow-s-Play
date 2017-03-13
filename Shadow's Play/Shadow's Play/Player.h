@@ -14,6 +14,7 @@ namespace ENG
 		void movement(float, float, float);
 		void update(float, float);
 		void dash(float);
+		bool getDashed();
 		bool collisionCheck(std::vector<GameObject*>);
 		void setStartPosition(glm::vec3);
 		glm::vec3 getStartPosition();
@@ -36,12 +37,13 @@ namespace ENG
 		bool paused;
 		glm::vec3 seekPoint = glm::vec3(0.1f, 0.0f, 0.1f);
 		float dashCooldown = 3.0f;
+		bool hasDashed = false;
 		glm::vec3 collideDistanceX = glm::vec3(0.25f, 0.0f, 0.0f);
 		glm::vec3 collideDistanceZ = glm::vec3(0.0f, 0.0f, 0.25f);
 
 		Input input;
 		float appliedAcceleration = 40.0f;
 		float maxVelocity = 30.0f;
-		float nyxSpeed = 0.2f;
+		float speedMult = 0.15f;
 	};
 }

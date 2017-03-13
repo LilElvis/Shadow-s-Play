@@ -157,6 +157,9 @@ void Initialize()
 	Sounds["mainMenu"] = new Sound();
 	Sounds["mainMenu"]->load("../assets/sounds/pause_menu.mp3", true, true);
 
+	Sounds["dash"] = new Sound();
+	Sounds["dash"]->load("../assets/sounds/cartoony_dash.mp3", true, false);
+
 	mainMenuChannel = NULL;
 	bgmChannel = NULL;
 	dieChannel = NULL;
@@ -380,8 +383,6 @@ void GameLevel::Update()
 			rampValue += 0.00005f;
 		}
 
-		
-
 		globalT += rampValue;
 
 		totalTime += 1 / 60.0f;
@@ -480,6 +481,7 @@ void GameLevel::Update()
 		Sounds["bgm"]->setPosition(bgmChannel, playerPos, playerVel);
 		Sounds["die"]->setPosition(dieChannel, diePos, dieVel);
 		Sounds["warn"]->setPosition(warningChannel, warningPos, warningVel);
+		Sounds["dash"]->setPosition(dashChannel, playerPos, playerVel);
 		
 		Sound::Sys.listenerPos = playerPos;
 		Sound::Sys.listenerVel = playerVel;
@@ -499,6 +501,9 @@ void GameLevel::Update()
 			warningChannel = Sounds["warn"]->play();
 			hasBeenWarned = false;
 		}
+
+		if(Player["Nyx"]->getDashed())
+			dashChannel = Sounds["dash"]->play();
 
 		deferredFBO.Bind();
 
@@ -789,6 +794,7 @@ void GameLevel::gameOver()
 	Sounds["bgm"]->channel->stop();
 	Sounds["die"]->channel->stop();
 	Sounds["warn"]->channel->stop();
+	Sounds["dash"]->channel->stop();
 
 	hasBeenInitialized = false;
 	if (m_paused == false)

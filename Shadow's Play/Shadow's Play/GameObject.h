@@ -48,6 +48,7 @@ namespace ENG
 		glm::vec3 uSpecularMult;
 		glm::vec3 uEmissiveAdd;
 		glm::vec3 uEmissiveMult;
+		glm::vec2 uUVOffset;
 
 	protected:
 		glm::vec3 acceleration;

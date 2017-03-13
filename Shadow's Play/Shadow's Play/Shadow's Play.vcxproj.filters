@@ -148,5 +148,11 @@
     <None Include="..\..\..\Shadow%27s Play\Shadow%27s Play\assets\shaders\VerticalBlur.frag">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="..\..\..\Shadow%27s Play\Shadow%27s Play\assets\shaders\UVScroll.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\..\Shadow%27s Play\Shadow%27s Play\assets\shaders\MotionBlur.frag">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

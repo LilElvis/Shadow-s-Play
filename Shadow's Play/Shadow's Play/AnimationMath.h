@@ -13,6 +13,17 @@ static glm::vec3 clamp(glm::vec3 a, glm::vec3 min, glm::vec3 max)
 	return temp;
 }
 
+static float clamp(float a, float min, float max)
+{
+	float temp = a;
+	if (temp < min)
+		temp = min;
+	else if (temp > max)
+		temp = max;
+
+	return temp;
+}
+
 static bool borderCheck(glm::vec3 objectPos, glm::vec3 minCorner, glm::vec3 maxCorner)
 {
 	//CHECKING IF OBJECT ONE POSITION IS WITHIN A DEFINED BOX

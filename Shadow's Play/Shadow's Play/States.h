@@ -72,6 +72,7 @@ void Reset();
 static sf::ContextSettings Settings;
 static int windowWidth = 1600;
 static int windowHeight = 911;
+static float aspectRatio = windowWidth / float(windowHeight);
 
 //DECLARE SINGLETON POINTERS
 static ENG::Window* gameWindow = ENG::Window::gameInstance();
@@ -88,6 +89,8 @@ static ENG::Shader bloomHighPass;
 static ENG::Shader bloomHorizontalBlur;
 static ENG::Shader bloomVerticalBlur;
 static ENG::Shader bloomComposite;
+static ENG::Shader UVScrolling;
+static ENG::Shader motionBlur;
 
 //FBOS
 static ENG::FrameBufferObject deferredFBO;
@@ -95,10 +98,13 @@ static ENG::FrameBufferObject finalSceneFBO1;
 static ENG::FrameBufferObject finalSceneFBO2;
 static ENG::FrameBufferObject bloomFBO1;
 static ENG::FrameBufferObject bloomFBO2;
+static ENG::FrameBufferObject motionBlurFBO;
+
 
 //MAPS OF GAME OBJECTS
 static std::vector <ENG::GameObject*> gObjects;
 static std::vector <ENG::GameObject*> transparentGObjects;
+static std::vector <ENG::GameObject*> HUDGObjects;
 
 static void removeGameObjects(); //FLUSHES VECTORS OF GAME OBJECTS
 
@@ -155,6 +161,7 @@ static glm::vec3 cameraFront;
 static ENG::Transform view;
 
 static glm::mat4 persp;
+static glm::mat4 orthoPersp;
 
 static glm::mat4 viewInverse;
 static glm::vec3 updatedCamPos;

@@ -189,6 +189,8 @@
     <None Include="..\..\..\Shadow%27s Play\Shadow%27s Play\assets\shaders\BloomComposite.frag" />
     <None Include="..\..\..\Shadow%27s Play\Shadow%27s Play\assets\shaders\HighPass.frag" />
     <None Include="..\..\..\Shadow%27s Play\Shadow%27s Play\assets\shaders\HorizontalBlur.frag" />
+    <None Include="..\..\..\Shadow%27s Play\Shadow%27s Play\assets\shaders\MotionBlur.frag" />
+    <None Include="..\..\..\Shadow%27s Play\Shadow%27s Play\assets\shaders\UVScroll.frag" />
     <None Include="..\..\..\Shadow%27s Play\Shadow%27s Play\assets\shaders\VerticalBlur.frag" />
     <None Include="..\assets\shaders\DeferredLighting.frag" />
     <None Include="..\..\..\Shadow%27s Play\Shadow%27s Play\assets\shaders\GBuffer.frag" />

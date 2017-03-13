@@ -43,25 +43,25 @@ namespace ENG
 		dash(totalTime);
 
 		//COLLISION CHECK
-		if (colliding == true && seekPoint.x >= 31.5f)
+		if (colliding == true && seekPoint.x >= 30.5f)
 		{
-			seekPoint.x = 31.4f;
+			seekPoint.x = 30.0f;
 			setPosition(getLastPosition() - collideDistanceX);
 		}
-		else if (colliding == true && seekPoint.x <= -31.5f)
+		else if (colliding == true && seekPoint.x <= -30.5f)
 		{
-			seekPoint.x = -31.4f;
+			seekPoint.x = -30.0f;
 			setPosition(getLastPosition() + collideDistanceX);
 		}
 
-		if (colliding == true && seekPoint.z >= 31.5f)
+		if (colliding == true && seekPoint.z >= 30.5f)
 		{
-			seekPoint.z = 31.4f;
+			seekPoint.z = 30.0f;
 			setPosition(getLastPosition() - collideDistanceZ);
 		}
-		else if (colliding == true && seekPoint.z <= -31.5f)
+		else if (colliding == true && seekPoint.z <= -30.5f)
 		{
-			seekPoint.z = -31.4f;
+			seekPoint.z = -30.0f;
 			setPosition(getLastPosition() + collideDistanceZ);
 		}
 

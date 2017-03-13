@@ -41,6 +41,10 @@ void Initialize()
 	
 	persp = glm::perspective(45.0f, 16.0f / 9.0f, 10.0f, 100.0f);
 
+	//orthoView = glm::mat4();
+	float orthoSize = 5.0f;
+	orthoPersp = glm::ortho(-orthoSize * aspectRatio, orthoSize * aspectRatio, -orthoSize, orthoSize, -100.0f, 100.0f);
+
 	glm::mat4 ProjBiasMatrix = glm::mat4(
 		2.0f, 0.0f, 0.0f, -1.0f,
 		0.0f, 2.0f, 0.0f, -1.0f,
@@ -101,6 +105,20 @@ void Initialize()
 	static ENG::SceneObject Warning3("Warning", defaultMesh->listOfMeshes["QuadLight"]->VAO, *defaultTexture->listOfTextures["QuadWarning"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["QuadWarning"], deferredFBO.getLayerNumber());
 	sceneObjects["Warning3"] = &Warning3;
 
+	defaultMesh->LoadFromFile("TimerQuad", "../assets/objects/TimerQuad.obj");
+	defaultTexture->LoadFromFile("0", "../assets/textures/0.png");
+	defaultTexture->LoadFromFile("colon", "../assets/textures/colon.png");
+	static ENG::SceneObject TimerQuad("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["0"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], deferredFBO.getLayerNumber());
+	sceneObjects["TimerQuad"] = &TimerQuad;
+	static ENG::SceneObject TimerQuad2("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["0"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], deferredFBO.getLayerNumber());
+	sceneObjects["TimerQuad2"] = &TimerQuad2;
+	static ENG::SceneObject TimerQuad3("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["colon"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], deferredFBO.getLayerNumber());
+	sceneObjects["TimerQuad3"] = &TimerQuad3;
+	static ENG::SceneObject TimerQuad4("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["0"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], deferredFBO.getLayerNumber());
+	sceneObjects["TimerQuad4"] = &TimerQuad4;
+	static ENG::SceneObject TimerQuad5("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["0"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], deferredFBO.getLayerNumber());
+	sceneObjects["TimerQuad5"] = &TimerQuad5;
+
 	static ENG::SceneObject InvisWall("InvisWall", 0, *defaultTexture->listOfTextures["SpotLight"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], 0);
 	sceneObjects["InvisWall"] = &InvisWall;
 	
@@ -122,6 +140,8 @@ void Initialize()
 	bloomHorizontalBlur.load("horBlur", "../assets/shaders/PassThrough.vert", "../assets/shaders/HorizontalBlur.frag");
 	bloomVerticalBlur.load("vertBlur", "../assets/shaders/PassThrough.vert", "../assets/shaders/VerticalBlur.frag");
 	bloomComposite.load("bloomComp", "../assets/shaders/PassThrough.vert", "../assets/shaders/BloomComposite.frag");
+	UVScrolling.load("UVScroll", "../assets/shaders/StaticGeometry.vert", "../assets/shaders/UVScroll.frag");
+	motionBlur.load("PassThrough", "../assets/shaders/PassThrough.vert", "../assets/shaders/MotionBlur.frag");
 
 	//INITIALiZE FBOS
 	deferredFBO.Init(windowWidth, windowHeight, 5);
@@ -143,6 +163,9 @@ void Initialize()
 	bloomFBO2.Init(windowWidth / 2, windowHeight / 2, 1);
 	bloomFBO2.initColorTexture(0);
 
+	motionBlurFBO.Init(windowWidth, windowHeight, 1);
+	motionBlurFBO.initColorTexture(0);
+
 	//INITIALIZE/LOAD SOUNDS
 	soundEngine.Init();
 	Sounds["bgm"] = new Sound();
@@ -158,7 +181,7 @@ void Initialize()
 	Sounds["mainMenu"]->load("../assets/sounds/pause_menu.mp3", true, true);
 
 	Sounds["dash"] = new Sound();
-	Sounds["dash"]->load("../assets/sounds/cartoony_dash.mp3", true, false);
+	Sounds["dash"]->load("../assets/sounds/dash_new.wav", true, false);
 
 	mainMenuChannel = NULL;
 	bgmChannel = NULL;
@@ -505,6 +528,7 @@ void GameLevel::Update()
 		if(Player["Nyx"]->getDashed())
 			dashChannel = Sounds["dash"]->play();
 
+		//Drawing Geometry and Player Character
 		deferredFBO.Bind();
 
 		GBuffer.bind();
@@ -527,6 +551,7 @@ void GameLevel::Update()
 			(*itr)->render(defaultMesh, &GBuffer);
 		}
 
+		//Drawing Transparent Objects
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -604,6 +629,7 @@ void GameLevel::Update()
 		bloomHighPass.unBind();
 		bloomFBO1.Unbind();
 		
+		//Looping Blur Passes
 		for (int i = 0; i < int(sinf(totalTime *2.0f) * 10 + 11); i++)
 		{
 			bloomFBO2.Bind();
@@ -658,10 +684,72 @@ void GameLevel::Update()
 		
 		bloomComposite.unBind();
 		finalSceneFBO2.Unbind();
-
-		//bloomFBO1.DrawToBackBuffer();
-		finalSceneFBO2.DrawToBackBuffer();
 		
+		// Motion Blur
+		finalSceneFBO1.Bind();
+		motionBlur.bind();
+		finalSceneFBO2.BindColorAsTexture(GL_TEXTURE0, 0);
+		motionBlurFBO.BindColorAsTexture(GL_TEXTURE1, 0);
+
+		motionBlur.sendUniform("uTex", 0);
+		motionBlur.sendUniform("uPrevScene", 1);
+		motionBlur.sendUniform("uBlurAmount", clamp(1.0f - (totalTime - Player["Nyx"]->timeOfLastDash), 0.0f, 0.75f));
+		
+		//timeOfLastDash
+		glBindVertexArray(sceneObjects["Quad3"]->getRenderable());
+		glDrawArrays(GL_TRIANGLES, 0, 6);
+		glBindVertexArray(0);
+
+		motionBlur.unBind();
+		finalSceneFBO1.Unbind();
+
+		// Copy Scene for next use
+		motionBlurFBO.Bind();
+		passThrough.bind();
+		finalSceneFBO1.BindColorAsTexture(GL_TEXTURE0, 0);
+		passThrough.sendUniform("uTex", 0);
+
+		glBindVertexArray(sceneObjects["Quad3"]->getRenderable());
+		glDrawArrays(GL_TRIANGLES, 0, 6);
+		glBindVertexArray(0);
+
+		passThrough.unBind();
+		motionBlurFBO.Unbind();
+
+		//Drawing HUD
+		glDisable(GL_DEPTH_TEST);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		defaultShader.bind();
+		finalSceneFBO1.Bind();
+
+		UVScrolling.sendUniformMat4("uView", &view.getMatrix()[0][0], false);
+		UVScrolling.sendUniformMat4("uProj", &orthoPersp[0][0], false);
+		UVScrolling.sendUniform("LightPosition", down);
+
+		for (auto itr = HUDGObjects.begin(), itrEnd = HUDGObjects.end();
+			itr != itrEnd; itr++)
+		{
+			(*itr)->update(deltaTime, totalTime);
+		}
+
+		for (auto itr = HUDGObjects.begin(), itrEnd = HUDGObjects.end();
+			itr != itrEnd; itr++)
+		{
+			(*itr)->render(defaultMesh, &UVScrolling);
+		}
+
+		defaultShader.unBind();
+
+		glDisable(GL_BLEND);
+		glEnable(GL_DEPTH_TEST);
+
+		finalSceneFBO1.Unbind();
+		
+		finalSceneFBO1.DrawToBackBuffer();
+
+
 	}
 
 	if (devCommand.GetKeyDown(ENG::KeyCode::P) || sf::Joystick::isButtonPressed(0, 7))
@@ -727,6 +815,17 @@ void GameLevel::enter()
 	sceneObjects["Warning"]->setPosition(glm::vec3(0.0f, 10.0f, -55.0f));
 	transparentGObjects.push_back(sceneObjects["Warning2"]);
 	sceneObjects["Warning2"]->setPosition(glm::vec3(0.0f, 10.0f, -55.0f));
+
+	HUDGObjects.push_back(sceneObjects["TimerQuad"]);
+	sceneObjects["TimerQuad"]->setPosition(glm::vec3(-1.1f, 0.0f, -4.5f));
+	HUDGObjects.push_back(sceneObjects["TimerQuad2"]);
+	sceneObjects["TimerQuad2"]->setPosition(glm::vec3(-0.5f, 0.0f, -4.5f));
+	HUDGObjects.push_back(sceneObjects["TimerQuad3"]);		
+	sceneObjects["TimerQuad3"]->setPosition(glm::vec3(0.0f, 0.0f, -4.5f));
+	HUDGObjects.push_back(sceneObjects["TimerQuad4"]);		
+	sceneObjects["TimerQuad4"]->setPosition(glm::vec3(0.5f, 0.0f, -4.5f));
+	HUDGObjects.push_back(sceneObjects["TimerQuad5"]);		
+	sceneObjects["TimerQuad5"]->setPosition(glm::vec3(1.1f, 0.0f, -4.5f));
 	
 	sceneObjects["InvisWall"]->setPosition(glm::vec3(0.0f, 0.0f, -35.0f));
 	sceneObjects["InvisWall2"]->setPosition(glm::vec3(0.0f, 0.0f, 35.0f));
@@ -747,6 +846,12 @@ void GameLevel::enter()
 	sceneObjects["Room"]->uSpecularMult = glm::vec3(1.0f, 1.0f, 1.0f);
 	sceneObjects["Room"]->uSpecularAdd = glm::vec3(0.0f, 0.0f, 0.0f);
 
+	sceneObjects["TimerQuad"]->uAmbientAdd = glm::vec3(1.0f);
+	sceneObjects["TimerQuad2"]->uAmbientAdd = glm::vec3(1.0f);
+	sceneObjects["TimerQuad3"]->uAmbientAdd = glm::vec3(1.0f);
+	sceneObjects["TimerQuad4"]->uAmbientAdd = glm::vec3(1.0f);
+	sceneObjects["TimerQuad5"]->uAmbientAdd = glm::vec3(1.0f);
+
 	//sceneObjects["Warning"]->uDiffuseAdd = glm::vec3(1.0f, 1.0f, 1.0f);
 	//sceneObjects["Warning2"]->uDiffuseAdd = glm::vec3(1.0f, 1.0f, 1.0f);
 	//sceneObjects["Warning3"]->uDiffuseAdd = glm::vec3(1.0f, 1.0f, 1.0f);
@@ -757,6 +862,12 @@ void GameLevel::enter()
 	sceneObjects["SpotLight"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);
 	sceneObjects["SpotLight2"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);
 	sceneObjects["QuadLight"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);
+
+	//sceneObjects["TimerQuad"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+	//sceneObjects["TimerQuad2"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+	//sceneObjects["TimerQuad3"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+	//sceneObjects["TimerQuad4"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+	//sceneObjects["TimerQuad5"]->uUVOffset = glm::vec2(0.0f, 0.0f);
 
 	if (!hasLoadedOnce)
 	{
@@ -903,4 +1014,5 @@ void removeGameObjects()
 {
 	gObjects.clear();
 	transparentGObjects.clear();
+	HUDGObjects.clear();
 }

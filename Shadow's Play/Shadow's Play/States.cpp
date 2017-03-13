@@ -187,16 +187,19 @@ void Initialize()
 	QuadLight.BBFR = glm::vec2(17.5f, -17.5f);
 
 	InvisWall.BBBL = glm::vec2(-50.0f, 1.0f);
-	InvisWall.BBFR = glm::vec2(50.0f, -1.0f);
+	InvisWall.BBFR = glm::vec2(50.0f, -50.0f);
 
-	InvisWall2.BBBL = glm::vec2(-50.0f, 1.0f);
+	InvisWall2.BBBL = glm::vec2(-50.0f, 50.0f);
 	InvisWall2.BBFR = glm::vec2(50.0f, -1.0f);
 
-	InvisWall3.BBBL = glm::vec2(-1.0f, 50.0f);
+	InvisWall3.BBBL = glm::vec2(-50.0f, 50.0f);
 	InvisWall3.BBFR = glm::vec2(1.0f, -50.0f);
 
 	InvisWall4.BBBL = glm::vec2(-1.0f, 50.0f);
-	InvisWall4.BBFR = glm::vec2(1.0f, -50.0f);
+	InvisWall4.BBFR = glm::vec2(50.0f, -50.0f);
+
+	Nyx.BBBL = glm::vec2( 2.0f, -2.0f);
+	Nyx.BBFR = glm::vec2(-2.0f,  2.0f);
 	
 	//SET POINTS
 	points[0]  = glm::vec3(  0.0f, 0.5f,   0.0f);

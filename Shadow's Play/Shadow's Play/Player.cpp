@@ -43,26 +43,26 @@ namespace ENG
 		dash(totalTime);
 
 		//COLLISION CHECK
-		if (colliding == true && seekPoint.x >= 33.0f)
+		if (colliding == true && seekPoint.x >= 31.5f)
 		{
-			seekPoint.x = 32.9f;
-			setPosition(getLastPosition());
+			seekPoint.x = 31.4f;
+			setPosition(getLastPosition() - collideDistanceX);
 		}
-		else if (colliding == true && seekPoint.x <= -33.0f)
+		else if (colliding == true && seekPoint.x <= -31.5f)
 		{
-			seekPoint.x = -32.9f;
-			setPosition(getLastPosition());
+			seekPoint.x = -31.4f;
+			setPosition(getLastPosition() + collideDistanceX);
 		}
 
-		if (colliding == true && seekPoint.z >= 33.0f)
+		if (colliding == true && seekPoint.z >= 31.5f)
 		{
-			seekPoint.z = 32.9f;
-			setPosition(getLastPosition());
+			seekPoint.z = 31.4f;
+			setPosition(getLastPosition() - collideDistanceZ);
 		}
-		else if (colliding == true && seekPoint.z <= -33.0f)
+		else if (colliding == true && seekPoint.z <= -31.5f)
 		{
-			seekPoint.z = -32.9f;
-			setPosition(getLastPosition());
+			seekPoint.z = -31.4f;
+			setPosition(getLastPosition() + collideDistanceZ);
 		}
 
 		if (!colliding)
@@ -120,14 +120,14 @@ namespace ENG
 				velocity.z = maxVelocity;
 		
 			seekPoint += (velocity * t) + (0.5f * acceleration * (t * t));
-			clamp(getPosition(), getPosition() - 10.0f, getPosition() + 10.0f);
+			clamp(getPosition(), getPosition() - 5.0f, getPosition() + 5.0f);
 			transform.zeroMatrix();
 
 			glm::vec2 up = glm::vec2(0, 1);
-			glm::vec2 guy_2d = glm::vec2(acceleration.x, acceleration.z);
+			glm::vec2 playerLook = glm::vec2(acceleration.x, acceleration.z);
 
-			float angle = glm::acos(glm::dot(up, guy_2d) / (glm::length(up) * glm::length(guy_2d)));
-			if (guy_2d.x < 0) angle *= -1;
+			float angle = glm::acos(glm::dot(up, playerLook) / (glm::length(up) * glm::length(playerLook)));
+			if (playerLook.x < 0) angle *= -1;
 
 			transform.rotateY(angle);
 
@@ -142,7 +142,7 @@ namespace ENG
 		}
 
 		acceleration = glm::vec3(0.0f);
-		//velocity = glm::vec3(0.0f);
+		velocity = glm::vec3(0.0f);
 		
 		
 		//INSURES TIME NEVER GOES NEGATIVE

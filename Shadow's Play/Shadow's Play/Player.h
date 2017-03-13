@@ -35,8 +35,9 @@ namespace ENG
 		bool isDead;
 		bool paused;
 		glm::vec3 seekPoint = glm::vec3(0.1f, 0.0f, 0.1f);
-		glm::vec3 forwards;
 		float dashCooldown = 3.0f;
+		glm::vec3 collideDistanceX = glm::vec3(0.25f, 0.0f, 0.0f);
+		glm::vec3 collideDistanceZ = glm::vec3(0.0f, 0.0f, 0.25f);
 
 		Input input;
 		float appliedAcceleration = 40.0f;

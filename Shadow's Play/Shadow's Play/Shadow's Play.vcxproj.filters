@@ -115,43 +115,43 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="assets\shaders\StaticGeometry.vert">
+    <None Include="..\..\Shadow%27s Play\assets\shaders\BasicLighting.frag">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="assets\shaders\BasicLighting.frag">
+    <None Include="..\..\Shadow%27s Play\assets\shaders\BloomComposite.frag">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\..\Shadow%27s Play\Shadow%27s Play\assets\shaders\PassThrough.frag">
+    <None Include="..\..\Shadow%27s Play\assets\shaders\CelShading.frag">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\..\Shadow%27s Play\Shadow%27s Play\assets\shaders\PassThrough.vert">
+    <None Include="..\..\Shadow%27s Play\assets\shaders\DeferredLighting.frag">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\..\Shadow%27s Play\Shadow%27s Play\assets\shaders\CelShading.frag">
+    <None Include="..\..\Shadow%27s Play\assets\shaders\GBuffer.frag">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\..\..\Shadow%27s Play\Shadow%27s Play\assets\shaders\GBuffer.frag">
+    <None Include="..\..\Shadow%27s Play\assets\shaders\HighPass.frag">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\assets\shaders\DeferredLighting.frag">
+    <None Include="..\..\Shadow%27s Play\assets\shaders\HorizontalBlur.frag">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\..\..\Shadow%27s Play\Shadow%27s Play\assets\shaders\BloomComposite.frag">
+    <None Include="..\..\Shadow%27s Play\assets\shaders\MotionBlur.frag">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\..\..\Shadow%27s Play\Shadow%27s Play\assets\shaders\HighPass.frag">
+    <None Include="..\..\Shadow%27s Play\assets\shaders\PassThrough.frag">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\..\..\Shadow%27s Play\Shadow%27s Play\assets\shaders\HorizontalBlur.frag">
+    <None Include="..\..\Shadow%27s Play\assets\shaders\PassThrough.vert">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\..\..\Shadow%27s Play\Shadow%27s Play\assets\shaders\VerticalBlur.frag">
+    <None Include="..\..\Shadow%27s Play\assets\shaders\StaticGeometry.vert">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\..\..\Shadow%27s Play\Shadow%27s Play\assets\shaders\UVScroll.frag">
+    <None Include="..\..\Shadow%27s Play\assets\shaders\VerticalBlur.frag">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\..\..\Shadow%27s Play\Shadow%27s Play\assets\shaders\MotionBlur.frag">
+    <None Include="..\..\Shadow%27s Play\assets\shaders\UVScrolling.frag">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

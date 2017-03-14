@@ -186,19 +186,19 @@
     <ClInclude Include="..\..\Shadow%27s Play\Shadow%27s Play\Window.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\Shadow%27s Play\Shadow%27s Play\assets\shaders\BloomComposite.frag" />
-    <None Include="..\..\..\Shadow%27s Play\Shadow%27s Play\assets\shaders\HighPass.frag" />
-    <None Include="..\..\..\Shadow%27s Play\Shadow%27s Play\assets\shaders\HorizontalBlur.frag" />
-    <None Include="..\..\..\Shadow%27s Play\Shadow%27s Play\assets\shaders\MotionBlur.frag" />
-    <None Include="..\..\..\Shadow%27s Play\Shadow%27s Play\assets\shaders\UVScroll.frag" />
-    <None Include="..\..\..\Shadow%27s Play\Shadow%27s Play\assets\shaders\VerticalBlur.frag" />
-    <None Include="..\assets\shaders\DeferredLighting.frag" />
-    <None Include="..\..\..\Shadow%27s Play\Shadow%27s Play\assets\shaders\GBuffer.frag" />
-    <None Include="..\..\Shadow%27s Play\Shadow%27s Play\assets\shaders\CelShading.frag" />
-    <None Include="..\..\Shadow%27s Play\Shadow%27s Play\assets\shaders\PassThrough.frag" />
-    <None Include="..\..\Shadow%27s Play\Shadow%27s Play\assets\shaders\PassThrough.vert" />
-    <None Include="assets\shaders\BasicLighting.frag" />
-    <None Include="assets\shaders\StaticGeometry.vert" />
+    <None Include="..\..\Shadow%27s Play\assets\shaders\BasicLighting.frag" />
+    <None Include="..\..\Shadow%27s Play\assets\shaders\BloomComposite.frag" />
+    <None Include="..\..\Shadow%27s Play\assets\shaders\CelShading.frag" />
+    <None Include="..\..\Shadow%27s Play\assets\shaders\DeferredLighting.frag" />
+    <None Include="..\..\Shadow%27s Play\assets\shaders\GBuffer.frag" />
+    <None Include="..\..\Shadow%27s Play\assets\shaders\HighPass.frag" />
+    <None Include="..\..\Shadow%27s Play\assets\shaders\HorizontalBlur.frag" />
+    <None Include="..\..\Shadow%27s Play\assets\shaders\MotionBlur.frag" />
+    <None Include="..\..\Shadow%27s Play\assets\shaders\PassThrough.frag" />
+    <None Include="..\..\Shadow%27s Play\assets\shaders\PassThrough.vert" />
+    <None Include="..\..\Shadow%27s Play\assets\shaders\StaticGeometry.vert" />
+    <None Include="..\..\Shadow%27s Play\assets\shaders\UVScrolling.frag" />
+    <None Include="..\..\Shadow%27s Play\assets\shaders\VerticalBlur.frag" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

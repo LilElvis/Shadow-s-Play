@@ -53,7 +53,7 @@ namespace ENG
 		shaderPtr->sendUniform("uEmissiveMult", uEmissiveMult);
 		shaderPtr->sendUniform("uInvisible", uInvisible);
 
-		//shaderPtr->sendUniform("uvOffset", uUVOffset);
+		shaderPtr->sendUniform("uvOffset", uUVOffset);
 		
 		albedo.Bind(GL_TEXTURE0);
 		normal.Bind(GL_TEXTURE1);

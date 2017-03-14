@@ -72,7 +72,8 @@ void Initialize()
 	defaultTexture->LoadFromFile("Nyx", "../assets/textures/Nyx.png");
 	defaultTexture->LoadFromFile("NyxEmissive", "../assets/textures/NyxEmissive.png");
 	defaultTexture->LoadFromFile("NyxNormal", "../assets/textures/NyxNormal.png");
-	static ENG::Player Nyx("Nyx", defaultMesh->listOfMeshes["Nyx"]->VAO, *defaultTexture->listOfTextures["Nyx"], *defaultTexture->listOfTextures["NyxNormal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["NyxEmissive"], deferredFBO.getLayerNumber());
+	defaultTexture->LoadFromFile("NyxSpecular", "../assets/textures/NyxSpecular.png");
+	static ENG::Player Nyx("Nyx", defaultMesh->listOfMeshes["Nyx"]->VAO, *defaultTexture->listOfTextures["Nyx"], *defaultTexture->listOfTextures["NyxNormal"], *defaultTexture->listOfTextures["NyxSpecular"], *defaultTexture->listOfTextures["NyxEmissive"], deferredFBO.getLayerNumber());
 	Player["Nyx"] = &Nyx;
 
 	defaultMesh->LoadFromFile("Room", "../assets/objects/MapTemp.obj");
@@ -106,17 +107,16 @@ void Initialize()
 	sceneObjects["Warning3"] = &Warning3;
 
 	defaultMesh->LoadFromFile("TimerQuad", "../assets/objects/TimerQuad.obj");
-	defaultTexture->LoadFromFile("0", "../assets/textures/0.png");
-	defaultTexture->LoadFromFile("colon", "../assets/textures/colon.png");
-	static ENG::SceneObject TimerQuad("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["0"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], deferredFBO.getLayerNumber());
+	defaultTexture->LoadFromFile("numTexture", "../assets/textures/numTexture.png");
+	static ENG::SceneObject TimerQuad("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], deferredFBO.getLayerNumber());
 	sceneObjects["TimerQuad"] = &TimerQuad;
-	static ENG::SceneObject TimerQuad2("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["0"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], deferredFBO.getLayerNumber());
+	static ENG::SceneObject TimerQuad2("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], deferredFBO.getLayerNumber());
 	sceneObjects["TimerQuad2"] = &TimerQuad2;
-	static ENG::SceneObject TimerQuad3("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["colon"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], deferredFBO.getLayerNumber());
+	static ENG::SceneObject TimerQuad3("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], deferredFBO.getLayerNumber());
 	sceneObjects["TimerQuad3"] = &TimerQuad3;
-	static ENG::SceneObject TimerQuad4("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["0"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], deferredFBO.getLayerNumber());
+	static ENG::SceneObject TimerQuad4("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], deferredFBO.getLayerNumber());
 	sceneObjects["TimerQuad4"] = &TimerQuad4;
-	static ENG::SceneObject TimerQuad5("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["0"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], deferredFBO.getLayerNumber());
+	static ENG::SceneObject TimerQuad5("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], deferredFBO.getLayerNumber());
 	sceneObjects["TimerQuad5"] = &TimerQuad5;
 
 	static ENG::SceneObject InvisWall("InvisWall", 0, *defaultTexture->listOfTextures["SpotLight"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], 0);
@@ -140,7 +140,7 @@ void Initialize()
 	bloomHorizontalBlur.load("horBlur", "../assets/shaders/PassThrough.vert", "../assets/shaders/HorizontalBlur.frag");
 	bloomVerticalBlur.load("vertBlur", "../assets/shaders/PassThrough.vert", "../assets/shaders/VerticalBlur.frag");
 	bloomComposite.load("bloomComp", "../assets/shaders/PassThrough.vert", "../assets/shaders/BloomComposite.frag");
-	UVScrolling.load("UVScroll", "../assets/shaders/StaticGeometry.vert", "../assets/shaders/UVScroll.frag");
+	UVScrolling.load("UVScroll", "../assets/shaders/StaticGeometry.vert", "../assets/shaders/UVScrolling.frag");
 	motionBlur.load("PassThrough", "../assets/shaders/PassThrough.vert", "../assets/shaders/MotionBlur.frag");
 
 	//INITIALiZE FBOS
@@ -721,8 +721,14 @@ void GameLevel::Update()
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-		defaultShader.bind();
+		UVScrolling.bind();
 		finalSceneFBO1.Bind();
+
+		sceneObjects["TimerQuad"]->uUVOffset = dinutesPos;
+		sceneObjects["TimerQuad2"]->uUVOffset = minutesPos;
+		//COLON
+		sceneObjects["TimerQuad4"]->uUVOffset = decondsPos;
+		sceneObjects["TimerQuad5"]->uUVOffset = secondsPos;
 
 		UVScrolling.sendUniformMat4("uView", &view.getMatrix()[0][0], false);
 		UVScrolling.sendUniformMat4("uProj", &orthoPersp[0][0], false);
@@ -740,7 +746,7 @@ void GameLevel::Update()
 			(*itr)->render(defaultMesh, &UVScrolling);
 		}
 
-		defaultShader.unBind();
+		UVScrolling.unBind();
 
 		glDisable(GL_BLEND);
 		glEnable(GL_DEPTH_TEST);
@@ -784,6 +790,9 @@ void GameLevel::enter()
 		m_paused = false;
 		GameLevel::SetPaused(m_paused);
 	}
+
+	seconds = 0.0f;
+	minute = 0.0f;
 
 	//POSITION OBJECTS
 	Reset();
@@ -834,8 +843,8 @@ void GameLevel::enter()
 
 	Player["Nyx"]->uDiffuseAdd = glm::vec3(0.0f, 0.0f, 0.0f);
 	Player["Nyx"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);
-	Player["Nyx"]->uSpecularAdd = glm::vec3(0.0f, 0.0f, 0.0f);
-	Player["Nyx"]->uSpecularMult = glm::vec3(1.0f, 1.0f, 1.0f);
+	Player["Nyx"]->uSpecularAdd = glm::vec3(10.0f, 10.0f, 10.0f);
+	Player["Nyx"]->uSpecularMult = glm::vec3(2.0f, 2.0f, 2.0f);
 	Player["Nyx"]->uAmbientAdd = glm::vec3(0.2f, 0.2f, 0.2f);
 	Player["Nyx"]->uAmbientMult = glm::vec3(1.0f, 1.0f, 1.0f);
 	Player["Nyx"]->uEmissiveAdd = glm::vec3(0.2f, 0.1f, 0.2f);
@@ -845,12 +854,6 @@ void GameLevel::enter()
 	sceneObjects["Room"]->uAmbientAdd = glm::vec3(0.2f, 0.2f, 0.2f);
 	sceneObjects["Room"]->uSpecularMult = glm::vec3(1.0f, 1.0f, 1.0f);
 	sceneObjects["Room"]->uSpecularAdd = glm::vec3(0.0f, 0.0f, 0.0f);
-
-	sceneObjects["TimerQuad"]->uAmbientAdd = glm::vec3(1.0f);
-	sceneObjects["TimerQuad2"]->uAmbientAdd = glm::vec3(1.0f);
-	sceneObjects["TimerQuad3"]->uAmbientAdd = glm::vec3(1.0f);
-	sceneObjects["TimerQuad4"]->uAmbientAdd = glm::vec3(1.0f);
-	sceneObjects["TimerQuad5"]->uAmbientAdd = glm::vec3(1.0f);
 
 	//sceneObjects["Warning"]->uDiffuseAdd = glm::vec3(1.0f, 1.0f, 1.0f);
 	//sceneObjects["Warning2"]->uDiffuseAdd = glm::vec3(1.0f, 1.0f, 1.0f);
@@ -863,11 +866,11 @@ void GameLevel::enter()
 	sceneObjects["SpotLight2"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);
 	sceneObjects["QuadLight"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);
 
-	//sceneObjects["TimerQuad"]->uUVOffset = glm::vec2(0.0f, 0.0f);
-	//sceneObjects["TimerQuad2"]->uUVOffset = glm::vec2(0.0f, 0.0f);
-	//sceneObjects["TimerQuad3"]->uUVOffset = glm::vec2(0.0f, 0.0f);
-	//sceneObjects["TimerQuad4"]->uUVOffset = glm::vec2(0.0f, 0.0f);
-	//sceneObjects["TimerQuad5"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+	sceneObjects["TimerQuad"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+	sceneObjects["TimerQuad2"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+	sceneObjects["TimerQuad3"]->uUVOffset = colonPos;
+	sceneObjects["TimerQuad4"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+	sceneObjects["TimerQuad5"]->uUVOffset = glm::vec2(0.0f, 0.0f);
 
 	if (!hasLoadedOnce)
 	{
@@ -914,6 +917,7 @@ void GameLevel::gameOver()
 		GameLevel::SetPaused(m_paused);
 		GameOver(hasBeenInitialized);
 	}
+
 }
 
 //GAME OVER SCREEN MAIN LOOP
@@ -996,19 +1000,64 @@ void GameOver::exit()
 }
 
 float timerFunc()
+{
+	seconds += 0.01666666666666;
+
+	if (seconds >= 60.0f)
 	{
-		seconds += 0.01666666666666;
-
-		if (seconds >= 60.0f)
-		{
-			seconds = 0.0f;
-			minute += 1;
-		}
-
-		//std::cout << minute << " : " << seconds << std::endl;
-		return seconds;
-
+		seconds = 0.0f;
+		minute += 1;
 	}
+
+	if (int(seconds) % 10 < 1)							secondsPos = zeroPos;
+	else if (int(seconds) % 10 < 2)			secondsPos = onePos;
+	else if (int(seconds) % 10 < 3)			secondsPos = twoPos;
+	else if (int(seconds) % 10 < 4)			secondsPos = threePos;
+	else if (int(seconds) % 10 < 5)			secondsPos = fourPos;
+	else if (int(seconds) % 10 < 6)			secondsPos = fivePos;
+	else if (int(seconds) % 10 < 7)			secondsPos = sixPos;
+	else if (int(seconds) % 10 < 8)			secondsPos = sevenPos;
+	else if (int(seconds) % 10 < 9)			secondsPos = eightPos;
+	else if ((int(seconds) % 10) < 10)		secondsPos = ninePos;
+	
+	if ((seconds / 10) < 1)					decondsPos = zeroPos;
+	else if ((int(seconds) / 10) < 2)		decondsPos = onePos;
+	else if ((int(seconds) / 10) < 3)		decondsPos = twoPos;
+	else if ((int(seconds) / 10) < 4)		decondsPos = threePos;
+	else if ((int(seconds) / 10) < 5)		decondsPos = fourPos;
+	else if ((int(seconds) / 10) < 6)		decondsPos = fivePos;
+	else if ((int(seconds) / 10) < 7)		decondsPos = sixPos;
+	else if ((int(seconds) / 10) < 8)		decondsPos = sevenPos;
+	else if ((int(seconds) / 10) < 9)		decondsPos = eightPos;
+	else if ((int(seconds) / 10) < 10)		decondsPos = ninePos;
+
+	if (int(minute) < 1)						minutesPos = zeroPos;
+	else if (int(minute) < 2)				minutesPos = onePos;
+	else if (int(minute) < 3)				minutesPos = twoPos;
+	else if (int(minute) < 4)				minutesPos = threePos;
+	else if (int(minute) < 5)				minutesPos = fourPos;
+	else if (int(minute) < 6)				minutesPos = fivePos;
+	else if (int(minute) < 7)				minutesPos = sixPos;
+	else if (int(minute) < 8)				minutesPos = sevenPos;
+	else if (int(minute) < 9)				minutesPos = eightPos;
+	else if ((int(minute) / 10) < 10)		minutesPos = ninePos;
+
+	if ((int(minute) / 10) < 1)				dinutesPos = zeroPos;
+	else if ((int(minute) / 10) < 2)			dinutesPos = onePos;
+	else if ((int(minute) / 10) < 3)			dinutesPos = twoPos;
+	else if ((int(minute) / 10) < 4)			dinutesPos = threePos;
+	else if ((int(minute) / 10) < 5)			dinutesPos = fourPos;
+	else if ((int(minute) / 10) < 6)			dinutesPos = fivePos;
+	else if ((int(minute) / 10) < 7)			dinutesPos = sixPos;
+	else if ((int(minute) / 10) < 8)			dinutesPos = sevenPos;
+	else if ((int(minute) / 10) < 9)			dinutesPos = eightPos;
+	else if ((int(minute) / 10) < 10)		dinutesPos = ninePos;
+
+
+	//std::cout << minute << " : " << seconds << std::endl;
+	return seconds;
+
+}
 
 void removeGameObjects()
 {

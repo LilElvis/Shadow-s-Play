@@ -183,10 +183,10 @@ static int minute = 0;
 
 //TIMER FUNC
 float timerFunc();
-static glm::vec2 secondsPos = glm::vec2(0.0f, 0.0f);
-static glm::vec2 decondsPos = glm::vec2(0.0f, 0.0f);
-static glm::vec2 minutesPos = glm::vec2(0.0f, 0.0f);
-static glm::vec2 dinutesPos = glm::vec2(0.0f, 0.0f);
+static unsigned int secondsPos = 0;
+static unsigned int decondsPos = 0;
+static unsigned int minutesPos = 0;
+static unsigned int dinutesPos = 0;
 
 static glm::vec2 zeroPos = glm::vec2(0.0f, 0.0f);
 static glm::vec2 onePos = glm::vec2(0.2f, 0.0f);
@@ -202,6 +202,10 @@ static glm::vec2 colonPos = glm::vec2(0.0f, -0.4f);
 
 static float globalT = 1.0f;
 static float rampValue = 0.005f;
+
+//TEMP ANIMATION VARIABLES
+static unsigned int animFrame = 0;
+static float timeOfLastAnim = 0.0f;
 
 //RANDOM VARIABLES
 static int randomLERPStart = 0;

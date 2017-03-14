@@ -83,7 +83,7 @@ void Initialize()
 	static ENG::SceneObject Room("Room", defaultMesh->listOfMeshes["Room"]->VAO, *defaultTexture->listOfTextures["Room"], *defaultTexture->listOfTextures["RoomNormal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["RoomEmissive"], deferredFBO.getLayerNumber());
 	sceneObjects["Room"] = &Room;
 
-	defaultMesh->LoadFromFile("Warning", "../assets/objects/Warning.obj");
+	defaultMesh->LoadFromFile("Warning", "../assets/objects/WarnQuad.obj");
 	defaultTexture->LoadFromFile("Warning", "../assets/textures/Warning.png");
 	static ENG::SceneObject Warning("Warning", defaultMesh->listOfMeshes["Warning"]->VAO, *defaultTexture->listOfTextures["Warning"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Warning"], deferredFBO.getLayerNumber());
 	sceneObjects["Warning"] = &Warning;
@@ -165,6 +165,24 @@ void Initialize()
 
 	motionBlurFBO.Init(windowWidth, windowHeight, 1);
 	motionBlurFBO.initColorTexture(0);
+
+	//SPRITE ANIMATIONS
+	sceneObjects["Warning"]->UVOffsets.push_back(glm::vec2(0.0f, 0.0f));
+	sceneObjects["Warning"]->UVOffsets.push_back(glm::vec2(0.25f, 0.0f));
+	sceneObjects["Warning"]->UVOffsets.push_back(glm::vec2(0.5f, 0.0f));
+	sceneObjects["Warning"]->UVOffsets.push_back(glm::vec2(0.75f, 0.0f));
+
+	sceneObjects["TimerQuad"]->UVOffsets.push_back(zeroPos);
+	sceneObjects["TimerQuad"]->UVOffsets.push_back(onePos);
+	sceneObjects["TimerQuad"]->UVOffsets.push_back(twoPos);
+	sceneObjects["TimerQuad"]->UVOffsets.push_back(threePos);
+	sceneObjects["TimerQuad"]->UVOffsets.push_back(fourPos);
+	sceneObjects["TimerQuad"]->UVOffsets.push_back(fivePos);
+	sceneObjects["TimerQuad"]->UVOffsets.push_back(sixPos);
+	sceneObjects["TimerQuad"]->UVOffsets.push_back(sevenPos);
+	sceneObjects["TimerQuad"]->UVOffsets.push_back(eightPos);
+	sceneObjects["TimerQuad"]->UVOffsets.push_back(ninePos);
+	sceneObjects["TimerQuad"]->UVOffsets.push_back(colonPos);
 
 	//INITIALIZE/LOAD SOUNDS
 	soundEngine.Init();
@@ -416,6 +434,15 @@ void GameLevel::Update()
 
 		defaultShader.sendUniform("uTime", totalTime);
 
+		//TEMPORARY ANIMATION FRAME TESTING
+		if (totalTime >= timeOfLastAnim + 0.5f)
+		{
+			timeOfLastAnim = totalTime;
+			animFrame++;
+		}
+		if (animFrame > 3)
+			animFrame = 0;
+
 		sceneObjects["SpotLight"]->uEmissiveAdd = glm::vec3(sinf(globalT * 1.0f) * 0.25f, sinf(globalT * 1.0f) * 0.25f, sinf(globalT * 1.0f) * 0.25f);
 		sceneObjects["SpotLight2"]->uEmissiveAdd = glm::vec3(sinf(globalT * 1.0f) * 0.25f, sinf(globalT * 1.0f) * 0.25f, sinf(globalT * 1.0f) * 0.25f);
 		
@@ -556,6 +583,9 @@ void GameLevel::Update()
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		defaultShader.bind();
+
+		sceneObjects["Warning"]->uUVOffset = sceneObjects["Warning"]->UVOffsets[animFrame];
+		sceneObjects["Warning2"]->uUVOffset = sceneObjects["Warning"]->UVOffsets[animFrame];
 
 		defaultShader.sendUniformMat4("uView", &view.getMatrix()[0][0], false);
 		defaultShader.sendUniformMat4("uProj", &persp[0][0], false);
@@ -724,11 +754,11 @@ void GameLevel::Update()
 		UVScrolling.bind();
 		finalSceneFBO1.Bind();
 
-		sceneObjects["TimerQuad"]->uUVOffset = dinutesPos;
-		sceneObjects["TimerQuad2"]->uUVOffset = minutesPos;
+		sceneObjects["TimerQuad"]->uUVOffset = sceneObjects["TimerQuad"]->UVOffsets[dinutesPos];
+		sceneObjects["TimerQuad2"]->uUVOffset = sceneObjects["TimerQuad"]->UVOffsets[minutesPos];
 		//COLON
-		sceneObjects["TimerQuad4"]->uUVOffset = decondsPos;
-		sceneObjects["TimerQuad5"]->uUVOffset = secondsPos;
+		sceneObjects["TimerQuad4"]->uUVOffset = sceneObjects["TimerQuad"]->UVOffsets[decondsPos];
+		sceneObjects["TimerQuad5"]->uUVOffset = sceneObjects["TimerQuad"]->UVOffsets[secondsPos];
 
 		UVScrolling.sendUniformMat4("uView", &view.getMatrix()[0][0], false);
 		UVScrolling.sendUniformMat4("uProj", &orthoPersp[0][0], false);
@@ -1009,49 +1039,49 @@ float timerFunc()
 		minute += 1;
 	}
 
-	if (int(seconds) % 10 < 1)							secondsPos = zeroPos;
-	else if (int(seconds) % 10 < 2)			secondsPos = onePos;
-	else if (int(seconds) % 10 < 3)			secondsPos = twoPos;
-	else if (int(seconds) % 10 < 4)			secondsPos = threePos;
-	else if (int(seconds) % 10 < 5)			secondsPos = fourPos;
-	else if (int(seconds) % 10 < 6)			secondsPos = fivePos;
-	else if (int(seconds) % 10 < 7)			secondsPos = sixPos;
-	else if (int(seconds) % 10 < 8)			secondsPos = sevenPos;
-	else if (int(seconds) % 10 < 9)			secondsPos = eightPos;
-	else if ((int(seconds) % 10) < 10)		secondsPos = ninePos;
+	if (int(seconds) % 10 < 1)				secondsPos = 0;
+	else if (int(seconds) % 10 < 2)			secondsPos = 1;
+	else if (int(seconds) % 10 < 3)			secondsPos = 2;
+	else if (int(seconds) % 10 < 4)			secondsPos = 3;
+	else if (int(seconds) % 10 < 5)			secondsPos = 4;
+	else if (int(seconds) % 10 < 6)			secondsPos = 5;
+	else if (int(seconds) % 10 < 7)			secondsPos = 6;
+	else if (int(seconds) % 10 < 8)			secondsPos = 7;
+	else if (int(seconds) % 10 < 9)			secondsPos = 8;
+	else if ((int(seconds) % 10) < 10)		secondsPos = 9;
 	
-	if ((seconds / 10) < 1)					decondsPos = zeroPos;
-	else if ((int(seconds) / 10) < 2)		decondsPos = onePos;
-	else if ((int(seconds) / 10) < 3)		decondsPos = twoPos;
-	else if ((int(seconds) / 10) < 4)		decondsPos = threePos;
-	else if ((int(seconds) / 10) < 5)		decondsPos = fourPos;
-	else if ((int(seconds) / 10) < 6)		decondsPos = fivePos;
-	else if ((int(seconds) / 10) < 7)		decondsPos = sixPos;
-	else if ((int(seconds) / 10) < 8)		decondsPos = sevenPos;
-	else if ((int(seconds) / 10) < 9)		decondsPos = eightPos;
-	else if ((int(seconds) / 10) < 10)		decondsPos = ninePos;
+	if ((seconds / 10) < 1)					decondsPos = 0;
+	else if ((int(seconds) / 10) < 2)		decondsPos = 1;
+	else if ((int(seconds) / 10) < 3)		decondsPos = 2;
+	else if ((int(seconds) / 10) < 4)		decondsPos = 3;
+	else if ((int(seconds) / 10) < 5)		decondsPos = 4;
+	else if ((int(seconds) / 10) < 6)		decondsPos = 5;
+	else if ((int(seconds) / 10) < 7)		decondsPos = 6;
+	else if ((int(seconds) / 10) < 8)		decondsPos = 7;
+	else if ((int(seconds) / 10) < 9)		decondsPos = 8;
+	else if ((int(seconds) / 10) < 10)		decondsPos = 9;
 
-	if (int(minute) < 1)						minutesPos = zeroPos;
-	else if (int(minute) < 2)				minutesPos = onePos;
-	else if (int(minute) < 3)				minutesPos = twoPos;
-	else if (int(minute) < 4)				minutesPos = threePos;
-	else if (int(minute) < 5)				minutesPos = fourPos;
-	else if (int(minute) < 6)				minutesPos = fivePos;
-	else if (int(minute) < 7)				minutesPos = sixPos;
-	else if (int(minute) < 8)				minutesPos = sevenPos;
-	else if (int(minute) < 9)				minutesPos = eightPos;
-	else if ((int(minute) / 10) < 10)		minutesPos = ninePos;
+	if (int(minute) < 1)					minutesPos = 0;
+	else if (int(minute) < 2)				minutesPos = 1;
+	else if (int(minute) < 3)				minutesPos = 2;
+	else if (int(minute) < 4)				minutesPos = 3;
+	else if (int(minute) < 5)				minutesPos = 4;
+	else if (int(minute) < 6)				minutesPos = 5;
+	else if (int(minute) < 7)				minutesPos = 6;
+	else if (int(minute) < 8)				minutesPos = 7;
+	else if (int(minute) < 9)				minutesPos = 8;
+	else if ((int(minute) / 10) < 10)		minutesPos = 9;
 
-	if ((int(minute) / 10) < 1)				dinutesPos = zeroPos;
-	else if ((int(minute) / 10) < 2)			dinutesPos = onePos;
-	else if ((int(minute) / 10) < 3)			dinutesPos = twoPos;
-	else if ((int(minute) / 10) < 4)			dinutesPos = threePos;
-	else if ((int(minute) / 10) < 5)			dinutesPos = fourPos;
-	else if ((int(minute) / 10) < 6)			dinutesPos = fivePos;
-	else if ((int(minute) / 10) < 7)			dinutesPos = sixPos;
-	else if ((int(minute) / 10) < 8)			dinutesPos = sevenPos;
-	else if ((int(minute) / 10) < 9)			dinutesPos = eightPos;
-	else if ((int(minute) / 10) < 10)		dinutesPos = ninePos;
+	if ((int(minute) / 10) < 1)				dinutesPos = 0;
+	else if ((int(minute) / 10) < 2)		dinutesPos = 1;
+	else if ((int(minute) / 10) < 3)		dinutesPos = 2;
+	else if ((int(minute) / 10) < 4)		dinutesPos = 3;
+	else if ((int(minute) / 10) < 5)		dinutesPos = 4;
+	else if ((int(minute) / 10) < 6)		dinutesPos = 5;
+	else if ((int(minute) / 10) < 7)		dinutesPos = 6;
+	else if ((int(minute) / 10) < 8)		dinutesPos = 7;
+	else if ((int(minute) / 10) < 9)		dinutesPos = 8;
+	else if ((int(minute) / 10) < 10)		dinutesPos = 9;
 
 
 	//std::cout << minute << " : " << seconds << std::endl;

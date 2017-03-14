@@ -148,11 +148,11 @@
     <None Include="..\..\Shadow%27s Play\assets\shaders\StaticGeometry.vert">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\..\Shadow%27s Play\assets\shaders\VerticalBlur.frag">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="..\..\Shadow%27s Play\assets\shaders\UVScrolling.frag">
       <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\Shadow%27s Play\assets\shaders\VerticalBlur.frag">
+      <Filter>Source Files</Filter>
     </None>
   </ItemGroup>
 </Project>

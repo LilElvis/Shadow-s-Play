@@ -50,6 +50,8 @@ namespace ENG
 		glm::vec3 uEmissiveMult;
 		glm::vec2 uUVOffset;
 
+		std::vector<glm::vec2> UVOffsets;
+
 	protected:
 		glm::vec3 acceleration;
 		glm::vec3 velocity;
@@ -60,6 +62,7 @@ namespace ENG
 		bool willLose;
 		std::unordered_map<std::string, GLuint> animationTargets;
 		GLuint layerNumber;
+		
 	private:
 		glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f);
 		glm::vec3 lastPosition = glm::vec3(0.0f, 0.0f, 0.0f);

@@ -29,6 +29,8 @@ uniform float uInvisible = 1.0f;
 
 uniform sampler2D uTex;
 
+uniform vec2 uvOffset;
+
 in vec2 texcoord;
 in vec3 norm;
 in vec3 pos;
@@ -49,6 +51,13 @@ void main()
 		discard;
 	}
 
+	vec4 textureColor = texture(uTex, texcoord + uvOffset);
+
+	if (textureColor.a == 0.0)
+	{
+		discard;
+	}
+	
 	//outColor.rgb = vec3(1.0, 0.0, 1.0);
 	//outColor.a = 1.0;
 
@@ -78,11 +87,10 @@ void main()
 		outColor.rgb += LightSpecular * pow(NdotHV, LightSpecularExponent) * attenuation;
 	}
 
-	vec4 textureColor = texture(uTex, texcoord);
 	//vec4 textureColor = vec4(1.0, 1.0, 1.0, 1.0);
 	textureColor.xyz = textureColor.xyz + uDiffuseAdd * uDiffuseMult;
 	outColor.rgb += uAmbientAdd * uAmbientMult;
 	outColor.rgb *= textureColor.rgb;
 	outColor.rgb += uEmissiveAdd * uEmissiveMult;
-	outColor.a = textureColor.a;
+	outColor.a = textureColor.a * 0.75;
 }

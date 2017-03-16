@@ -8,6 +8,7 @@
 #include "SceneObject.h"
 #include "AnimationMath.h"
 #include "FrameBufferObject.h"
+#include "Score.h"
 
 //STATE CLASSES
 class MainMenu : public GameState
@@ -181,6 +182,8 @@ static bool deathTimer = false;
 static float seconds = 0;
 static int minute = 0;
 
+static ENG::Score score;
+
 //TIMER FUNC
 float timerFunc();
 static unsigned int secondsPos = 0;
@@ -236,5 +239,6 @@ static ENG::PointLight warningLight2;
 static ENG::PointLight warningLight3;
 
 static float flashValue;
+
 
 //static glm::mat4 uProjectionBiasMatrixInverse;

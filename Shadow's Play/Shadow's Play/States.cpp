@@ -102,8 +102,10 @@ void Initialize()
 	defaultTexture->LoadFromFile("QuadLight", "../assets/textures/QuadLight.png");
 	static ENG::SceneObject QuadLight("QuadLight", defaultMesh->listOfMeshes["QuadLight"]->VAO, *defaultTexture->listOfTextures["QuadLight"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], deferredFBO.getLayerNumber());
 	sceneObjects["QuadLight"] = &QuadLight;
+	
+	defaultMesh->LoadFromFile("QuadWarning", "../assets/objects/QuadWarningQuad.obj");
 	defaultTexture->LoadFromFile("QuadWarning", "../assets/textures/QuadWarning.png");
-	static ENG::SceneObject Warning3("Warning", defaultMesh->listOfMeshes["QuadLight"]->VAO, *defaultTexture->listOfTextures["QuadWarning"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["QuadWarning"], deferredFBO.getLayerNumber());
+	static ENG::SceneObject Warning3("Warning", defaultMesh->listOfMeshes["QuadWarning"]->VAO, *defaultTexture->listOfTextures["QuadWarning"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["QuadWarning"], deferredFBO.getLayerNumber());
 	sceneObjects["Warning3"] = &Warning3;
 
 	defaultMesh->LoadFromFile("TimerQuad", "../assets/objects/TimerQuad.obj");
@@ -171,6 +173,12 @@ void Initialize()
 	sceneObjects["Warning"]->UVOffsets.push_back(glm::vec2(0.25f, 0.0f));
 	sceneObjects["Warning"]->UVOffsets.push_back(glm::vec2(0.5f, 0.0f));
 	sceneObjects["Warning"]->UVOffsets.push_back(glm::vec2(0.75f, 0.0f));
+
+	sceneObjects["Warning3"]->UVOffsets.push_back(glm::vec2(0.0f, 0.0f));
+	sceneObjects["Warning3"]->UVOffsets.push_back(glm::vec2(0.25f, 0.0f));
+	sceneObjects["Warning3"]->UVOffsets.push_back(glm::vec2(0.5f, 0.0f));
+	sceneObjects["Warning3"]->UVOffsets.push_back(glm::vec2(0.75f, 0.0f));
+	sceneObjects["Warning3"]->UVOffsets.push_back(glm::vec2(0.0f, -0.25f));
 
 	sceneObjects["TimerQuad"]->UVOffsets.push_back(zeroPos);
 	sceneObjects["TimerQuad"]->UVOffsets.push_back(onePos);
@@ -586,6 +594,7 @@ void GameLevel::Update()
 
 		sceneObjects["Warning"]->uUVOffset = sceneObjects["Warning"]->UVOffsets[animFrame];
 		sceneObjects["Warning2"]->uUVOffset = sceneObjects["Warning"]->UVOffsets[animFrame];
+		sceneObjects["Warning3"]->uUVOffset = sceneObjects["Warning3"]->UVOffsets[animFrame];
 
 		defaultShader.sendUniformMat4("uView", &view.getMatrix()[0][0], false);
 		defaultShader.sendUniformMat4("uProj", &persp[0][0], false);
@@ -901,6 +910,16 @@ void GameLevel::enter()
 	sceneObjects["TimerQuad3"]->uUVOffset = colonPos;
 	sceneObjects["TimerQuad4"]->uUVOffset = glm::vec2(0.0f, 0.0f);
 	sceneObjects["TimerQuad5"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+
+	sceneObjects["Warning"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+	sceneObjects["Warning"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+	sceneObjects["Warning"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+	sceneObjects["Warning"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+
+	sceneObjects["Warning3"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+	sceneObjects["Warning3"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+	sceneObjects["Warning3"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+	sceneObjects["Warning3"]->uUVOffset = glm::vec2(0.0f, 0.0f);
 
 	if (!hasLoadedOnce)
 	{

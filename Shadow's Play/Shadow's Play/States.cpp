@@ -502,6 +502,7 @@ void GameLevel::Update()
 			if (deathTimer == false)
 			{
 				timeOfDeath = totalTime;
+				score.insertScore("assDouche", timeOfDeath);
 				deathTimer = true;
 			}
 			if ((deathTimer == true) && (totalTime > (timeOfDeath + 3.0f)))
@@ -829,6 +830,8 @@ void GameLevel::enter()
 		m_paused = false;
 		GameLevel::SetPaused(m_paused);
 	}
+
+	totalTime = 0.0f;
 
 	seconds = 0.0f;
 	minute = 0.0f;

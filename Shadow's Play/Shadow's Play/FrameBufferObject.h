@@ -26,7 +26,11 @@ namespace ENG
 
 		void DrawToBackBuffer();
 
+		void BlitColorToTargetBuffer(FrameBufferObject*);
+		void BlitDepthToTargetBuffer(FrameBufferObject*);
+
 		GLuint getLayerNumber();
+		unsigned int getNumberOfColorAttatchments();
 
 		void Check();
 

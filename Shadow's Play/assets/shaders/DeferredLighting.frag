@@ -13,6 +13,7 @@ layout(binding = 1) uniform sampler2D uNormalMap;
 layout(binding = 2) uniform sampler2D uSpecularMap;
 layout(binding = 3) uniform sampler2D uEmissiveMap;
 layout(binding = 4) uniform sampler2D uAmbientMap;
+//layout(binding = 5) uniform sampler2D uActiveLightMap;
 layout(binding = 5) uniform sampler2D uDepthMap;
 
 uniform vec3 uCameraPos;
@@ -45,6 +46,8 @@ out vec4 outColor;
 vec4 getPosition()
 {
 	float depth = (texture(uDepthMap, texcoord).r) * 2.0 - 1.0;
+	
+	//float depth2 = 2.0 * 10.0 * 100.0 / (100.0 + 10.0 - depth * (100.0 - 10.0));
 
 	vec4 clipSpace = vec4(texcoord * 2.0 - 1.0, depth, 1.0);
 
@@ -59,53 +62,59 @@ vec4 getPosition()
 
 void main()
 {
-	vec4 position = getPosition();
-	
-	//Make Normals from -1 to 1 again
-	vec3 normal = texture(uNormalMap, texcoord).rgb;
-	normal = normal * 2.0 - 1.0;
-	
-	vec3 albedo = texture(uAlbedoMap, texcoord).rgb;
-
-	vec3 specular = texture(uSpecularMap, texcoord).rgb;
-
-	vec3 emissive = texture(uEmissiveMap, texcoord).rgb;
-
-	vec3 outDiffuse = vec3(0.0);
-
-	vec3 outSpecular = vec3(0.0);
-
-	vec3 viewDirection = normalize(-position.xyz - uCameraPos);
-
-	vec3 distanceFromLight;
-
-	outColor.rgb = vec3(0,0,0);
-
-	for (int i = 0; i < uNumLights; ++i)
+	if(texture(uDepthMap, texcoord).r > 0.0)
 	{
-		float distance = length(lights[i].position.rgb - position.xyz);
+		vec4 position = getPosition();
 		
-		vec3 lightDirection = normalize(lights[i].position.rgb - position.xyz);
+		//Make Normals from -1 to 1 again
+		vec3 normal = texture(uNormalMap, texcoord).rgb;
+		normal = normal * 2.0 - 1.0;
 		
-		vec3 diffuseLight = max(dot(normal, lightDirection), 0.0) * lights[i].color.rgb * lights[i].color.a;
-		
-		vec3 halfVector = normalize(lightDirection + viewDirection);
-		
-		vec3 specLight = lights[i].color.rgb * lights[i].color.a * vec3(pow(max(dot(normal, halfVector), 0.0), 8.0));
-		
-		float attenuation = 1.0/(lights[i].aConstant + lights[i].aLinear * distance + lights[i].aQuadratic * distance);
-		
-		outDiffuse += diffuseLight * attenuation;
-		
-		outSpecular += specLight * attenuation;
-		
-		distanceFromLight = position.xyz * 0.01;
+		vec3 albedo = texture(uAlbedoMap, texcoord).rgb;
+
+		vec3 specular = texture(uSpecularMap, texcoord).rgb;
+
+		vec3 emissive = texture(uEmissiveMap, texcoord).rgb;
+
+		vec3 outDiffuse = vec3(0.0);
+
+		vec3 outSpecular = vec3(0.0);
+
+		vec3 viewDirection = normalize(-position.xyz - uCameraPos);
+
+		vec3 distanceFromLight;
+
+		outColor.rgb = vec3(0,0,0);
+
+		for (int i = 0; i < uNumLights; ++i)
+		{
+			float distance = length(lights[i].position.rgb - position.xyz);
+			
+			vec3 lightDirection = normalize(lights[i].position.rgb - position.xyz);
+			
+			vec3 diffuseLight = max(dot(normal, lightDirection), 0.0) * lights[i].color.rgb * lights[i].color.a;
+			
+			vec3 halfVector = normalize(lightDirection + viewDirection);
+			
+			vec3 specLight = lights[i].color.rgb * lights[i].color.a * vec3(pow(max(dot(normal, halfVector), 0.0), 8.0));
+			
+			float attenuation = 1.0/(lights[i].aConstant + lights[i].aLinear * distance + lights[i].aQuadratic * distance);
+			
+			outDiffuse += diffuseLight * attenuation;
+			
+			outSpecular += specLight * attenuation;
+			
+			distanceFromLight = position.xyz * 0.01;
+			
+			outColor.rgb = (texture(uAmbientMap, texcoord).rgb + outDiffuse) * albedo;
+			outColor.rgb += specular * outSpecular;
+			outColor.rgb += emissive;
+		}
 	}
+	else
+		discard;
 
-
-	outColor.rgb = (texture(uAmbientMap, texcoord).rgb + outDiffuse) * albedo;
-	outColor.rgb += specular * outSpecular;
-	outColor.rgb += emissive;
+	//outColor.rgb = (texture(uDepthMap, texcoord).rgb);
 
 	outColor.a = 1.0;
 }

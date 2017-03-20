@@ -10,19 +10,6 @@
 #include "FrameBufferObject.h"
 
 //STATE CLASSES
-class MainMenu : public GameState
-{
-public:
-	MainMenu();
-	void enter();
-	void exit();
-	void Update();
-private:	
-	std::vector<ENG::GameObject*> collidables;
-
-	bool hasBeenInitialized;
-	bool hasLoadedOnce = false;
-};
 
 class GameLevel : public GameState
 {
@@ -35,32 +22,6 @@ public:
 private:
 	std::vector<ENG::GameObject*> collidables;
 
-	bool hasBeenInitialized;
-	bool hasLoadedOnce = false;
-};
-
-//class TwoPlayerLevel : public GameState
-//{
-//public:
-//	LevelTwo();
-//	void enter();
-//	void exit();
-//	void gameOver();
-//	void Update();
-//private:
-//	std::vector<ENG::GameObject*> collidables;
-//
-//	bool hasBeenInitialized;
-//};
-
-class GameOver : public GameState
-{
-public:
-	GameOver();
-	void enter();
-	void exit();
-	void Update();
-private:
 	bool hasBeenInitialized;
 	bool hasLoadedOnce = false;
 };
@@ -91,20 +52,23 @@ static ENG::Shader bloomVerticalBlur;
 static ENG::Shader bloomComposite;
 static ENG::Shader UVScrolling;
 static ENG::Shader motionBlur;
+static ENG::Shader nullShader;
 
 //FBOS
-static ENG::FrameBufferObject deferredFBO;
+static ENG::FrameBufferObject geometryBuffer;
 static ENG::FrameBufferObject finalSceneFBO1;
 static ENG::FrameBufferObject finalSceneFBO2;
 static ENG::FrameBufferObject bloomFBO1;
 static ENG::FrameBufferObject bloomFBO2;
 static ENG::FrameBufferObject motionBlurFBO;
+static ENG::FrameBufferObject lightingStencil;
 
 
 //MAPS OF GAME OBJECTS
 static std::vector <ENG::GameObject*> gObjects;
 static std::vector <ENG::GameObject*> transparentGObjects;
 static std::vector <ENG::GameObject*> HUDGObjects;
+static std::vector <ENG::GameObject*> LightGObjects;
 
 static void removeGameObjects(); //FLUSHES VECTORS OF GAME OBJECTS
 

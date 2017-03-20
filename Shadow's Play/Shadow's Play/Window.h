@@ -43,7 +43,7 @@ namespace ENG
 
 		sf::RenderWindow* GetSFMLWindow();
 
-		bool checkAndClear();
+		bool check();
 
 	private:
 		Window();

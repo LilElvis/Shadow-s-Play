@@ -24,11 +24,8 @@ namespace ENG
 	}
 
 	//UPDATES WINDOW, OBJECTS, AND DRAWS EVERYTHING
-	bool Window::checkAndClear()
+	bool Window::check()
 	{
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glClearColor(47.0f / 255.0f, 47.0f / 255.0f, 47.0f / 255.0f, 0);
-
 		if (!window.isOpen()) return false;
 
 		sf::Event event;

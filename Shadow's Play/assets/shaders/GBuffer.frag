@@ -27,7 +27,7 @@ in vec3 pos;
 in vec3 tang;
 in vec3 biTang;
 
-layout (location = 0) out vec4 outColor;
+layout (location = 0) out vec4 outAlbedo;
 layout (location = 1) out vec3 outNormal;
 layout (location = 2) out vec3 outSpecular;
 layout (location = 3) out vec3 outEmissive;
@@ -45,7 +45,7 @@ void main()
 								tangent.y, biTangent.y, normal.y,
 								tangent.z, biTangent.z, normal.z);
 
-	outColor.rgb = (texture(uAlbedoTex, texcoord).rgb + uDiffuseAdd) * uDiffuseMult;
+	outAlbedo.rgb = (texture(uAlbedoTex, texcoord).rgb + uDiffuseAdd) * uDiffuseMult;
 
 	//Make normals from 0 to 1 for optimization
 	outNormal.rgb = normalize(((texture(uNormalTex, texcoord).xyz) * 2.0 - 1) * tanToWorldSpace) * 0.5 + 0.5;
@@ -57,5 +57,5 @@ void main()
 
 	outEmissive.rgb = (texture(uEmissiveTex, texcoord).rgb + uEmissiveAdd) * uEmissiveMult;
 
-	outColor.a = 1.0;
+	outAlbedo.a = 1.0;
 }

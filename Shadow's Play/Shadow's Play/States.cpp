@@ -60,78 +60,76 @@ void Initialize()
 	defaultMesh->LoadFromFile("Quad", "../assets/objects/Quad.obj");
 	defaultTexture->LoadFromFile("MainMenu", "../assets/textures/Menu.png");
 	defaultTexture->LoadFromFile("GameOver", "../assets/textures/GameOver.png");
-	static ENG::SceneObject Quad("Quad", defaultMesh->listOfMeshes["Quad"]->VAO, *defaultTexture->listOfTextures["MainMenu"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], deferredFBO.getLayerNumber());
+	static ENG::SceneObject Quad("Quad", defaultMesh->listOfMeshes["Quad"]->VAO, *defaultTexture->listOfTextures["MainMenu"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
 	sceneObjects["Quad"] = &Quad;
-	static ENG::SceneObject Quad2("Quad", defaultMesh->listOfMeshes["Quad"]->VAO, *defaultTexture->listOfTextures["GameOver"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], deferredFBO.getLayerNumber());
+	static ENG::SceneObject Quad2("Quad", defaultMesh->listOfMeshes["Quad"]->VAO, *defaultTexture->listOfTextures["GameOver"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
 	sceneObjects["Quad2"] = &Quad2;
-	static ENG::SceneObject Quad3("Quad", defaultMesh->listOfMeshes["Quad"]->VAO, *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], deferredFBO.getLayerNumber());
+	static ENG::SceneObject Quad3("Quad", defaultMesh->listOfMeshes["Quad"]->VAO, *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
 	sceneObjects["Quad3"] = &Quad3;
 
-	//LOAD OBJECTS
-	defaultMesh->LoadFromFile("Nyx", "../assets/objects/Nyx/Nyx.obj");
-	defaultTexture->LoadFromFile("Nyx", "../assets/textures/Nyx.png");
-	defaultTexture->LoadFromFile("NyxEmissive", "../assets/textures/NyxEmissive.png");
-	defaultTexture->LoadFromFile("NyxNormal", "../assets/textures/NyxNormal.png");
-	defaultTexture->LoadFromFile("NyxSpecular", "../assets/textures/NyxSpecular.png");
-	static ENG::Player Nyx("Nyx", defaultMesh->listOfMeshes["Nyx"]->VAO, *defaultTexture->listOfTextures["Nyx"], *defaultTexture->listOfTextures["NyxNormal"], *defaultTexture->listOfTextures["NyxSpecular"], *defaultTexture->listOfTextures["NyxEmissive"], deferredFBO.getLayerNumber());
-	Player["Nyx"] = &Nyx;
+	//LOAD OBJECT
 
 	defaultMesh->LoadFromFile("Room", "../assets/objects/MapTemp.obj");
 	defaultTexture->LoadFromFile("Room", "../assets/textures/Map.png");
 	defaultTexture->LoadFromFile("RoomEmissive", "../assets/textures/MapEmissive.png");
 	defaultTexture->LoadFromFile("RoomNormal", "../assets/textures/MapNormal.png");
-	static ENG::SceneObject Room("Room", defaultMesh->listOfMeshes["Room"]->VAO, *defaultTexture->listOfTextures["Room"], *defaultTexture->listOfTextures["RoomNormal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["RoomEmissive"], deferredFBO.getLayerNumber());
+	static ENG::SceneObject Room("Room", defaultMesh->listOfMeshes["Room"]->VAO, *defaultTexture->listOfTextures["Room"], *defaultTexture->listOfTextures["RoomNormal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["RoomEmissive"], geometryBuffer.getLayerNumber());
 	sceneObjects["Room"] = &Room;
 
 	defaultMesh->LoadFromFile("Warning", "../assets/objects/WarnQuad.obj");
 	defaultTexture->LoadFromFile("Warning", "../assets/textures/Warning.png");
-	static ENG::SceneObject Warning("Warning", defaultMesh->listOfMeshes["Warning"]->VAO, *defaultTexture->listOfTextures["Warning"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Warning"], deferredFBO.getLayerNumber());
+	static ENG::SceneObject Warning("Warning", defaultMesh->listOfMeshes["Warning"]->VAO, *defaultTexture->listOfTextures["Warning"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Warning"], geometryBuffer.getLayerNumber());
 	sceneObjects["Warning"] = &Warning;
-	static ENG::SceneObject Warning2("Warning", defaultMesh->listOfMeshes["Warning"]->VAO, *defaultTexture->listOfTextures["Warning"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Warning"], deferredFBO.getLayerNumber());
+	static ENG::SceneObject Warning2("Warning", defaultMesh->listOfMeshes["Warning"]->VAO, *defaultTexture->listOfTextures["Warning"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Warning"], geometryBuffer.getLayerNumber());
 	sceneObjects["Warning2"] = &Warning2;
 	
 	defaultMesh->LoadFromFile("SpotLight", "../assets/objects/SpotLight.obj");
 	defaultTexture->LoadFromFile("SpotLight", "../assets/textures/Light1.png");
 	defaultTexture->LoadFromFile("SpotLight2", "../assets/textures/Light2.png");
-	static ENG::SceneObject SpotLight("SpotLight", defaultMesh->listOfMeshes["SpotLight"]->VAO, *defaultTexture->listOfTextures["SpotLight"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], deferredFBO.getLayerNumber());
+	static ENG::SceneObject SpotLight("SpotLight", defaultMesh->listOfMeshes["SpotLight"]->VAO, *defaultTexture->listOfTextures["SpotLight"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
 	sceneObjects["SpotLight"] = &SpotLight;
-	static ENG::SceneObject SpotLight2("SpotLight", defaultMesh->listOfMeshes["SpotLight"]->VAO, *defaultTexture->listOfTextures["SpotLight2"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], deferredFBO.getLayerNumber());
+	static ENG::SceneObject SpotLight2("SpotLight", defaultMesh->listOfMeshes["SpotLight"]->VAO, *defaultTexture->listOfTextures["SpotLight2"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
 	sceneObjects["SpotLight2"] = &SpotLight2;
 
 	defaultMesh->LoadFromFile("QuadLight", "../assets/objects/QuadLight.obj");
 	defaultTexture->LoadFromFile("QuadLight", "../assets/textures/QuadLight.png");
-	static ENG::SceneObject QuadLight("QuadLight", defaultMesh->listOfMeshes["QuadLight"]->VAO, *defaultTexture->listOfTextures["QuadLight"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], deferredFBO.getLayerNumber());
+	static ENG::SceneObject QuadLight("QuadLight", defaultMesh->listOfMeshes["QuadLight"]->VAO, *defaultTexture->listOfTextures["QuadLight"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
 	sceneObjects["QuadLight"] = &QuadLight;
 	
 	defaultMesh->LoadFromFile("QuadWarning", "../assets/objects/QuadWarningQuad.obj");
 	defaultTexture->LoadFromFile("QuadWarning", "../assets/textures/QuadWarning.png");
-	static ENG::SceneObject Warning3("Warning", defaultMesh->listOfMeshes["QuadWarning"]->VAO, *defaultTexture->listOfTextures["QuadWarning"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["QuadWarning"], deferredFBO.getLayerNumber());
+	static ENG::SceneObject Warning3("Warning", defaultMesh->listOfMeshes["QuadWarning"]->VAO, *defaultTexture->listOfTextures["QuadWarning"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["QuadWarning"], geometryBuffer.getLayerNumber());
 	sceneObjects["Warning3"] = &Warning3;
 
 	defaultMesh->LoadFromFile("TimerQuad", "../assets/objects/TimerQuad.obj");
 	defaultTexture->LoadFromFile("numTexture", "../assets/textures/numTexture.png");
-	static ENG::SceneObject TimerQuad("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], deferredFBO.getLayerNumber());
+	static ENG::SceneObject TimerQuad("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
 	sceneObjects["TimerQuad"] = &TimerQuad;
-	static ENG::SceneObject TimerQuad2("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], deferredFBO.getLayerNumber());
+	static ENG::SceneObject TimerQuad2("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
 	sceneObjects["TimerQuad2"] = &TimerQuad2;
-	static ENG::SceneObject TimerQuad3("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], deferredFBO.getLayerNumber());
+	static ENG::SceneObject TimerQuad3("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
 	sceneObjects["TimerQuad3"] = &TimerQuad3;
-	static ENG::SceneObject TimerQuad4("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], deferredFBO.getLayerNumber());
+	static ENG::SceneObject TimerQuad4("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
 	sceneObjects["TimerQuad4"] = &TimerQuad4;
-	static ENG::SceneObject TimerQuad5("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], deferredFBO.getLayerNumber());
+	static ENG::SceneObject TimerQuad5("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
 	sceneObjects["TimerQuad5"] = &TimerQuad5;
 
-	static ENG::SceneObject InvisWall("InvisWall", 0, *defaultTexture->listOfTextures["SpotLight"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], 0);
+	static ENG::SceneObject InvisWall("InvisWall", 0, *defaultTexture->listOfTextures["Emissive"], *defaultTexture->listOfTextures["Emissive"], *defaultTexture->listOfTextures["Emissive"], *defaultTexture->listOfTextures["Emissive"], 0);
 	sceneObjects["InvisWall"] = &InvisWall;
 	
-	static ENG::SceneObject InvisWall2("InvisWall2", 0, *defaultTexture->listOfTextures["SpotLight"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], 0);
-	sceneObjects["InvisWall2"] = &InvisWall2;
-	
-	static ENG::SceneObject InvisWall3("InvisWall3", 0, *defaultTexture->listOfTextures["SpotLight"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], 0);
-	sceneObjects["InvisWall3"] = &InvisWall3;
-	
-	static ENG::SceneObject InvisWall4("InvisWall4", 0, *defaultTexture->listOfTextures["SpotLight"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], 0);
+	static ENG::SceneObject InvisWall2("InvisWall2", 0, *defaultTexture->listOfTextures["Emissive"], *defaultTexture->listOfTextures["Emissive"], *defaultTexture->listOfTextures["Emissive"], *defaultTexture->listOfTextures["Emissive"], 0);
+	sceneObjects["InvisWall2"] = &InvisWall2;																																	  
+																																												  
+	static ENG::SceneObject InvisWall3("InvisWall3", 0, *defaultTexture->listOfTextures["Emissive"], *defaultTexture->listOfTextures["Emissive"], *defaultTexture->listOfTextures["Emissive"], *defaultTexture->listOfTextures["Emissive"], 0);
+	sceneObjects["InvisWall3"] = &InvisWall3;																						 											  
+																																	 											  
+	static ENG::SceneObject InvisWall4("InvisWall4", 0, *defaultTexture->listOfTextures["Emissive"], *defaultTexture->listOfTextures["Emissive"], *defaultTexture->listOfTextures["Emissive"], *defaultTexture->listOfTextures["Emissive"], 0);
 	sceneObjects["InvisWall4"] = &InvisWall4;
+
+	//LIGHT OBJECTS
+	defaultMesh->LoadFromFile("Sphere", "../assets/objects/light_volumes/sphere.obj");
+	static ENG::SceneObject Sphere("Sphere", defaultMesh->listOfMeshes["Sphere"]->VAO, *defaultTexture->listOfTextures["Emissive"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], 0);
+	sceneObjects["Sphere"] = &Sphere;
 
 	//LOAD SHADER PROGRAMS
 	defaultShader.load("Default", "../assets/shaders/StaticGeometry.vert", "../assets/shaders/BasicLighting.frag");
@@ -144,15 +142,17 @@ void Initialize()
 	bloomComposite.load("bloomComp", "../assets/shaders/PassThrough.vert", "../assets/shaders/BloomComposite.frag");
 	UVScrolling.load("UVScroll", "../assets/shaders/StaticGeometry.vert", "../assets/shaders/UVScrolling.frag");
 	motionBlur.load("PassThrough", "../assets/shaders/PassThrough.vert", "../assets/shaders/MotionBlur.frag");
+	nullShader.load("nullShader", "../assets/shaders/StaticGeometry.vert", "../assets/shaders/null.frag");
 
 	//INITIALiZE FBOS
-	deferredFBO.Init(windowWidth, windowHeight, 5);
-	deferredFBO.initColorTexture(0, GL_RGBA8);
-	deferredFBO.initColorTexture(1, GL_RGB8);
-	deferredFBO.initColorTexture(2, GL_RGB8);
-	deferredFBO.initColorTexture(3, GL_RGB8);
-	deferredFBO.initColorTexture(4, GL_RGB8);
-	deferredFBO.initDepthTexture();
+	geometryBuffer.Init(windowWidth, windowHeight, 5);
+	geometryBuffer.initColorTexture(0, GL_RGBA8);
+	geometryBuffer.initColorTexture(1, GL_RGB8);
+	geometryBuffer.initColorTexture(2, GL_RGB8);
+	geometryBuffer.initColorTexture(3, GL_RGB8);
+	geometryBuffer.initColorTexture(4, GL_RGB8);
+	//deferredFBO.initColorTexture(5, GL_RGB8);
+	geometryBuffer.initDepthTexture();
 
 	finalSceneFBO1.Init(windowWidth, windowHeight, 1);
 	finalSceneFBO1.initColorTexture(0, GL_RGB8);
@@ -167,6 +167,9 @@ void Initialize()
 
 	motionBlurFBO.Init(windowWidth, windowHeight, 1);
 	motionBlurFBO.initColorTexture(0);
+
+	lightingStencil.Init(windowWidth, windowHeight, 0);
+	lightingStencil.initDepthTexture();
 
 	//SPRITE ANIMATIONS
 	sceneObjects["Warning"]->UVOffsets.push_back(glm::vec2(0.0f, 0.0f));
@@ -249,9 +252,6 @@ void Initialize()
 
 	InvisWall4.BBBL = glm::vec2(-1.0f, 50.0f);
 	InvisWall4.BBFR = glm::vec2(50.0f, -50.0f);
-
-	Nyx.BBBL = glm::vec2( 2.0f, -2.0f);
-	Nyx.BBFR = glm::vec2(-2.0f,  2.0f);
 	
 	//SET POINTS
 	points[0]  = glm::vec3(  0.0f, 0.5f,   0.0f);
@@ -276,7 +276,6 @@ void Initialize()
 void Reset()
 {
 	//RESET ALL OBJECTS BEFORE REAPPLYING TRANSLATIONS AND BOOLEANS
-	Player["Nyx"]->reset();
 
 	for (sceneObjects_iterator = sceneObjects.begin(); sceneObjects_iterator != sceneObjects.end(); sceneObjects_iterator++)
 	{
@@ -294,92 +293,6 @@ void Reset()
 
 
 
-MainMenu::MainMenu()
-{
-	hasBeenInitialized = false;
-}
-
-//MAIN MENU MAIN LOOP
-void MainMenu::Update()
-{
-	if (hasBeenInitialized == false)
-	{
-		enter();
-		hasBeenInitialized = true;
-	}
-
-	sceneObjects["Quad"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);
-	sceneObjects["Quad"]->uAmbientAdd = glm::vec3(1.0f, 1.0f, 1.0f);
-	sceneObjects["Quad"]->uDiffuseMult = glm::vec3(sinf(totalTime) * 0.2f + 1.0f, sinf(totalTime) * 0.2f + 1.0f, sinf(totalTime) * 0.2f + 1.0f);
-
-	totalTime += 1 / 60.0f;
-
-	deltaTime = (totalTime - previousTime);
-
-	previousTime = totalTime;
-
-	gameWindow->checkAndClear();
-	
-	Sounds["mainMenu"]->channel->setVolume(0.6f);
-
-	Sound::systemUpdate();
-	
-	passThrough.bind();
-
-	for (auto itr = gObjects.begin(), itrEnd = gObjects.end();
-		itr != itrEnd; itr++)
-	{
-		(*itr)->update(deltaTime, totalTime);
-	}
-
-	for (auto itr = gObjects.begin(), itrEnd = gObjects.end();
-		itr != itrEnd; itr++)
-	{
-		(*itr)->render(defaultMesh, &passThrough);
-	}
-
-	gameWindow->GetSFMLWindow()->display();
-
-	if(devCommand.GetKeyDown(ENG::KeyCode::Space))
-	{
-		MainMenu::exit();
-		m_parent->GetGameState("GameLevel")->SetPaused(false);
-		Sounds["mainMenu"]->channel->stop();
-	}
-
-	ENG::Input::ResetKeys();
-}
-
-void MainMenu::enter()
-{
-	if (m_paused == true)
-	{
-		m_paused = false;
-		MainMenu::SetPaused(m_paused);
-	}
-
-	mainMenuChannel = Sounds["mainMenu"]->play();
-
-	gObjects.push_back(sceneObjects["Quad"]);
-	sceneObjects["Quad"]->setPosition(glm::vec3(0.0f, 0.0f, -10.0f));
-	hasLoadedOnce = true;
-
-}
-
-void MainMenu::exit()
-{
-	removeGameObjects();
-
-	hasBeenInitialized = false;
-	if (m_paused == false)
-	{
-		m_paused = true;
-		MainMenu::SetPaused(m_paused);
-		GameLevel(hasBeenInitialized);
-	}
-}
-
-
 //FIRST LEVEL MAIN LOOP
 void GameLevel::Update()
 {
@@ -394,14 +307,6 @@ void GameLevel::Update()
 		}
 
 		flashValue = (0.9f * sin(totalTime) + 0.55f);
-
-
-		if (Player["Nyx"]->getLifeLost())
-		{
-			Player["Nyx"]->setLifeLost(false);
-			dieChannel = Sounds["die"]->play();
-			globalT = 0.99f;
-		}
 
 		if (globalT >= 1.0f)
 		{
@@ -494,36 +399,18 @@ void GameLevel::Update()
 		sceneObjects["Warning2"]->uEmissiveMult = glm::vec3((sinf(totalTime * 0.25f) * 0.5f) + 1.0f);
 		sceneObjects["Warning3"]->uEmissiveMult = glm::vec3((sinf(totalTime * 0.25f) * 0.5f) + 1.0f);
 
-		Player["Nyx"]->collisionCheck(collidables);
-
-		if (Player["Nyx"]->getIsDead() == true)
-		{
-			Player["Nyx"]->setPosition(glm::vec3(200.0f, 200.0f, 200.0f));
-			if (deathTimer == false)
-			{
-				timeOfDeath = totalTime;
-				deathTimer = true;
-			}
+		
 			if ((deathTimer == true) && (totalTime > (timeOfDeath + 3.0f)))
 			{
 				GameLevel::gameOver();
 				m_parent->GetGameState("GameOver")->SetPaused(false);
 			}
-		}
 	
 		//Sound Update
 
 		Sounds["bgm"]->channel->setVolume(0.6f);
 		Sounds["die"]->channel->setVolume(1.0f);
 		Sounds["warn"]->channel->setVolume(25.0f);
-
-		playerPos.x = Player["Nyx"]->getPosition().x;
-		playerPos.y = Player["Nyx"]->getPosition().y;
-		playerPos.z = Player["Nyx"]->getPosition().z;
-
-		playerVel.x = Player["Nyx"]->getVelocity().x;
-		playerVel.y = Player["Nyx"]->getVelocity().y;
-		playerVel.z = Player["Nyx"]->getVelocity().z;
 
 		diePos = playerPos;
 		dieVel = playerVel;
@@ -546,13 +433,6 @@ void GameLevel::Update()
 		
 		Sound::systemUpdate();
 
-		if (glm::distance(Player["Nyx"]->getPosition(), sceneObjects["Warning3"]->getPosition()) <= 19.0f && !inRadius)
-			hasBeenWarned = true;
-
-		if (glm::distance(Player["Nyx"]->getPosition(), sceneObjects["Warning3"]->getPosition()) <= 19.0f)
-			inRadius = true;
-		else
-			inRadius = false;
 		
 		if (hasBeenWarned)
 		{
@@ -560,19 +440,23 @@ void GameLevel::Update()
 			hasBeenWarned = false;
 		}
 
-		if(Player["Nyx"]->getDashed())
-			dashChannel = Sounds["dash"]->play();
 
+		gameWindow->check();
+		
 		//Drawing Geometry and Player Character
-		deferredFBO.Bind();
+		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_BACK);
 
+		geometryBuffer.Bind();
 		GBuffer.bind();
 
 		GBuffer.sendUniformMat4("uView", &view.getMatrix()[0][0], false);
 		GBuffer.sendUniformMat4("uProj", &persp[0][0], false);
 		GBuffer.sendUniform("LightPosition", down);
 		
-		gameWindow->checkAndClear();
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glClearColor(47.0f / 255.0f, 47.0f / 255.0f, 47.0f / 255.0f, 0);
 
 		for (auto itr = gObjects.begin(), itrEnd = gObjects.end();
 			itr != itrEnd; itr++)
@@ -615,10 +499,91 @@ void GameLevel::Update()
 		defaultShader.unBind();
 
 		glDisable(GL_BLEND);
+		
+		//Lighting Prepass---------------------------------
+		
+		//glEnable(GL_STENCIL_TEST);
+		//
+		//nullShader.bind();
+		//
+		//nullShader.sendUniformMat4("uView", &view.getMatrix()[0][0], false);
+		//nullShader.sendUniformMat4("uProj", &persp[0][0], false);
+		//nullShader.sendUniform("LightPosition", down);
+		//
+		//glDrawBuffer(GL_NONE);
+		//
+		//glEnable(GL_DEPTH_TEST);
+		//
+		//glDisable(GL_CULL_FACE);
+		//
+		//glClear(GL_STENCIL_BUFFER_BIT);
+		//
+		//glStencilFunc(GL_ALWAYS, 0 ,0);
+		//
+		//glStencilOpSeparate(GL_BACK, GL_KEEP, GL_INCR_WRAP, GL_KEEP);
+		//glStencilOpSeparate(GL_FRONT, GL_KEEP, GL_DECR_WRAP, GL_KEEP);
+		//
+		//
+		//for (auto itr = LightGObjects.begin(), itrEnd = LightGObjects.end();
+		//	itr != itrEnd; itr++)
+		//{
+		//	(*itr)->update(deltaTime, totalTime);
+		//}
+		//
+		//for (auto itr = LightGObjects.begin(), itrEnd = LightGObjects.end();
+		//	itr != itrEnd; itr++)
+		//{
+		//	(*itr)->render(defaultMesh, &GBuffer);
+		//}
+		//
+		//glDrawBuffer(GL_COLOR_ATTACHMENT5);
+		//for (int i = 0; i < deferredFBO.getNumberOfColorAttatchments(); i++)
+		//{
+		//	deferredFBO.BindColorAsTexture(GL_TEXTURE0 + i, i);
+		//}
+		//
+		////May need new shader here..?
+		//
+		//glStencilFunc(GL_NOTEQUAL, 0, 0xFF);
+		//
+		//glDisable(GL_DEPTH_TEST);
+		//glEnable(GL_BLEND);
+		//glBlendEquation(GL_FUNC_ADD);
+		//glBlendFunc(GL_ONE, GL_ONE);
+		//
+		//glEnable(GL_CULL_FACE);
+		//glCullFace(GL_FRONT);
+		//
+		//for (auto itr = LightGObjects.begin(), itrEnd = LightGObjects.end();
+		//	itr != itrEnd; itr++)
+		//{
+		//	(*itr)->update(deltaTime, totalTime);
+		//}
+		//
+		//for (auto itr = LightGObjects.begin(), itrEnd = LightGObjects.end();
+		//	itr != itrEnd; itr++)
+		//{
+		//	(*itr)->render(defaultMesh, &GBuffer);
+		//}
+		//
+		//glCullFace(GL_BACK);
+		//
+		//glDisable(GL_BLEND);
+		//
+		//glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+		//glBindFramebuffer(GL_READ_FRAMEBUFFER, deferredFBO.getLayerNumber());
+		//glReadBuffer(GL_COLOR_ATTACHMENT5);
+		//
+		//glBlitFramebuffer(0, 0, windowWidth, windowHeight,
+		//				  0, 0, windowWidth, windowHeight, GL_COLOR_BUFFER_BIT, GL_LINEAR);
+		//
+		//-------------------------------------------------
 
 		GBuffer.unBind();
-		deferredFBO.Unbind();
+		geometryBuffer.Unbind();
 		
+		//Lighting Calculations
+
 		finalSceneFBO1.Bind();
 		deferredShading.bind();
 
@@ -637,12 +602,12 @@ void GameLevel::Update()
 
 		glBindVertexArray(sceneObjects["Quad3"]->getRenderable());
 
-		deferredFBO.BindColorAsTexture(GL_TEXTURE0, 0);
-		deferredFBO.BindColorAsTexture(GL_TEXTURE1, 1);
-		deferredFBO.BindColorAsTexture(GL_TEXTURE2, 2);
-		deferredFBO.BindColorAsTexture(GL_TEXTURE3, 3);
-		deferredFBO.BindColorAsTexture(GL_TEXTURE4, 4);
-		deferredFBO.BindDepthAsTexture(GL_TEXTURE5);
+		geometryBuffer.BindColorAsTexture(GL_TEXTURE0, 0);
+		geometryBuffer.BindColorAsTexture(GL_TEXTURE1, 1);
+		geometryBuffer.BindColorAsTexture(GL_TEXTURE2, 2);
+		geometryBuffer.BindColorAsTexture(GL_TEXTURE3, 3);
+		geometryBuffer.BindColorAsTexture(GL_TEXTURE4, 4);
+		geometryBuffer.BindDepthAsTexture(GL_TEXTURE5);
 
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 
@@ -732,7 +697,7 @@ void GameLevel::Update()
 
 		motionBlur.sendUniform("uTex", 0);
 		motionBlur.sendUniform("uPrevScene", 1);
-		motionBlur.sendUniform("uBlurAmount", clamp(1.0f - (totalTime - Player["Nyx"]->timeOfLastDash), 0.0f, 0.75f));
+		motionBlur.sendUniform("uBlurAmount", clamp(1.0f - (totalTime - 0), 0.0f, 0.75f));
 		
 		//timeOfLastDash
 		glBindVertexArray(sceneObjects["Quad3"]->getRenderable());
@@ -802,11 +767,9 @@ void GameLevel::Update()
 		weBePausing = !weBePausing;
 		if (weBePausing)
 		{
-			Player["Nyx"]->setNyxPaused(true);
 		}
 		else
 		{
-			Player["Nyx"]->setNyxPaused(false);
 		}
 	}
 
@@ -837,10 +800,6 @@ void GameLevel::enter()
 	Reset();
 
 	bgmChannel = Sounds["bgm"]->play();
-
-	gObjects.push_back(Player["Nyx"]);
-	Player["Nyx"]->setStartPosition(glm::vec3(0.0f, 0.0f, 0.0f));
-	Player["Nyx"]->setPosition(Player["Nyx"]->getStartPosition());
 
 	gObjects.push_back(sceneObjects["Room"]);
 	sceneObjects["Room"]->setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
@@ -880,19 +839,12 @@ void GameLevel::enter()
 	sceneObjects["InvisWall3"]->setPosition(glm::vec3(-35.0f, 0.0f, 0.0f));
 	sceneObjects["InvisWall4"]->setPosition(glm::vec3(35.0f, 0.0f, 0.0f));
 
-	Player["Nyx"]->uDiffuseAdd = glm::vec3(0.0f, 0.0f, 0.0f);
-	Player["Nyx"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);
-	Player["Nyx"]->uSpecularAdd = glm::vec3(10.0f, 10.0f, 10.0f);
-	Player["Nyx"]->uSpecularMult = glm::vec3(2.0f, 2.0f, 2.0f);
-	Player["Nyx"]->uAmbientAdd = glm::vec3(0.2f, 0.2f, 0.2f);
-	Player["Nyx"]->uAmbientMult = glm::vec3(1.0f, 1.0f, 1.0f);
-	Player["Nyx"]->uEmissiveAdd = glm::vec3(0.2f, 0.1f, 0.2f);
-	Player["Nyx"]->uEmissiveMult = glm::vec3(1.0f, 1.0f, 1.0f);
-
 	sceneObjects["Room"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);
 	sceneObjects["Room"]->uAmbientAdd = glm::vec3(0.2f, 0.2f, 0.2f);
 	sceneObjects["Room"]->uSpecularMult = glm::vec3(1.0f, 1.0f, 1.0f);
 	sceneObjects["Room"]->uSpecularAdd = glm::vec3(0.0f, 0.0f, 0.0f);
+
+	//TRANSPARENT SHIT
 
 	//sceneObjects["Warning"]->uDiffuseAdd = glm::vec3(1.0f, 1.0f, 1.0f);
 	//sceneObjects["Warning2"]->uDiffuseAdd = glm::vec3(1.0f, 1.0f, 1.0f);
@@ -920,6 +872,11 @@ void GameLevel::enter()
 	sceneObjects["Warning3"]->uUVOffset = glm::vec2(0.0f, 0.0f);
 	sceneObjects["Warning3"]->uUVOffset = glm::vec2(0.0f, 0.0f);
 	sceneObjects["Warning3"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+
+	//LIGHT OBJECTS
+
+	LightGObjects.push_back(sceneObjects["Sphere"]);
+	sceneObjects["Sphere"]->setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
 
 	if (!hasLoadedOnce)
 	{
@@ -964,89 +921,11 @@ void GameLevel::gameOver()
 	{
 		m_paused = true;
 		GameLevel::SetPaused(m_paused);
-		GameOver(hasBeenInitialized);
 	}
 
 }
 
-//GAME OVER SCREEN MAIN LOOP
-void GameOver::Update()
-{
-	if (hasBeenInitialized == false)
-	{
-		enter();
-		hasBeenInitialized = true;
-	}
 
-	sceneObjects["Quad2"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);
-	sceneObjects["Quad2"]->uAmbientAdd = glm::vec3(1.0f, 1.0f, 1.0f);
-	sceneObjects["Quad2"]->uDiffuseMult = glm::vec3(sinf(totalTime) * 0.2f + 1.0f, sinf(totalTime) * 0.2f + 1.0f, sinf(totalTime) * 0.2f + 1.0f);
-
-	totalTime += 1 / 60.0f;
-
-	deltaTime = (totalTime - previousTime);
-
-	previousTime = totalTime;
-
-	passThrough.bind();
-
-	gameWindow->checkAndClear();
-
-	for (auto itr = gObjects.begin(), itrEnd = gObjects.end();
-		itr != itrEnd; itr++)
-	{
-		(*itr)->update(deltaTime, totalTime);
-	}
-
-	for (auto itr = gObjects.begin(), itrEnd = gObjects.end();
-		itr != itrEnd; itr++)
-	{
-		(*itr)->render(defaultMesh, &passThrough);
-	}
-
-	gameWindow->GetSFMLWindow()->display();
-
-	if (devCommand.GetKeyDown(ENG::KeyCode::Space))
-	{
-		GameOver::exit();
-		m_parent->GetGameState("MainMenu")->SetPaused(false);
-	}
-
-	ENG::Input::ResetKeys();
-}
-
-GameOver::GameOver()
-{
-	hasBeenInitialized = false;
-}
-
-void GameOver::enter()
-{
-	if (m_paused == true)
-	{
-		m_paused = false;
-		GameOver::SetPaused(m_paused);
-	}
-
-	gObjects.push_back(sceneObjects["Quad2"]);
-	sceneObjects["Quad2"]->setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
-	hasLoadedOnce = true;
-}
-
-void GameOver::exit()
-{
-	removeGameObjects();
-
-	Reset();
-
-	hasBeenInitialized = false;
-	if (m_paused == false)
-	{
-		m_paused = true;
-		GameOver::SetPaused(m_paused);
-		MainMenu(hasBeenInitialized);
-	}
-}
 
 float timerFunc()
 {

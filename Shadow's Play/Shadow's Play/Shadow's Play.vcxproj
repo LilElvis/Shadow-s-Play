@@ -186,6 +186,7 @@
     <ClInclude Include="..\..\Shadow%27s Play\Shadow%27s Play\Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\..\Shadow%27s Play\Shadow%27s Play\assets\shaders\null.frag" />
     <None Include="..\..\Shadow%27s Play\assets\shaders\BasicLighting.frag" />
     <None Include="..\..\Shadow%27s Play\assets\shaders\BloomComposite.frag" />
     <None Include="..\..\Shadow%27s Play\assets\shaders\CelShading.frag" />

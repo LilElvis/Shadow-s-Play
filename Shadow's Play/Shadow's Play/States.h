@@ -180,6 +180,7 @@ static bool deathTimer = false;
 
 static float seconds = 0;
 static int minute = 0;
+static int numOfCycles = 0;
 
 //TIMER FUNC
 float timerFunc();

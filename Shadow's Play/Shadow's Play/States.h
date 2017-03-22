@@ -218,6 +218,7 @@ static int randomCurveControl = 0;
 
 static int randomQuadPos = 0;
 static int randomTriPos = 0;
+static int randomTriPos2 = 0;
 
 //PAUSE
 static bool weBePausing = false;
@@ -233,6 +234,7 @@ static ENG::PointLight pointLight;
 static ENG::PointLight pointLight2;
 static ENG::PointLight pointLight3;
 static ENG::PointLight pointLight4;
+static ENG::PointLight pointLight5;
 
 static ENG::PointLight warningLight;
 static ENG::PointLight warningLight2;

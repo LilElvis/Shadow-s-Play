@@ -1,10 +1,10 @@
 ﻿  States.cpp
 c:\repos\shadow's play\shadow's play\shadow's play\Lights.h(13): warning C4305: 'initializing': truncation from 'double' to 'float'
 c:\repos\shadow's play\shadow's play\shadow's play\Lights.h(14): warning C4305: 'initializing': truncation from 'double' to 'float'
-..\..\Shadow's Play\Shadow's Play\States.cpp(893): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-..\..\Shadow's Play\Shadow's Play\States.cpp(1132): warning C4305: '+=': truncation from 'double' to 'float'
+..\..\Shadow's Play\Shadow's Play\States.cpp(938): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+..\..\Shadow's Play\Shadow's Play\States.cpp(1197): warning C4305: '+=': truncation from 'double' to 'float'
   Generating code
-  1 of 3031 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
+  1 of 3037 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
     0 functions had inline decision re-evaluated but remain unchanged
   Finished generating code

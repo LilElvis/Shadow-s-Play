@@ -254,8 +254,8 @@ void Initialize()
 	QuadLight.BBBL = glm::vec2(-17.5f, 17.5f);
 	QuadLight.BBFR = glm::vec2(17.5f, -17.5f);
 
-	TriLight.BBBL = glm::vec2(-11.7, 11.7);
-	TriLight.BBBL = glm::vec2(11.7, -11.7);
+	TriLight.BBBL = glm::vec2(-11.7f, 11.7f);
+	TriLight.BBFR = glm::vec2(11.7f, -11.7f);
 
 	InvisWall.BBBL = glm::vec2(-50.0f, 1.0f);
 	InvisWall.BBFR = glm::vec2(50.0f, -50.0f);
@@ -317,6 +317,7 @@ void Reset()
 	globalT = 1.0f;
 	rampValue = 0.005f;
 	timeOfDeath = 0.0f;
+	numOfCycles = 0;
 	deathTimer = false;
 }
 
@@ -434,6 +435,7 @@ void GameLevel::Update()
 		if (globalT >= 1.0f)
 		{
 			globalT = 0.0f;
+			numOfCycles++;
 
 			randomLERPStart = randomNumber(1, 12);
 			randomLERPEnd = randomLERPStart + randomNumber(4, 8);
@@ -489,14 +491,14 @@ void GameLevel::Update()
 		sceneObjects["SpotLight2"]->setPosition(bezier(points[randomCurveStart], points[randomCurveControl], points[randomCurveEnd], globalT));
 		pointLight2.position = (sceneObjects["SpotLight2"]->getPosition() + glm::vec3(0.0f, 1.5f, 0.0f));
 
-		if (globalT > 0.7f && globalT < 0.98f)
+		if ((globalT > 0.7f && globalT < 0.98f) && numOfCycles >= 4 && numOfCycles <= 9)
 			sceneObjects["QuadLight"]->setPosition(points[randomQuadPos]);
 		else
 			sceneObjects["QuadLight"]->setPosition(glm::vec3(0.0f, 0.6f, 100.0f));
 		
 		pointLight3.position = (sceneObjects["QuadLight"]->getPosition() + glm::vec3(0.0f, 1.5f, 0.0f));
 
-		if (globalT > 0.7f && globalT < 0.98f)
+		if ((globalT > 0.7f && globalT < 0.98f) && numOfCycles >= 10)
 			sceneObjects["TriLight"]->setPosition(points[randomTriPos]);
 		else
 			sceneObjects["TriLight"]->setPosition(glm::vec3(0.0f, 0.6f, 100.0f));
@@ -509,12 +511,12 @@ void GameLevel::Update()
 		if (!wasWarned2)
 			sceneObjects["Warning2"]->setPosition(clamp(sceneObjects["SpotLight2"]->getPosition(), RoomMin, RoomMax));
 
-		if (globalT < 0.7f)
+		if (globalT < 0.7f && numOfCycles >= 4 && numOfCycles <= 9)
 			sceneObjects["Warning3"]->setPosition(points[randomQuadPos]);
 		else
 			sceneObjects["Warning3"]->setPosition(glm::vec3(0.0f, 0.6f, 55.0f));
 
-		if (globalT < 0.7f)
+		if (globalT < 0.7f && numOfCycles >= 10)
 			sceneObjects["Warning4"]->setPosition(points[randomTriPos]);
 		else
 			sceneObjects["Warning4"]->setPosition(glm::vec3(0.0f, 0.6f, 55.0f));
@@ -597,11 +599,15 @@ void GameLevel::Update()
 
 		if (glm::distance(Player["Nyx"]->getPosition(), sceneObjects["Warning3"]->getPosition()) <= 19.0f && !inRadius)
 			hasBeenWarned = true;
+		if (glm::distance(Player["Nyx"]->getPosition(), sceneObjects["Warning4"]->getPosition()) <= 13.0f && !inRadius)
+			hasBeenWarned = true;
 
 		if (glm::distance(Player["Nyx"]->getPosition(), sceneObjects["Warning3"]->getPosition()) <= 19.0f)
 			inRadius = true;
+		else if (glm::distance(Player["Nyx"]->getPosition(), sceneObjects["Warning4"]->getPosition()) <= 13.0f)
+			inRadius = true;
 		else
-			inRadius = false;
+			inRadius = false; 
 		
 		if (hasBeenWarned)
 		{

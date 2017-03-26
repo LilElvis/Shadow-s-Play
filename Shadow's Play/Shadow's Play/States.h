@@ -113,7 +113,7 @@ static std::unordered_map<std::string, ENG::SceneObject*> sceneObjects;
 static std::unordered_map<std::string, ENG::SceneObject*>::iterator sceneObjects_iterator;
 static std::unordered_map<std::string, sf::Sprite> sfSprites;
 
-static glm::vec3 points[17];
+static glm::vec3 points[26];
 
 //SOUNDS (FMOD VARIABLES/CHANNELS/VECTORS/DSP's)
 static std::unordered_map<std::string, Sound*> Sounds;
@@ -180,6 +180,7 @@ static bool deathTimer = false;
 
 static float seconds = 0;
 static int minute = 0;
+static int numOfCycles = 0;
 
 //TIMER FUNC
 float timerFunc();
@@ -216,6 +217,8 @@ static int randomCurveEnd = 0;
 static int randomCurveControl = 0;
 
 static int randomQuadPos = 0;
+static int randomTriPos = 0;
+static int randomTriPos2 = 0;
 
 //PAUSE
 static bool weBePausing = false;
@@ -230,6 +233,8 @@ static glm::vec3 RoomMin = glm::vec3(-bounds, 10.0f, -bounds);
 static ENG::PointLight pointLight;
 static ENG::PointLight pointLight2;
 static ENG::PointLight pointLight3;
+static ENG::PointLight pointLight4;
+static ENG::PointLight pointLight5;
 
 static ENG::PointLight warningLight;
 static ENG::PointLight warningLight2;

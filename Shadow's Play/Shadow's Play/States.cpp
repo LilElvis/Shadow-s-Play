@@ -102,11 +102,31 @@ void Initialize()
 	defaultTexture->LoadFromFile("QuadLight", "../assets/textures/QuadLight.png");
 	static ENG::SceneObject QuadLight("QuadLight", defaultMesh->listOfMeshes["QuadLight"]->VAO, *defaultTexture->listOfTextures["QuadLight"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], deferredFBO.getLayerNumber());
 	sceneObjects["QuadLight"] = &QuadLight;
+
+	defaultMesh->LoadFromFile("TriLight", "../assets/objects/TriLight.obj");
+	defaultTexture->LoadFromFile("TriLight", "../assets/textures/QuadLight.png");
+	static ENG::SceneObject TriLight("TriLight", defaultMesh->listOfMeshes["TriLight"]->VAO, *defaultTexture->listOfTextures["QuadLight"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], deferredFBO.getLayerNumber());
+	sceneObjects["TriLight"] = &TriLight;
+
+	defaultMesh->LoadFromFile("TriLight2", "../assets/objects/TriLight.obj");
+	defaultTexture->LoadFromFile("TriLight2", "../assets/textures/QuadLight.png");
+	static ENG::SceneObject TriLight2("TriLight2", defaultMesh->listOfMeshes["TriLight2"]->VAO, *defaultTexture->listOfTextures["QuadLight"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], deferredFBO.getLayerNumber());
+	sceneObjects["TriLight2"] = &TriLight2;
 	
 	defaultMesh->LoadFromFile("QuadWarning", "../assets/objects/QuadWarningQuad.obj");
 	defaultTexture->LoadFromFile("QuadWarning", "../assets/textures/QuadWarning.png");
 	static ENG::SceneObject Warning3("Warning", defaultMesh->listOfMeshes["QuadWarning"]->VAO, *defaultTexture->listOfTextures["QuadWarning"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["QuadWarning"], deferredFBO.getLayerNumber());
 	sceneObjects["Warning3"] = &Warning3;
+
+	defaultMesh->LoadFromFile("QuadWarning", "../assets/objects/QuadWarningQuad.obj");
+	defaultTexture->LoadFromFile("QuadWarning", "../assets/textures/QuadWarning.png");
+	static ENG::SceneObject Warning4("Warning", defaultMesh->listOfMeshes["QuadWarning"]->VAO, *defaultTexture->listOfTextures["QuadWarning"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["QuadWarning"], deferredFBO.getLayerNumber());
+	sceneObjects["Warning4"] = &Warning4;
+
+	defaultMesh->LoadFromFile("QuadWarning", "../assets/objects/QuadWarningQuad.obj");
+	defaultTexture->LoadFromFile("QuadWarning", "../assets/textures/QuadWarning.png");
+	static ENG::SceneObject Warning5("Warning", defaultMesh->listOfMeshes["QuadWarning"]->VAO, *defaultTexture->listOfTextures["QuadWarning"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["QuadWarning"], deferredFBO.getLayerNumber());
+	sceneObjects["Warning5"] = &Warning5;
 
 	defaultMesh->LoadFromFile("TimerQuad", "../assets/objects/TimerQuad.obj");
 	defaultTexture->LoadFromFile("numTexture", "../assets/textures/numTexture.png");
@@ -180,6 +200,18 @@ void Initialize()
 	sceneObjects["Warning3"]->UVOffsets.push_back(glm::vec2(0.75f, 0.0f));
 	sceneObjects["Warning3"]->UVOffsets.push_back(glm::vec2(0.0f, -0.25f));
 
+	sceneObjects["Warning4"]->UVOffsets.push_back(glm::vec2(0.0f, 0.0f));
+	sceneObjects["Warning4"]->UVOffsets.push_back(glm::vec2(0.25f, 0.0f));
+	sceneObjects["Warning4"]->UVOffsets.push_back(glm::vec2(0.5f, 0.0f));
+	sceneObjects["Warning4"]->UVOffsets.push_back(glm::vec2(0.75f, 0.0f));
+	sceneObjects["Warning4"]->UVOffsets.push_back(glm::vec2(0.0f, -0.25f));
+
+	sceneObjects["Warning5"]->UVOffsets.push_back(glm::vec2(0.0f, 0.0f));
+	sceneObjects["Warning5"]->UVOffsets.push_back(glm::vec2(0.25f, 0.0f));
+	sceneObjects["Warning5"]->UVOffsets.push_back(glm::vec2(0.5f, 0.0f));
+	sceneObjects["Warning5"]->UVOffsets.push_back(glm::vec2(0.75f, 0.0f));
+	sceneObjects["Warning5"]->UVOffsets.push_back(glm::vec2(0.0f, -0.25f));
+
 	sceneObjects["TimerQuad"]->UVOffsets.push_back(zeroPos);
 	sceneObjects["TimerQuad"]->UVOffsets.push_back(onePos);
 	sceneObjects["TimerQuad"]->UVOffsets.push_back(twoPos);
@@ -238,6 +270,12 @@ void Initialize()
 	QuadLight.BBBL = glm::vec2(-17.5f, 17.5f);
 	QuadLight.BBFR = glm::vec2(17.5f, -17.5f);
 
+	TriLight.BBBL = glm::vec2(-11.7f, 11.7f);
+	TriLight.BBFR = glm::vec2(11.7f, -11.7f);
+
+	TriLight2.BBBL = glm::vec2(-11.7f, 11.7f);
+	TriLight2.BBFR = glm::vec2(11.7f, -11.7f);
+
 	InvisWall.BBBL = glm::vec2(-50.0f, 1.0f);
 	InvisWall.BBFR = glm::vec2(50.0f, -50.0f);
 
@@ -271,6 +309,15 @@ void Initialize()
 	points[14] = glm::vec3(-17.5f, 0.5f,  17.5f);
 	points[15] = glm::vec3( 17.5f, 0.5f, -17.5f);
 	points[16] = glm::vec3(-17.5f, 0.5f, -17.5f);
+	points[17] = glm::vec3(-23.3f, 0.5f, -23.3f);
+	points[18] = glm::vec3(0.0f, 0.5f, -23.3f);
+	points[19] = glm::vec3(23.3f, 0.5f, -23.3f);
+	points[20] = glm::vec3(23.3f, 0.5f, 0.0f);
+	points[21] = glm::vec3(23.3f, 0.5f, 23.3f);
+	points[22] = glm::vec3(0.0f, 0.5f, 23.3f);
+	points[23] = glm::vec3(-23.3f, 0.5f, -23.3f);
+	points[24] = glm::vec3(-23.3f, 0.5f, 0.0f);
+	points[25] = glm::vec3(0.0f, 0.5f, 0.0f);
 }
 
 void Reset()
@@ -289,6 +336,7 @@ void Reset()
 	globalT = 1.0f;
 	rampValue = 0.005f;
 	timeOfDeath = 0.0f;
+	numOfCycles = 0;
 	deathTimer = false;
 }
 
@@ -406,6 +454,7 @@ void GameLevel::Update()
 		if (globalT >= 1.0f)
 		{
 			globalT = 0.0f;
+			numOfCycles++;
 
 			randomLERPStart = randomNumber(1, 12);
 			randomLERPEnd = randomLERPStart + randomNumber(4, 8);
@@ -425,6 +474,8 @@ void GameLevel::Update()
 			}
 
 			randomQuadPos = randomNumber(13, 16);
+			randomTriPos = randomNumber(17, 26);
+			randomTriPos2 = randomNumber(17, 26);
 
 			wasWarned1 = false;
 			wasWarned2 = false;
@@ -460,12 +511,26 @@ void GameLevel::Update()
 		sceneObjects["SpotLight2"]->setPosition(bezier(points[randomCurveStart], points[randomCurveControl], points[randomCurveEnd], globalT));
 		pointLight2.position = (sceneObjects["SpotLight2"]->getPosition() + glm::vec3(0.0f, 1.5f, 0.0f));
 
-		if (globalT > 0.7f && globalT < 0.98f)
+		if ((globalT > 0.7f && globalT < 0.98f) && numOfCycles >= 4 && numOfCycles <= 9)
 			sceneObjects["QuadLight"]->setPosition(points[randomQuadPos]);
 		else
 			sceneObjects["QuadLight"]->setPosition(glm::vec3(0.0f, 0.6f, 100.0f));
-
+		
 		pointLight3.position = (sceneObjects["QuadLight"]->getPosition() + glm::vec3(0.0f, 1.5f, 0.0f));
+
+		if ((globalT > 0.7f && globalT < 0.98f) && numOfCycles >= 10)
+		{
+			sceneObjects["TriLight"]->setPosition(points[randomTriPos]);
+			sceneObjects["TriLight2"]->setPosition(points[randomTriPos2]);
+		}
+		else
+		{
+			sceneObjects["TriLight"]->setPosition(glm::vec3(0.0f, 0.6f, 100.0f));
+			sceneObjects["TriLight2"]->setPosition(glm::vec3(0.0f, 0.6f, 100.0f));
+		}
+
+		pointLight4.position = (sceneObjects["TriLight"]->getPosition() + glm::vec3(0.0f, 1.5f, 0.0f));
+		pointLight5.position = (sceneObjects["TriLight2"]->getPosition() + glm::vec3(0.0f, 1.5f, 0.0f));
 
 		if (!wasWarned1)
 			sceneObjects["Warning"]->setPosition(clamp(sceneObjects["SpotLight"]->getPosition(), RoomMin, RoomMax));
@@ -473,11 +538,22 @@ void GameLevel::Update()
 		if (!wasWarned2)
 			sceneObjects["Warning2"]->setPosition(clamp(sceneObjects["SpotLight2"]->getPosition(), RoomMin, RoomMax));
 
-		if (globalT < 0.7f)
+		if (globalT < 0.7f && numOfCycles >= 4 && numOfCycles <= 9)
 			sceneObjects["Warning3"]->setPosition(points[randomQuadPos]);
 		else
 			sceneObjects["Warning3"]->setPosition(glm::vec3(0.0f, 0.6f, 55.0f));
 
+		if (globalT < 0.7f && numOfCycles >= 10)
+		{
+			sceneObjects["Warning4"]->setPosition(points[randomTriPos]);
+			sceneObjects["Warning5"]->setPosition(points[randomTriPos2]);
+		}
+		else
+		{
+			sceneObjects["Warning4"]->setPosition(glm::vec3(0.0f, 0.6f, 55.0f));
+			sceneObjects["Warning5"]->setPosition(glm::vec3(0.0f, 0.6f, 55.0f));
+		}
+			
 		if (borderCheck(sceneObjects["SpotLight"]->getPosition(), RoomMin, RoomMax))
 		{
 			sceneObjects["Warning"]->setPosition(glm::vec3(0.0f, 0.0f, 55.0f));
@@ -536,6 +612,22 @@ void GameLevel::Update()
 		warningVel.y = sceneObjects["Warning3"]->getVelocity().y;
 		warningVel.z = sceneObjects["Warning3"]->getVelocity().z;
 
+		warningPos.x = sceneObjects["Warning4"]->getPosition().x;
+		warningPos.y = sceneObjects["Warning4"]->getPosition().y;
+		warningPos.z = sceneObjects["Warning4"]->getPosition().z;
+											
+		warningVel.x = sceneObjects["Warning4"]->getVelocity().x;
+		warningVel.y = sceneObjects["Warning4"]->getVelocity().y;
+		warningVel.z = sceneObjects["Warning4"]->getVelocity().z;
+
+		warningPos.x = sceneObjects["Warning5"]->getPosition().x;
+		warningPos.y = sceneObjects["Warning5"]->getPosition().y;
+		warningPos.z = sceneObjects["Warning5"]->getPosition().z;
+											
+		warningVel.x = sceneObjects["Warning5"]->getVelocity().x;
+		warningVel.y = sceneObjects["Warning5"]->getVelocity().y;
+		warningVel.z = sceneObjects["Warning5"]->getVelocity().z;
+
 		Sounds["bgm"]->setPosition(bgmChannel, playerPos, playerVel);
 		Sounds["die"]->setPosition(dieChannel, diePos, dieVel);
 		Sounds["warn"]->setPosition(warningChannel, warningPos, warningVel);
@@ -548,11 +640,19 @@ void GameLevel::Update()
 
 		if (glm::distance(Player["Nyx"]->getPosition(), sceneObjects["Warning3"]->getPosition()) <= 19.0f && !inRadius)
 			hasBeenWarned = true;
+		if (glm::distance(Player["Nyx"]->getPosition(), sceneObjects["Warning4"]->getPosition()) <= 13.0f && !inRadius)
+			hasBeenWarned = true;
+		if (glm::distance(Player["Nyx"]->getPosition(), sceneObjects["Warning5"]->getPosition()) <= 13.0f && !inRadius)
+			hasBeenWarned = true;
 
 		if (glm::distance(Player["Nyx"]->getPosition(), sceneObjects["Warning3"]->getPosition()) <= 19.0f)
 			inRadius = true;
+		else if (glm::distance(Player["Nyx"]->getPosition(), sceneObjects["Warning4"]->getPosition()) <= 13.0f)
+			inRadius = true;
+		else if (glm::distance(Player["Nyx"]->getPosition(), sceneObjects["Warning5"]->getPosition()) <= 13.0f)
+			inRadius = true;
 		else
-			inRadius = false;
+			inRadius = false; 
 		
 		if (hasBeenWarned)
 		{
@@ -595,6 +695,8 @@ void GameLevel::Update()
 		sceneObjects["Warning"]->uUVOffset = sceneObjects["Warning"]->UVOffsets[animFrame];
 		sceneObjects["Warning2"]->uUVOffset = sceneObjects["Warning"]->UVOffsets[animFrame];
 		sceneObjects["Warning3"]->uUVOffset = sceneObjects["Warning3"]->UVOffsets[animFrame];
+		sceneObjects["Warning4"]->uUVOffset = sceneObjects["Warning4"]->UVOffsets[animFrame];
+		sceneObjects["Warning5"]->uUVOffset = sceneObjects["Warning5"]->UVOffsets[animFrame];
 
 		defaultShader.sendUniformMat4("uView", &view.getMatrix()[0][0], false);
 		defaultShader.sendUniformMat4("uProj", &persp[0][0], false);
@@ -634,6 +736,8 @@ void GameLevel::Update()
 		deferredShading.sendUniformPointLight("lights", &pointLight, 0);
 		deferredShading.sendUniformPointLight("lights", &pointLight2, 1);
 		deferredShading.sendUniformPointLight("lights", &pointLight3, 2);
+		deferredShading.sendUniformPointLight("lights", &pointLight4, 3);
+		deferredShading.sendUniformPointLight("lights", &pointLight5, 4);
 
 		glBindVertexArray(sceneObjects["Quad3"]->getRenderable());
 
@@ -857,6 +961,18 @@ void GameLevel::enter()
 	sceneObjects["QuadLight"]->setLoss(true);
 	sceneObjects["QuadLight"]->setPosition(glm::vec3(0.0f, 0.6f, -55.0f));
 
+	gObjects.push_back(sceneObjects["TriLight"]);
+	sceneObjects["TriLight"]->setLoss(true);
+	sceneObjects["TriLight"]->setPosition(glm::vec3(0.0f, 0.6f, -55.0f));
+
+	gObjects.push_back(sceneObjects["TriLight2"]);
+	sceneObjects["TriLight2"]->setLoss(true);
+	sceneObjects["TriLight2"]->setPosition(glm::vec3(0.0f, 0.6f, -55.0f));
+
+	transparentGObjects.push_back(sceneObjects["Warning5"]);
+	sceneObjects["Warning5"]->setPosition(glm::vec3(0.0f, 10.0f, -55.0f));
+	transparentGObjects.push_back(sceneObjects["Warning4"]);
+	sceneObjects["Warning4"]->setPosition(glm::vec3(0.0f, 10.0f, -55.0f));
 	transparentGObjects.push_back(sceneObjects["Warning3"]);
 	sceneObjects["Warning3"]->setPosition(glm::vec3(0.0f, 10.0f, -55.0f));
 	transparentGObjects.push_back(sceneObjects["Warning"]);
@@ -900,10 +1016,14 @@ void GameLevel::enter()
 	sceneObjects["Warning"]->uAmbientMult = glm::vec3(4.0f, 4.0f, 4.0f);
 	sceneObjects["Warning2"]->uAmbientMult = glm::vec3(4.0f, 4.0f, 4.0f);
 	sceneObjects["Warning3"]->uAmbientMult = glm::vec3(4.0f, 4.0f, 4.0f);
+	sceneObjects["Warning4"]->uAmbientMult = glm::vec3(4.0f, 4.0f, 4.0f);
+	sceneObjects["Warning5"]->uAmbientMult = glm::vec3(4.0f, 4.0f, 4.0f);
 
 	sceneObjects["SpotLight"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);
 	sceneObjects["SpotLight2"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);
 	sceneObjects["QuadLight"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);
+	sceneObjects["TriLight"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);
+	sceneObjects["TriLight2"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);
 
 	sceneObjects["TimerQuad"]->uUVOffset = glm::vec2(0.0f, 0.0f);
 	sceneObjects["TimerQuad2"]->uUVOffset = glm::vec2(0.0f, 0.0f);
@@ -921,6 +1041,16 @@ void GameLevel::enter()
 	sceneObjects["Warning3"]->uUVOffset = glm::vec2(0.0f, 0.0f);
 	sceneObjects["Warning3"]->uUVOffset = glm::vec2(0.0f, 0.0f);
 
+	sceneObjects["Warning4"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+	sceneObjects["Warning4"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+	sceneObjects["Warning4"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+	sceneObjects["Warning4"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+
+	sceneObjects["Warning5"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+	sceneObjects["Warning5"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+	sceneObjects["Warning5"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+	sceneObjects["Warning5"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+
 	if (!hasLoadedOnce)
 	{
 		//PUSH BACK COLLIDABLE OBJECTS
@@ -928,6 +1058,8 @@ void GameLevel::enter()
 		collidables.push_back(sceneObjects["SpotLight"]);
 		collidables.push_back(sceneObjects["SpotLight2"]);
 		collidables.push_back(sceneObjects["QuadLight"]);
+		collidables.push_back(sceneObjects["TriLight"]);
+		collidables.push_back(sceneObjects["TriLight2"]);
 
 		collidables.push_back(sceneObjects["InvisWall"]);
 		collidables.push_back(sceneObjects["InvisWall2"]);
@@ -945,6 +1077,18 @@ void GameLevel::enter()
 		pointLight3.aConstant = pointLight3.aConstant * 0.1f;
 		pointLight3.aLinear = pointLight3.aLinear * 0.1f;
 		pointLight3.aQuadratic = pointLight3.aQuadratic * 0.1f;
+
+		pointLight4.position = sceneObjects["TriLight"]->getPosition();
+		pointLight4.color = glm::vec4(0.3f, 0.7f, 0.4f, 1.0f);
+		pointLight4.aConstant = pointLight4.aConstant * 0.1f;
+		pointLight4.aLinear = pointLight4.aLinear * 0.1f;
+		pointLight4.aQuadratic = pointLight4.aQuadratic * 0.1f;
+
+		pointLight5.position = sceneObjects["TriLight2"]->getPosition();
+		pointLight5.color = glm::vec4(0.3f, 0.7f, 0.4f, 1.0f);
+		pointLight5.aConstant = pointLight5.aConstant * 0.1f;
+		pointLight5.aLinear = pointLight5.aLinear * 0.1f;
+		pointLight5.aQuadratic = pointLight5.aQuadratic * 0.1f;
 
 		hasLoadedOnce = true;
 	}

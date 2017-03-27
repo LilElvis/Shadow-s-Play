@@ -22,6 +22,38 @@ void Initialize()
 		exit(0);
 	}
 
+	//LOAD SHADER PROGRAMS
+	defaultShader.load("Default", "../assets/shaders/StaticGeometry.vert", "../assets/shaders/BasicLighting.frag");
+	passThrough.load("PassThrough", "../assets/shaders/PassThrough.vert", "../assets/shaders/PassThrough.frag");
+	GBuffer.load("GBuffer", "../assets/shaders/StaticGeometry.vert", "../assets/shaders/GBuffer.frag");
+	lightingComposite.load("lightComp", "../assets/shaders/PassThrough.vert", "../assets/shaders/LightComposite.frag");
+	deferredLighting.load("lighting", "../assets/shaders/StaticGeometry.vert", "../assets/shaders/DeferredLighting.frag");
+	bloomHighPass.load("highPass", "../assets/shaders/PassThrough.vert", "../assets/shaders/HighPass.frag");
+	bloomHorizontalBlur.load("horBlur", "../assets/shaders/PassThrough.vert", "../assets/shaders/HorizontalBlur.frag");
+	bloomVerticalBlur.load("vertBlur", "../assets/shaders/PassThrough.vert", "../assets/shaders/VerticalBlur.frag");
+	bloomComposite.load("bloomComp", "../assets/shaders/PassThrough.vert", "../assets/shaders/BloomComposite.frag");
+	UVScrolling.load("UVScroll", "../assets/shaders/StaticGeometry.vert", "../assets/shaders/UVScrolling.frag");
+	motionBlur.load("PassThrough", "../assets/shaders/PassThrough.vert", "../assets/shaders/MotionBlur.frag");
+	
+	//LOD THINGS ONLY NECESSARY FOR LOADING SCREEN
+	defaultTexture->LoadFromFile("Logo", "../assets/textures/Logo.png");
+	
+	defaultMesh->LoadFromFile("Quad", "../assets/objects/Quad.obj");
+	static ENG::SceneObject Quad3("Quad", defaultMesh->listOfMeshes["Quad"]->VAO, *defaultTexture->listOfTextures["Logo"], *defaultTexture->listOfTextures["Logo"], *defaultTexture->listOfTextures["Logo"], *defaultTexture->listOfTextures["Logo"], geometryBuffer.getLayerNumber());
+	sceneObjects["Quad3"] = &Quad3;
+
+	passThrough.bind();
+	defaultTexture->listOfTextures["Logo"]->Bind(GL_TEXTURE0);
+	passThrough.sendUniform("uTex", 0);
+
+	glBindVertexArray(sceneObjects["Quad3"]->getRenderable());
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+	glBindVertexArray(0);
+
+	passThrough.unBind();
+
+	gameWindow->GetSFMLWindow()->display();
+	
 	//SET CAMERA
 	cameraPos = glm::vec3(0.0f, 0.0f, 85.0f);
 
@@ -57,15 +89,12 @@ void Initialize()
 	defaultTexture->LoadFromFile("Normal", "../assets/textures/default/Normal.png");
 	
 	//LOAD MENU TEXTURES
-	defaultMesh->LoadFromFile("Quad", "../assets/objects/Quad.obj");
 	defaultTexture->LoadFromFile("MainMenu", "../assets/textures/Menu.png");
 	defaultTexture->LoadFromFile("GameOver", "../assets/textures/GameOver.png");
 	static ENG::SceneObject Quad("Quad", defaultMesh->listOfMeshes["Quad"]->VAO, *defaultTexture->listOfTextures["MainMenu"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
 	sceneObjects["Quad"] = &Quad;
 	static ENG::SceneObject Quad2("Quad", defaultMesh->listOfMeshes["Quad"]->VAO, *defaultTexture->listOfTextures["GameOver"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
 	sceneObjects["Quad2"] = &Quad2;
-	static ENG::SceneObject Quad3("Quad", defaultMesh->listOfMeshes["Quad"]->VAO, *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
-	sceneObjects["Quad3"] = &Quad3;
 
 	//LOAD OBJECTS
 	defaultMesh->LoadFromFile("Nyx", "../assets/objects/Nyx/Nyx.obj");
@@ -165,19 +194,6 @@ void Initialize()
 	pointLight4.renderVolume = defaultMesh->listOfMeshes["Pyramid"]->VAO;
 	pointLight5.renderVolume = defaultMesh->listOfMeshes["Pyramid"]->VAO;
 
-	//LOAD SHADER PROGRAMS
-	defaultShader.load("Default", "../assets/shaders/StaticGeometry.vert", "../assets/shaders/BasicLighting.frag");
-	passThrough.load("PassThrough", "../assets/shaders/PassThrough.vert", "../assets/shaders/PassThrough.frag");
-	GBuffer.load("GBuffer", "../assets/shaders/StaticGeometry.vert", "../assets/shaders/GBuffer.frag");
-	lightingComposite.load("lightComp", "../assets/shaders/PassThrough.vert", "../assets/shaders/LightComposite.frag");
-	deferredLighting.load("lighting", "../assets/shaders/StaticGeometry.vert", "../assets/shaders/DeferredLighting.frag");
-	bloomHighPass.load("highPass", "../assets/shaders/PassThrough.vert", "../assets/shaders/HighPass.frag");
-	bloomHorizontalBlur.load("horBlur", "../assets/shaders/PassThrough.vert", "../assets/shaders/HorizontalBlur.frag");
-	bloomVerticalBlur.load("vertBlur", "../assets/shaders/PassThrough.vert", "../assets/shaders/VerticalBlur.frag");
-	bloomComposite.load("bloomComp", "../assets/shaders/PassThrough.vert", "../assets/shaders/BloomComposite.frag");
-	UVScrolling.load("UVScroll", "../assets/shaders/StaticGeometry.vert", "../assets/shaders/UVScrolling.frag");
-	motionBlur.load("PassThrough", "../assets/shaders/PassThrough.vert", "../assets/shaders/MotionBlur.frag");
-	
 	//INITIALiZE FBOS
 	geometryBuffer.Init(windowWidth, windowHeight, 5);
 	geometryBuffer.initColorTexture(0, GL_RGBA8);

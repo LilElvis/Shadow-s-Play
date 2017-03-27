@@ -35,13 +35,13 @@ namespace ENG
 		glBindFramebuffer(GL_FRAMEBUFFER, FBO);
 		glGenTextures(1, &DepthAttachment);
 		glBindTexture(GL_TEXTURE_2D, DepthAttachment);
-		glTexStorage2D(GL_TEXTURE_2D, 1, GL_DEPTH_COMPONENT24, Width, Height);
+		glTexStorage2D(GL_TEXTURE_2D, 1, GL_DEPTH24_STENCIL8, Width, Height);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filterMode);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filterMode);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapMode);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapMode);
 
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, DepthAttachment, 0);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, DepthAttachment, 0);
 		Unbind();
 	}
 
@@ -130,6 +130,24 @@ namespace ENG
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, GL_NONE);
 
 		glBlitFramebuffer(0, 0, Width, Height, 0, 0, Width, Height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
+		Unbind();
+	}
+
+	void FrameBufferObject::BlitColorToTargetBuffer(FrameBufferObject* anFBO)
+	{
+		glBindFramebuffer(GL_READ_FRAMEBUFFER, FBO);
+		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, anFBO->getLayerNumber());
+
+		glBlitFramebuffer(0, 0, Width, Height, 0, 0, anFBO->Width, anFBO->Height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
+		Unbind();
+	}
+
+	void FrameBufferObject::BlitDepthToTargetBuffer(FrameBufferObject* anFBO)
+	{
+		glBindFramebuffer(GL_READ_FRAMEBUFFER, FBO);
+		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, anFBO->getLayerNumber());
+
+		glBlitFramebuffer(0, 0, Width, Height, 0, 0, anFBO->Width, anFBO->Height, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
 		Unbind();
 	}
 

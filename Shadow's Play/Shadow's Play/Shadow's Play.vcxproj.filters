@@ -60,6 +60,9 @@
     <ClCompile Include="..\..\Shadow%27s Play\Shadow%27s Play\FrameBufferObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Shadow%27s Play\Shadow%27s Play\Shadow%27s Play\Lights.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Shadow%27s Play\Shadow%27s Play\GameObject.h">

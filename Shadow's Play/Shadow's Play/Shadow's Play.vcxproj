@@ -150,6 +150,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\Shadow%27s Play\Shadow%27s Play\Shadow%27s Play\Lights.cpp" />
     <ClCompile Include="..\..\Shadow%27s Play\Shadow%27s Play\FrameBufferObject.cpp" />
     <ClCompile Include="..\..\Shadow%27s Play\Shadow%27s Play\GameObject.cpp" />
     <ClCompile Include="..\..\Shadow%27s Play\Shadow%27s Play\GameStates.cpp" />

@@ -38,7 +38,7 @@ namespace ENG
 		void sendUniform(const std::string &, const glm::vec4 &);
 		void sendUniformMat3(const std::string &, float*, bool);
 		void sendUniformMat4(const std::string &, float*, bool);
-		void sendUniformPointLight(const std::string &, PointLight *, int);
+		void sendUniformPointLight(const std::string &, PointLight *);
 
 	private:
 		bool isInit = false;

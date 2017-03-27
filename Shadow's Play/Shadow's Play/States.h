@@ -84,7 +84,8 @@ static ENG::Mesh* defaultMesh = ENG::Mesh::getMeshPtr();
 static ENG::Shader defaultShader;
 static ENG::Shader passThrough;
 static ENG::Shader GBuffer;
-static ENG::Shader deferredShading;
+static ENG::Shader lightingComposite;
+static ENG::Shader deferredLighting;
 static ENG::Shader bloomHighPass;
 static ENG::Shader bloomHorizontalBlur;
 static ENG::Shader bloomVerticalBlur;
@@ -93,18 +94,20 @@ static ENG::Shader UVScrolling;
 static ENG::Shader motionBlur;
 
 //FBOS
-static ENG::FrameBufferObject deferredFBO;
+static ENG::FrameBufferObject geometryBuffer;
 static ENG::FrameBufferObject finalSceneFBO1;
 static ENG::FrameBufferObject finalSceneFBO2;
 static ENG::FrameBufferObject bloomFBO1;
 static ENG::FrameBufferObject bloomFBO2;
 static ENG::FrameBufferObject motionBlurFBO;
+static ENG::FrameBufferObject lightingStencil;
 
 
 //MAPS OF GAME OBJECTS
 static std::vector <ENG::GameObject*> gObjects;
 static std::vector <ENG::GameObject*> transparentGObjects;
 static std::vector <ENG::GameObject*> HUDGObjects;
+static std::vector <ENG::PointLight*> lightObjects;
 
 static void removeGameObjects(); //FLUSHES VECTORS OF GAME OBJECTS
 
@@ -235,11 +238,5 @@ static ENG::PointLight pointLight2;
 static ENG::PointLight pointLight3;
 static ENG::PointLight pointLight4;
 static ENG::PointLight pointLight5;
-
-static ENG::PointLight warningLight;
-static ENG::PointLight warningLight2;
-static ENG::PointLight warningLight3;
-
-static float flashValue;
 
 //static glm::mat4 uProjectionBiasMatrixInverse;

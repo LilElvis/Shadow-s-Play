@@ -34,6 +34,7 @@ void Initialize()
 	bloomComposite.load("bloomComp", "../assets/shaders/PassThrough.vert", "../assets/shaders/BloomComposite.frag");
 	UVScrolling.load("UVScroll", "../assets/shaders/StaticGeometry.vert", "../assets/shaders/UVScrolling.frag");
 	motionBlur.load("PassThrough", "../assets/shaders/PassThrough.vert", "../assets/shaders/MotionBlur.frag");
+	colorCorrect.load("ColorCorrect", "../assets/shaders/PassThrough.vert", "../assets/shaders/LUT.frag");
 	
 	//LOD THINGS ONLY NECESSARY FOR LOADING SCREEN
 	defaultTexture->LoadFromFile("Logo", "../assets/textures/Logo.png");
@@ -330,6 +331,9 @@ void Initialize()
 	pitchShift = NULL;
 	lowPass = NULL;
 	echo = NULL;
+
+	//INITIALIZE LUTS
+	n8700.loadData("../assets/LUT/F-8700-V2-STD.cube");
 
 	//SET BOUNDING BOXES
 
@@ -1028,6 +1032,17 @@ void GameLevel::Update()
 
 		finalSceneFBO1.Unbind();
 
+		finalSceneFBO2.Bind();
+		colorCorrect.bind();
+
+		finalSceneFBO1.BindColorAsTexture(GL_TEXTURE0, 0);
+		n8700.bind(GL_TEXTURE1);
+
+		glBindVertexArray(sceneObjects["Quad3"]->getRenderable());
+		glDrawArrays(GL_TRIANGLES, 0, 6);
+		glBindVertexArray(0);
+
+		finalSceneFBO2.Unbind();
 		//finalSceneFBO1.Bind();
 		//passThrough.bind();
 		//
@@ -1042,7 +1057,7 @@ void GameLevel::Update()
 		//passThrough.unBind();
 		//finalSceneFBO1.Unbind();
 		
-		finalSceneFBO1.DrawToBackBuffer();
+		finalSceneFBO2.DrawToBackBuffer();
 	}
 
 	if (devCommand.GetKeyDown(ENG::KeyCode::P) || sf::Joystick::isButtonPressed(0, 7))

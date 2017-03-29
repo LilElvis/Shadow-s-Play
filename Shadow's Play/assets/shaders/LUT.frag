@@ -1,7 +1,7 @@
 #version 420
 
-uniform sampler2D uTex;
-uniform sampler3D uLUT;
+layout (binding = 0) uniform sampler2D uTex;
+layout (binding = 1) uniform sampler3D uLUT;
 
 in vec2 texcoord;
 

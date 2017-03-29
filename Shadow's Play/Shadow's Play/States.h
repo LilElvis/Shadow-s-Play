@@ -8,6 +8,7 @@
 #include "SceneObject.h"
 #include "AnimationMath.h"
 #include "FrameBufferObject.h"
+#include "LUT.h"
 
 //STATE CLASSES
 class MainMenu : public GameState
@@ -92,6 +93,7 @@ static ENG::Shader bloomVerticalBlur;
 static ENG::Shader bloomComposite;
 static ENG::Shader UVScrolling;
 static ENG::Shader motionBlur;
+static ENG::Shader colorCorrect;
 
 //FBOS
 static ENG::FrameBufferObject geometryBuffer;
@@ -101,6 +103,9 @@ static ENG::FrameBufferObject bloomFBO1;
 static ENG::FrameBufferObject bloomFBO2;
 static ENG::FrameBufferObject motionBlurFBO;
 static ENG::FrameBufferObject lightingStencil;
+
+//LUTS
+static ENG::LUT n8700;
 
 
 //MAPS OF GAME OBJECTS

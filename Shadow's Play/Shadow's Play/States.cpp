@@ -136,26 +136,36 @@ void Initialize()
 	defaultTexture->LoadFromFile("TriLight", "../assets/textures/QuadLight.png");
 	static ENG::SceneObject TriLight("TriLight", 0, *defaultTexture->listOfTextures["QuadLight"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
 	sceneObjects["TriLight"] = &TriLight;
-
-	defaultMesh->LoadFromFile("TriLight2", "../assets/objects/TriLight.obj");
-	defaultTexture->LoadFromFile("TriLight2", "../assets/textures/QuadLight.png");
-	static ENG::SceneObject TriLight2("TriLight2", 0, *defaultTexture->listOfTextures["QuadLight"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	static ENG::SceneObject TriLight2("TriLight", 0, *defaultTexture->listOfTextures["QuadLight"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
 	sceneObjects["TriLight2"] = &TriLight2;
 	
 	defaultMesh->LoadFromFile("QuadWarning", "../assets/objects/QuadWarningQuad.obj");
 	defaultTexture->LoadFromFile("QuadWarning", "../assets/textures/QuadWarning.png");
 	static ENG::SceneObject Warning3("Warning", defaultMesh->listOfMeshes["QuadWarning"]->VAO, *defaultTexture->listOfTextures["QuadWarning"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["QuadWarning"], geometryBuffer.getLayerNumber());
 	sceneObjects["Warning3"] = &Warning3;
-
-	defaultMesh->LoadFromFile("QuadWarning", "../assets/objects/QuadWarningQuad.obj");
-	defaultTexture->LoadFromFile("QuadWarning", "../assets/textures/QuadWarning.png");
-	static ENG::SceneObject Warning4("Warning", defaultMesh->listOfMeshes["QuadWarning"]->VAO, *defaultTexture->listOfTextures["QuadWarning"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["QuadWarning"], geometryBuffer.getLayerNumber());
+	static ENG::SceneObject Warning4("Warning", defaultMesh->listOfMeshes["TriLight"]->VAO, *defaultTexture->listOfTextures["QuadWarning"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["QuadWarning"], geometryBuffer.getLayerNumber());
 	sceneObjects["Warning4"] = &Warning4;
-
-	defaultMesh->LoadFromFile("QuadWarning", "../assets/objects/QuadWarningQuad.obj");
-	defaultTexture->LoadFromFile("QuadWarning", "../assets/textures/QuadWarning.png");
-	static ENG::SceneObject Warning5("Warning", defaultMesh->listOfMeshes["QuadWarning"]->VAO, *defaultTexture->listOfTextures["QuadWarning"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["QuadWarning"], geometryBuffer.getLayerNumber());
+	static ENG::SceneObject Warning5("Warning", defaultMesh->listOfMeshes["TriLight"]->VAO, *defaultTexture->listOfTextures["QuadWarning"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["QuadWarning"], geometryBuffer.getLayerNumber());
 	sceneObjects["Warning5"] = &Warning5;
+
+	defaultMesh->LoadFromFile("Candle", "../assets/objects/Candle.obj");
+	defaultTexture->LoadFromFile("Candle", "../assets/textures/Candle.png");
+	static ENG::SceneObject Candle("Candle", defaultMesh->listOfMeshes["Candle"]->VAO, *defaultTexture->listOfTextures["Candle"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Candle"], geometryBuffer.getLayerNumber());
+	sceneObjects["Candle"] = &Candle;
+	static ENG::SceneObject Candle2("Candle", defaultMesh->listOfMeshes["Candle"]->VAO, *defaultTexture->listOfTextures["Candle"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Candle"], geometryBuffer.getLayerNumber());
+	sceneObjects["Candle2"] = &Candle2;
+	static ENG::SceneObject Candle3("Candle", defaultMesh->listOfMeshes["Candle"]->VAO, *defaultTexture->listOfTextures["Candle"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Candle"], geometryBuffer.getLayerNumber());
+	sceneObjects["Candle3"] = &Candle3;
+	static ENG::SceneObject Candle4("Candle", defaultMesh->listOfMeshes["Candle"]->VAO, *defaultTexture->listOfTextures["Candle"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Candle"], geometryBuffer.getLayerNumber());
+	sceneObjects["Candle4"] = &Candle4;
+	static ENG::SceneObject Candle5("Candle", defaultMesh->listOfMeshes["Candle"]->VAO, *defaultTexture->listOfTextures["Candle"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Candle"], geometryBuffer.getLayerNumber());
+	sceneObjects["Candle5"] = &Candle5;
+	static ENG::SceneObject Candle6("Candle", defaultMesh->listOfMeshes["Candle"]->VAO, *defaultTexture->listOfTextures["Candle"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Candle"], geometryBuffer.getLayerNumber());
+	sceneObjects["Candle6"] = &Candle6;
+	static ENG::SceneObject Candle7("Candle", defaultMesh->listOfMeshes["Candle"]->VAO, *defaultTexture->listOfTextures["Candle"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Candle"], geometryBuffer.getLayerNumber());
+	sceneObjects["Candle7"] = &Candle7;
+	static ENG::SceneObject Candle8("Candle", defaultMesh->listOfMeshes["Candle"]->VAO, *defaultTexture->listOfTextures["Candle"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Candle"], geometryBuffer.getLayerNumber());
+	sceneObjects["Candle8"] = &Candle8;
 
 	defaultMesh->LoadFromFile("TimerQuad", "../assets/objects/TimerQuad.obj");
 	defaultTexture->LoadFromFile("numTexture", "../assets/textures/numTexture.png");
@@ -169,6 +179,19 @@ void Initialize()
 	sceneObjects["TimerQuad4"] = &TimerQuad4;
 	static ENG::SceneObject TimerQuad5("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
 	sceneObjects["TimerQuad5"] = &TimerQuad5;
+
+	defaultMesh->LoadFromFile("HUD", "../assets/objects/StatsQuad.obj");
+	defaultTexture->LoadFromFile("Hearts", "../assets/textures/Hearts.png");
+	defaultTexture->LoadFromFile("Dash", "../assets/textures/Dash.png");
+	static ENG::SceneObject HUD("HUD", defaultMesh->listOfMeshes["HUD"]->VAO, *defaultTexture->listOfTextures["Hearts"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	sceneObjects["HUD"] = &HUD;
+	static ENG::SceneObject HUD2("HUD", defaultMesh->listOfMeshes["HUD"]->VAO, *defaultTexture->listOfTextures["Dash"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	sceneObjects["HUD2"] = &HUD2;
+
+	defaultMesh->LoadFromFile("NumPlate", "../assets/objects/NumPlate.obj");
+	defaultTexture->LoadFromFile("NumPlate", "../assets/textures/NumPlate.png");
+	static ENG::SceneObject NumPlate("NumPlate", defaultMesh->listOfMeshes["NumPlate"]->VAO, *defaultTexture->listOfTextures["NumPlate"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	sceneObjects["NumPlate"] = &NumPlate;
 
 	static ENG::SceneObject InvisWall("InvisWall", 0, *defaultTexture->listOfTextures["SpotLight"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], 0);
 	sceneObjects["InvisWall"] = &InvisWall;
@@ -193,6 +216,17 @@ void Initialize()
 	pointLight3.renderVolume = defaultMesh->listOfMeshes["Pyramid"]->VAO;
 	pointLight4.renderVolume = defaultMesh->listOfMeshes["Pyramid"]->VAO;
 	pointLight5.renderVolume = defaultMesh->listOfMeshes["Pyramid"]->VAO;
+
+	candleLight.renderVolume = defaultMesh->listOfMeshes["Sphere"]->VAO;
+	candleLight2.renderVolume = defaultMesh->listOfMeshes["Sphere"]->VAO;
+	candleLight3.renderVolume = defaultMesh->listOfMeshes["Sphere"]->VAO;
+	candleLight4.renderVolume = defaultMesh->listOfMeshes["Sphere"]->VAO;
+	candleLight5.renderVolume = defaultMesh->listOfMeshes["Sphere"]->VAO;
+	candleLight6.renderVolume = defaultMesh->listOfMeshes["Sphere"]->VAO;
+	candleLight7.renderVolume = defaultMesh->listOfMeshes["Sphere"]->VAO;
+	candleLight8.renderVolume = defaultMesh->listOfMeshes["Sphere"]->VAO;
+
+	defaultLightPos = glm::vec4(0.0f, 20.0f, 0.0f, 1.0f);
 
 	//INITIALiZE FBOS
 	geometryBuffer.Init(windowWidth, windowHeight, 5);
@@ -256,6 +290,11 @@ void Initialize()
 	sceneObjects["TimerQuad"]->UVOffsets.push_back(eightPos);
 	sceneObjects["TimerQuad"]->UVOffsets.push_back(ninePos);
 	sceneObjects["TimerQuad"]->UVOffsets.push_back(colonPos);
+
+	sceneObjects["HUD"]->UVOffsets.push_back(glm::vec2(0.0f, 0.0f));
+	sceneObjects["HUD"]->UVOffsets.push_back(glm::vec2(0.25f, 0.0f));
+	sceneObjects["HUD"]->UVOffsets.push_back(glm::vec2(0.5f, 0.0f));
+	sceneObjects["HUD"]->UVOffsets.push_back(glm::vec2(0.75f, 0.0f));
 
 	//INITIALIZE/LOAD SOUNDS
 	soundEngine.Init();
@@ -534,6 +573,24 @@ void GameLevel::Update()
 		if (animFrame > 3)
 			animFrame = 0;
 
+		if (Player["Nyx"]->getIsDead())
+			sceneObjects["HUD"]->uUVOffset = sceneObjects["HUD"]->UVOffsets[3];
+		else if (Player["Nyx"]->getNumOfLives() < 1)
+			sceneObjects["HUD"]->uUVOffset = sceneObjects["HUD"]->UVOffsets[2];
+		else if (Player["Nyx"]->getNumOfLives() < 2)
+			sceneObjects["HUD"]->uUVOffset = sceneObjects["HUD"]->UVOffsets[1];
+		else
+			sceneObjects["HUD"]->uUVOffset = sceneObjects["HUD"]->UVOffsets[0];
+
+		if ((totalTime - Player["Nyx"]->timeOfLastDash) < 1.0f)
+			sceneObjects["HUD2"]->uUVOffset = sceneObjects["HUD"]->UVOffsets[0];
+		else if ((totalTime - Player["Nyx"]->timeOfLastDash) < 2.0f)
+			sceneObjects["HUD2"]->uUVOffset = sceneObjects["HUD"]->UVOffsets[1];
+		else if ((totalTime - Player["Nyx"]->timeOfLastDash) < 3.0f)
+			sceneObjects["HUD2"]->uUVOffset = sceneObjects["HUD"]->UVOffsets[2];
+		else
+			sceneObjects["HUD2"]->uUVOffset = sceneObjects["HUD"]->UVOffsets[3];
+
 		sceneObjects["SpotLight"]->uEmissiveAdd = glm::vec3(sinf(globalT * 1.0f) * 0.25f, sinf(globalT * 1.0f) * 0.25f, sinf(globalT * 1.0f) * 0.25f);
 		sceneObjects["SpotLight2"]->uEmissiveAdd = glm::vec3(sinf(globalT * 1.0f) * 0.25f, sinf(globalT * 1.0f) * 0.25f, sinf(globalT * 1.0f) * 0.25f);
 		
@@ -561,8 +618,8 @@ void GameLevel::Update()
 			sceneObjects["TriLight2"]->setPosition(glm::vec3(0.0f, 0.6f, 100.0f));
 		}
 
-		pointLight4.position = (sceneObjects["TriLight"]->getPosition() + glm::vec3(0.0f, -1.2f, 0.0f));
-		pointLight5.position = (sceneObjects["TriLight2"]->getPosition() + glm::vec3(0.0f, -1.2f, 0.0f));
+		pointLight4.position = (sceneObjects["TriLight"]->getPosition() + glm::vec3(0.0f, -2.4f, 0.0f));
+		pointLight5.position = (sceneObjects["TriLight2"]->getPosition() + glm::vec3(0.0f, -2.4f, 0.0f));
 
 		if (!wasWarned1)
 			sceneObjects["Warning"]->setPosition(clamp(sceneObjects["SpotLight"]->getPosition(), RoomMin, RoomMax));
@@ -699,7 +756,6 @@ void GameLevel::Update()
 		gameWindow->check();
 		
 		//Drawing Geometry and Player Character
-		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_CULL_FACE);
 		glCullFace(GL_BACK);
 
@@ -708,7 +764,7 @@ void GameLevel::Update()
 
 		GBuffer.sendUniformMat4("uView", &view.getMatrix()[0][0], false);
 		GBuffer.sendUniformMat4("uProj", &persp[0][0], false);
-		GBuffer.sendUniform("LightPosition", glm::vec4(0.0f, 2.0f, 0.0f, 1.0f));
+		GBuffer.sendUniform("LightPosition", defaultLightPos);
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
@@ -739,7 +795,7 @@ void GameLevel::Update()
 
 		defaultShader.sendUniformMat4("uView", &view.getMatrix()[0][0], false);
 		defaultShader.sendUniformMat4("uProj", &persp[0][0], false);
-		defaultShader.sendUniform("LightPosition", glm::vec4(0.0f, 2.0f, 0.0f, 1.0f));
+		defaultShader.sendUniform("LightPosition", defaultLightPos);
 
 		for (auto itr = transparentGObjects.begin(), itrEnd = transparentGObjects.end();
 			itr != itrEnd; itr++)
@@ -762,7 +818,12 @@ void GameLevel::Update()
 		
 		//Lighting Prepass---------------------------------
 
+		geometryBuffer.BlitDepthToTargetBuffer(&lightingStencil);
+		
 		lightingStencil.Bind();
+		
+		glClear(GL_COLOR_BUFFER_BIT);
+		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_ONE, GL_ONE);
@@ -774,8 +835,6 @@ void GameLevel::Update()
 		geometryBuffer.BindColorAsTexture(GL_TEXTURE4, 4);
 		geometryBuffer.BindDepthAsTexture(GL_TEXTURE5);
 
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
 		deferredLighting.bind();
 
@@ -789,17 +848,19 @@ void GameLevel::Update()
 		updatedCamPos = viewInverse[3];
 		deferredLighting.sendUniform("uCameraPos", updatedCamPos);
 
-		glDepthMask(GL_FALSE);
+		//glDepthMask(GL_FALSE);
 
 		for (auto itr = lightObjects.begin(), itrEnd = lightObjects.end();
 			itr != itrEnd; itr++)
 		{
 			deferredLighting.sendUniformPointLight("uCurrentLight", (*itr));
 
+			//(*itr)->position = glm::vec3(0.0f, 10.0f, 0.0f);
+
 			(*itr)->render(defaultMesh, &deferredLighting);
 		}
 
-		glDepthMask(GL_TRUE);
+		//glDepthMask(GL_TRUE);
 		glDisable(GL_BLEND);
 
 		deferredLighting.unBind();
@@ -917,7 +978,7 @@ void GameLevel::Update()
 		motionBlur.unBind();
 		finalSceneFBO1.Unbind();
 
-		// Copy Scene for next use
+		//Copy Scene for next use
 		motionBlurFBO.Bind();
 		passThrough.bind();
 		finalSceneFBO1.BindColorAsTexture(GL_TEXTURE0, 0);
@@ -966,6 +1027,20 @@ void GameLevel::Update()
 		glEnable(GL_DEPTH_TEST);
 
 		finalSceneFBO1.Unbind();
+
+		//finalSceneFBO1.Bind();
+		//passThrough.bind();
+		//
+		//lightingStencil.BindDepthAsTexture(GL_TEXTURE0);
+		//
+		//passThrough.sendUniform("uTex", 0);
+		//
+		//glBindVertexArray(sceneObjects["Quad3"]->getRenderable());
+		//glDrawArrays(GL_TRIANGLES, 0, 6);
+		//glBindVertexArray(0);
+		//
+		//passThrough.unBind();
+		//finalSceneFBO1.Unbind();
 		
 		finalSceneFBO1.DrawToBackBuffer();
 	}
@@ -1018,6 +1093,31 @@ void GameLevel::enter()
 	gObjects.push_back(sceneObjects["Room"]);
 	sceneObjects["Room"]->setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
 
+	gObjects.push_back(sceneObjects["Candle"]);
+	sceneObjects["Candle"]->getTransform()->rotateY(-1.570795f);
+	sceneObjects["Candle"]->setPosition(glm::vec3(-35.0f, 4.0f, 17.5f));
+	gObjects.push_back(sceneObjects["Candle2"]);
+	sceneObjects["Candle2"]->getTransform()->rotateY(-1.570795f);
+	sceneObjects["Candle2"]->setPosition(glm::vec3(-35.0f, 4.0f, -17.5f)); 
+	gObjects.push_back(sceneObjects["Candle3"]);
+	sceneObjects["Candle3"]->getTransform()->rotateY(1.570795f);
+	sceneObjects["Candle3"]->setPosition(glm::vec3(35.0f, 4.0f, 17.5f));
+	gObjects.push_back(sceneObjects["Candle4"]);
+	sceneObjects["Candle4"]->getTransform()->rotateY(1.570795f);
+	sceneObjects["Candle4"]->setPosition(glm::vec3(35.0f, 4.0f, -17.5f));
+	gObjects.push_back(sceneObjects["Candle5"]);
+	//DO NOT ROTATE
+	sceneObjects["Candle5"]->setPosition(glm::vec3(17.5f, 4.0f, 35.0f));
+	gObjects.push_back(sceneObjects["Candle6"]);
+	//DO NOT ROTATE
+	sceneObjects["Candle6"]->setPosition(glm::vec3(-17.5f, 4.0f, 35.0f));
+	gObjects.push_back(sceneObjects["Candle7"]);
+	sceneObjects["Candle7"]->getTransform()->rotateY(3.14159f);
+	sceneObjects["Candle7"]->setPosition(glm::vec3(17.5f, 4.0f, -35.0f));
+	gObjects.push_back(sceneObjects["Candle8"]);
+	sceneObjects["Candle8"]->getTransform()->rotateY(3.14159f);
+	sceneObjects["Candle8"]->setPosition(glm::vec3(-17.5f, 4.0f, -35.0f));
+
 	gObjects.push_back(sceneObjects["SpotLight"]);
 	sceneObjects["SpotLight"]->setLoss(true);
 	sceneObjects["SpotLight"]->setPosition(glm::vec3(0.0f, 0.6f, -55.0f));
@@ -1049,16 +1149,22 @@ void GameLevel::enter()
 	transparentGObjects.push_back(sceneObjects["Warning2"]);
 	sceneObjects["Warning2"]->setPosition(glm::vec3(0.0f, 10.0f, -55.0f));
 
+	HUDGObjects.push_back(sceneObjects["NumPlate"]);
+	sceneObjects["NumPlate"]->setPosition(glm::vec3(0.0f, 0.0f, -4.4f));
 	HUDGObjects.push_back(sceneObjects["TimerQuad"]);
-	sceneObjects["TimerQuad"]->setPosition(glm::vec3(-1.1f, 0.0f, -4.5f));
+	sceneObjects["TimerQuad"]->setPosition(glm::vec3(-1.1f, 0.0f, -4.4f));
 	HUDGObjects.push_back(sceneObjects["TimerQuad2"]);
-	sceneObjects["TimerQuad2"]->setPosition(glm::vec3(-0.5f, 0.0f, -4.5f));
+	sceneObjects["TimerQuad2"]->setPosition(glm::vec3(-0.5f, 0.0f, -4.4f));
 	HUDGObjects.push_back(sceneObjects["TimerQuad3"]);		
-	sceneObjects["TimerQuad3"]->setPosition(glm::vec3(0.0f, 0.0f, -4.5f));
+	sceneObjects["TimerQuad3"]->setPosition(glm::vec3(0.0f, 0.0f, -4.4f));
 	HUDGObjects.push_back(sceneObjects["TimerQuad4"]);		
-	sceneObjects["TimerQuad4"]->setPosition(glm::vec3(0.5f, 0.0f, -4.5f));
+	sceneObjects["TimerQuad4"]->setPosition(glm::vec3(0.5f, 0.0f, -4.4f));
 	HUDGObjects.push_back(sceneObjects["TimerQuad5"]);		
-	sceneObjects["TimerQuad5"]->setPosition(glm::vec3(1.1f, 0.0f, -4.5f));
+	sceneObjects["TimerQuad5"]->setPosition(glm::vec3(1.1f, 0.0f, -4.4f));
+	HUDGObjects.push_back(sceneObjects["HUD"]);
+	sceneObjects["HUD"]->setPosition(glm::vec3(-3.2f, 0.0f, -4.4f));
+	HUDGObjects.push_back(sceneObjects["HUD2"]);
+	sceneObjects["HUD2"]->setPosition(glm::vec3(3.0f, 0.0f, -4.4f));
 	
 	sceneObjects["InvisWall"]->setPosition(glm::vec3(0.0f, 0.0f, -35.0f));
 	sceneObjects["InvisWall2"]->setPosition(glm::vec3(0.0f, 0.0f, 35.0f));
@@ -1120,12 +1226,6 @@ void GameLevel::enter()
 	sceneObjects["Warning5"]->uUVOffset = glm::vec2(0.0f, 0.0f);
 	sceneObjects["Warning5"]->uUVOffset = glm::vec2(0.0f, 0.0f);
 
-	lightObjects.push_back(&pointLight);
-	lightObjects.push_back(&pointLight2);
-	lightObjects.push_back(&pointLight3);
-	lightObjects.push_back(&pointLight4);
-	lightObjects.push_back(&pointLight5);
-
 	if (!hasLoadedOnce)
 	{
 		//PUSH BACK COLLIDABLE OBJECTS
@@ -1141,34 +1241,74 @@ void GameLevel::enter()
 		collidables.push_back(sceneObjects["InvisWall3"]);
 		collidables.push_back(sceneObjects["InvisWall4"]);
 
+	    lightObjects.push_back(&pointLight);
+	    lightObjects.push_back(&pointLight2);
+	    lightObjects.push_back(&pointLight3);
+	    lightObjects.push_back(&pointLight4);
+	    lightObjects.push_back(&pointLight5);
+
+		lightObjects.push_back(&candleLight);
+		lightObjects.push_back(&candleLight2);
+		lightObjects.push_back(&candleLight3);
+		lightObjects.push_back(&candleLight4);
+		lightObjects.push_back(&candleLight5);
+		lightObjects.push_back(&candleLight6);
+		lightObjects.push_back(&candleLight7);
+		lightObjects.push_back(&candleLight8);
+		
 		//pointLight.position = sceneObjects["SpotLight"]->getPosition();
 		pointLight.color = glm::vec4(1.0f, 0.63f, 0.72f, 1.0f);
-		pointLight.meshName = "Sphere";
+		pointLight.meshName = "Cone";
 
 		//pointLight2.position = sceneObjects["SpotLight2"]->getPosition();
 		pointLight2.color = glm::vec4(0.48f, 0.41f, 0.93f, 1.0f);
-		pointLight2.meshName = "Sphere";
+		pointLight2.meshName = "Cone";
 
 		//pointLight3.position = sceneObjects["QuadLight"]->getPosition();
 		pointLight3.color = glm::vec4(0.3f, 0.7f, 0.4f, 1.0f);
 		pointLight3.aConstant = pointLight3.aConstant * 0.1f;
 		pointLight3.aLinear = pointLight3.aLinear * 0.1f;
 		pointLight3.aQuadratic = pointLight3.aQuadratic * 0.1f;
-		pointLight3.meshName = "Sphere";
+		pointLight3.meshName = "Pyramid";
 
 		//pointLight4.position = sceneObjects["TriLight"]->getPosition();
 		pointLight4.color = glm::vec4(0.3f, 0.7f, 0.4f, 1.0f);
 		pointLight4.aConstant = pointLight4.aConstant * 0.1f;
 		pointLight4.aLinear = pointLight4.aLinear * 0.1f;
 		pointLight4.aQuadratic = pointLight4.aQuadratic * 0.1f;
-		pointLight4.meshName = "Sphere";
+		pointLight4.meshName = "Pyramid";
 
 		//pointLight5.position = sceneObjects["TriLight2"]->getPosition();
 		pointLight5.color = glm::vec4(0.3f, 0.7f, 0.4f, 1.0f);
 		pointLight5.aConstant = pointLight5.aConstant * 0.1f;
 		pointLight5.aLinear = pointLight5.aLinear * 0.1f;
 		pointLight5.aQuadratic = pointLight5.aQuadratic * 0.1f;
-		pointLight5.meshName = "Sphere";
+		pointLight5.meshName = "Pyramid";
+
+		candleLight.color = glm::vec4(1.0f, 0.67f, 0.02f, 1.0f);
+		candleLight.position = glm::vec3(-32.5f, 10.0f, 17.5f);
+		candleLight.meshName = "Sphere";
+
+		candleLight2 = candleLight;
+		candleLight2.position = glm::vec3(-32.5f, 10.0f, -17.5f);
+		
+		candleLight3 = candleLight;
+		candleLight3.position = glm::vec3(32.5f, 10.0f, 17.5f);
+
+		candleLight4 = candleLight;
+		candleLight4.position = glm::vec3(32.5f, 10.0f, -17.5f);
+
+		candleLight5 = candleLight;
+		candleLight5.position = glm::vec3(17.5f, 10.0f, 32.5f);
+
+		candleLight6 = candleLight;
+		candleLight6.position = glm::vec3(-17.5f, 10.0f, 32.5f);
+
+		candleLight7 = candleLight;
+		candleLight7.position = glm::vec3(17.5f, 10.0f, -32.5f);
+
+		candleLight8 = candleLight;
+		candleLight8.position = glm::vec3(-17.5f, 10.0f, -32.5f);
 
 		hasLoadedOnce = true;
 	}

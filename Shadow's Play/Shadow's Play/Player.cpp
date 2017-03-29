@@ -290,4 +290,9 @@ namespace ENG
 	{
 		return paused;
 	}
+
+	int Player::getNumOfLives()
+	{
+		return lives;
+	}
 }

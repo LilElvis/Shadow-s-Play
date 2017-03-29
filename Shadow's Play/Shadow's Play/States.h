@@ -173,6 +173,8 @@ static bool isLit;
 static bool wasWarned1 = false;
 static bool wasWarned2 = false;
 
+static glm::vec4 defaultLightPos;
+
 //TIME VARIABLES
 static float totalTime = 0.0f;
 static float previousTime = 0.0f;
@@ -238,5 +240,14 @@ static ENG::PointLight pointLight2;
 static ENG::PointLight pointLight3;
 static ENG::PointLight pointLight4;
 static ENG::PointLight pointLight5;
+
+static ENG::PointLight candleLight;
+static ENG::PointLight candleLight2;
+static ENG::PointLight candleLight3;
+static ENG::PointLight candleLight4;
+static ENG::PointLight candleLight5;
+static ENG::PointLight candleLight6;
+static ENG::PointLight candleLight7;
+static ENG::PointLight candleLight8;
 
 //static glm::mat4 uProjectionBiasMatrixInverse;

@@ -24,6 +24,7 @@ namespace ENG
 		bool getLifeLost();
 		bool getIsDead();
 		bool getNyxPaused();
+		int getNumOfLives();
 		float last_y_rotate = 0;
 		float timeOfLastDash;
 

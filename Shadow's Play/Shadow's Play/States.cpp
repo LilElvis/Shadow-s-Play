@@ -466,7 +466,7 @@ void MainMenu::Update()
 
 	gameWindow->GetSFMLWindow()->display();
 
-	if(devCommand.GetKeyDown(ENG::KeyCode::Space))
+	if(devCommand.GetKeyDown(ENG::KeyCode::Space) || sf::Joystick::isButtonPressed(0, 7)) // Joystick Button Start "Press Start to Play"
 	{
 		MainMenu::exit();
 		m_parent->GetGameState("GameLevel")->SetPaused(false);
@@ -1387,7 +1387,7 @@ void GameOver::Update()
 
 	gameWindow->GetSFMLWindow()->display();
 
-	if (devCommand.GetKeyDown(ENG::KeyCode::Space))
+	if (devCommand.GetKeyDown(ENG::KeyCode::Space) || sf::Joystick::isButtonPressed(0, 0)) // Joystick button A "Press A to go back to main menu 
 	{
 		GameOver::exit();
 		m_parent->GetGameState("MainMenu")->SetPaused(false);

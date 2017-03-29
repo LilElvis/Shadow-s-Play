@@ -60,7 +60,10 @@
     <ClCompile Include="..\..\Shadow%27s Play\Shadow%27s Play\FrameBufferObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Shadow%27s Play\Shadow%27s Play\Shadow%27s Play\Lights.cpp">
+    <ClCompile Include="..\..\Shadow%27s Play\Shadow%27s Play\LUT.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Shadow%27s Play\Shadow%27s Play\Lights.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -110,10 +113,13 @@
     <ClInclude Include="..\..\Shadow%27s Play\Shadow%27s Play\Sound.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Shadow%27s Play\Shadow%27s Play\Shadow%27s Play\Lights.h">
+    <ClInclude Include="..\..\Shadow%27s Play\Shadow%27s Play\FrameBufferObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Shadow%27s Play\Shadow%27s Play\FrameBufferObject.h">
+    <ClInclude Include="..\..\Shadow%27s Play\Shadow%27s Play\LUT.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Shadow%27s Play\Shadow%27s Play\Lights.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -155,6 +161,9 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="..\..\Shadow%27s Play\assets\shaders\VerticalBlur.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\Shadow%27s Play\assets\shaders\LUT.frag">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

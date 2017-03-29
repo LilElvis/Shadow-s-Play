@@ -155,7 +155,7 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="..\..\Shadow%27s Play\assets\shaders\VerticalBlur.frag">
-      <Filter>Source Files</Filter>
+      <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
 </Project>

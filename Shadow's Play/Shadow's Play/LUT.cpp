@@ -27,34 +27,27 @@ void ENG::LUT::loadData(std::string filename)
 		abort();
 	}
 	std::vector <glm::vec3> texData;	//vector to hold texture data
-
-	char buffer[256];					//max size one line will be (wont really ever reach it)
+	
+	std::string LUTline;					//max size one line will be (wont really ever reach it)
 
 	glm::vec3 nextDataPoint;			//vec3 to store the data point (rgb values)
 
-	bool inHeader = true;				//check to see if still in the header
-
-	while (inFile.getline(buffer, 256))
+	while (!inFile.eof())
 	{
-		if (inHeader)
+		getline(inFile, LUTline);
+
+		if (LUTline.empty())
+			continue;
+
+		if (sscanf_s(LUTline.c_str(), "LUT_3D_SIZE %u", &dataSize) == 1)
 		{
-			if (strstr(buffer, "LUT_3D_SIZE"))
-			{
-				std::string temp = buffer;
-
-				temp = temp.substr(12, std::string::npos);
-
-				dataSize = std::stoi(temp);
-
-				inHeader = false;
-			}
+			continue;
 		}
 
-		else
+		if (sscanf(LUTline.c_str(), "%f %f %f", &nextDataPoint.x, &nextDataPoint.y, &nextDataPoint.z) == 3)
 		{
-			sscanf_s(buffer, "%f %f %f", &nextDataPoint.x, &nextDataPoint.y, &nextDataPoint.z);		//scans line by line and records the float points into nextDataPoint
-
-			texData.push_back(nextDataPoint);		//adds it to the vector (list)
+			texData.push_back(nextDataPoint);
+			continue;
 		}
 	}
 
@@ -71,7 +64,7 @@ void ENG::LUT::loadData(std::string filename)
 	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);	//y axis wrap
 	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);	//z axis wrap
 
-	glTexImage3D(GL_TEXTURE_3D, 0, GL_RGBA, dataSize, dataSize, dataSize, 0, GL_RGB, GL_FLOAT, &texData[0]);	//creates the texture of lut
+	glTexImage3D(GL_TEXTURE_3D, 0, GL_RGB, dataSize, dataSize, dataSize, 0, GL_RGB, GL_FLOAT, &texData[0]);	//creates the texture of lut
 
 	glBindTexture(GL_TEXTURE_3D, NULL);			//binds the lut to the texture
 	texData.clear();

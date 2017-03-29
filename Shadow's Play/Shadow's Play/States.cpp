@@ -333,7 +333,7 @@ void Initialize()
 	echo = NULL;
 
 	//INITIALIZE LUTS
-	n8700.loadData("../assets/LUT/F-8700-V2-STD.cube");
+	n8700.loadData("../assets/LUT/Bourbon 64.cube"); //Zeke 39.cube and Clayton 33.cube is grayscale
 
 	//SET BOUNDING BOXES
 

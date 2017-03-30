@@ -180,6 +180,22 @@ void Initialize()
 	sceneObjects["TimerQuad4"] = &TimerQuad4;
 	static ENG::SceneObject TimerQuad5("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
 	sceneObjects["TimerQuad5"] = &TimerQuad5;
+	
+	static ENG::SceneObject GameOverY("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	sceneObjects["GameOverY"] = &GameOverY;
+	static ENG::SceneObject GameOverO("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	sceneObjects["GameOverO"] = &GameOverO;
+	static ENG::SceneObject GameOverU("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	sceneObjects["GameOverU"] = &GameOverU;
+	static ENG::SceneObject GameOverD("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	sceneObjects["GameOverD"] = &GameOverD;
+	static ENG::SceneObject GameOverI("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	sceneObjects["GameOverI"] = &GameOverI;
+	static ENG::SceneObject GameOverE("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	sceneObjects["GameOverE"] = &GameOverE;
+	static ENG::SceneObject GameOverD2("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	sceneObjects["GameOverD2"] = &GameOverD2;
+
 
 	defaultMesh->LoadFromFile("HUD", "../assets/objects/StatsQuad.obj");
 	defaultTexture->LoadFromFile("Hearts", "../assets/textures/Hearts.png");
@@ -290,6 +306,32 @@ void Initialize()
 	sceneObjects["TimerQuad"]->UVOffsets.push_back(sevenPos);
 	sceneObjects["TimerQuad"]->UVOffsets.push_back(eightPos);
 	sceneObjects["TimerQuad"]->UVOffsets.push_back(ninePos);
+	sceneObjects["TimerQuad"]->UVOffsets.push_back(APos);
+	sceneObjects["TimerQuad"]->UVOffsets.push_back(BPos);
+	sceneObjects["TimerQuad"]->UVOffsets.push_back(CPos);
+	sceneObjects["TimerQuad"]->UVOffsets.push_back(DPos);
+	sceneObjects["TimerQuad"]->UVOffsets.push_back(EPos);
+	sceneObjects["TimerQuad"]->UVOffsets.push_back(FPos);
+	sceneObjects["TimerQuad"]->UVOffsets.push_back(GPos);
+	sceneObjects["TimerQuad"]->UVOffsets.push_back(HPos);
+	sceneObjects["TimerQuad"]->UVOffsets.push_back(IPos);
+	sceneObjects["TimerQuad"]->UVOffsets.push_back(JPos);
+	sceneObjects["TimerQuad"]->UVOffsets.push_back(KPos);
+	sceneObjects["TimerQuad"]->UVOffsets.push_back(LPos);
+	sceneObjects["TimerQuad"]->UVOffsets.push_back(MPos);
+	sceneObjects["TimerQuad"]->UVOffsets.push_back(NPos);
+	sceneObjects["TimerQuad"]->UVOffsets.push_back(OPos);
+	sceneObjects["TimerQuad"]->UVOffsets.push_back(PPos);
+	sceneObjects["TimerQuad"]->UVOffsets.push_back(QPos);
+	sceneObjects["TimerQuad"]->UVOffsets.push_back(RPos);
+	sceneObjects["TimerQuad"]->UVOffsets.push_back(SPos);
+	sceneObjects["TimerQuad"]->UVOffsets.push_back(TPos);
+	sceneObjects["TimerQuad"]->UVOffsets.push_back(UPos);
+	sceneObjects["TimerQuad"]->UVOffsets.push_back(VPos);
+	sceneObjects["TimerQuad"]->UVOffsets.push_back(WPos);
+	sceneObjects["TimerQuad"]->UVOffsets.push_back(XPos);
+	sceneObjects["TimerQuad"]->UVOffsets.push_back(YPos);
+	sceneObjects["TimerQuad"]->UVOffsets.push_back(ZPos);
 	sceneObjects["TimerQuad"]->UVOffsets.push_back(colonPos);
 
 	sceneObjects["HUD"]->UVOffsets.push_back(glm::vec2(0.0f, 0.0f));
@@ -666,7 +708,7 @@ void GameLevel::Update()
 
 		Player["Nyx"]->collisionCheck(collidables);
 
-		if (Player["Nyx"]->getIsDead() == true)
+		if (Player["Nyx"]->getIsDead())
 		{
 			Player["Nyx"]->setPosition(glm::vec3(200.0f, 200.0f, 200.0f));
 			if (deathTimer == false)
@@ -679,6 +721,17 @@ void GameLevel::Update()
 				GameLevel::gameOver();
 				m_parent->GetGameState("GameOver")->SetPaused(false);
 			}
+		}
+		if (timeOfDeath == totalTime)
+		{
+			HUDGObjects.push_back(sceneObjects["GameOverY"]);
+			HUDGObjects.push_back(sceneObjects["GameOverY"]);
+			HUDGObjects.push_back(sceneObjects["GameOverO"]);
+			HUDGObjects.push_back(sceneObjects["GameOverU"]);
+			HUDGObjects.push_back(sceneObjects["GameOverD"]);;
+			HUDGObjects.push_back(sceneObjects["GameOverI"]);;
+			HUDGObjects.push_back(sceneObjects["GameOverE"]);
+			HUDGObjects.push_back(sceneObjects["GameOverD2"]);
 		}
 	
 		//Sound Update
@@ -1188,7 +1241,15 @@ void GameLevel::enter()
 	sceneObjects["HUD"]->setPosition(glm::vec3(-3.2f, 0.0f, -4.4f));
 	HUDGObjects.push_back(sceneObjects["HUD2"]);
 	sceneObjects["HUD2"]->setPosition(glm::vec3(3.0f, 0.0f, -4.4f));
-	
+
+	sceneObjects["GameOverY"]->setPosition(glm::vec3(-1.2f, 0.0f, 0.0f));
+	sceneObjects["GameOverO"]->setPosition(glm::vec3(-0.8f, 0.0f, 0.0f));
+	sceneObjects["GameOverU"]->setPosition(glm::vec3(-0.4f, 0.0f, 0.0f));
+	sceneObjects["GameOverD"]->setPosition(glm::vec3(0.2f, 0.0f, 0.0f));
+	sceneObjects["GameOverI"]->setPosition(glm::vec3(0.55f, 0.0f, 0.0f));
+	sceneObjects["GameOverE"]->setPosition(glm::vec3(0.8f, 0.0f, 0.0f));
+	sceneObjects["GameOverD2"]->setPosition(glm::vec3(1.2f, 0.0f, 0.0f));
+
 	sceneObjects["InvisWall"]->setPosition(glm::vec3(0.0f, 0.0f, -35.0f));
 	sceneObjects["InvisWall2"]->setPosition(glm::vec3(0.0f, 0.0f, 35.0f));
 	sceneObjects["InvisWall3"]->setPosition(glm::vec3(-35.0f, 0.0f, 0.0f));
@@ -1228,6 +1289,14 @@ void GameLevel::enter()
 	sceneObjects["TimerQuad3"]->uUVOffset = colonPos;
 	sceneObjects["TimerQuad4"]->uUVOffset = glm::vec2(0.0f, 0.0f);
 	sceneObjects["TimerQuad5"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+
+	sceneObjects["GameOverY"]->uUVOffset = YPos;
+	sceneObjects["GameOverO"]->uUVOffset = OPos;
+	sceneObjects["GameOverU"]->uUVOffset = UPos;
+	sceneObjects["GameOverD"]->uUVOffset = DPos;
+	sceneObjects["GameOverI"]->uUVOffset = IPos;
+	sceneObjects["GameOverE"]->uUVOffset = EPos;
+	sceneObjects["GameOverD2"]->uUVOffset = DPos;
 
 	sceneObjects["Warning"]->uUVOffset = glm::vec2(0.0f, 0.0f);
 	sceneObjects["Warning"]->uUVOffset = glm::vec2(0.0f, 0.0f);

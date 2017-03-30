@@ -105,7 +105,8 @@ static ENG::FrameBufferObject motionBlurFBO;
 static ENG::FrameBufferObject lightingStencil;
 
 //LUTS
-static ENG::LUT n8700;
+static ENG::LUT bourbon;
+static ENG::LUT clayton;
 
 
 //MAPS OF GAME OBJECTS

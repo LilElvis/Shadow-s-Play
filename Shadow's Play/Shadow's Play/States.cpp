@@ -333,7 +333,8 @@ void Initialize()
 	echo = NULL;
 
 	//INITIALIZE LUTS
-	n8700.loadData("../assets/LUT/Bourbon 64.cube"); //Zeke 39.cube and Clayton 33.cube is grayscale
+	bourbon.loadData("../assets/LUT/Bourbon 64.cube"); //Zeke 39.cube and Clayton 33.cube is grayscale
+	clayton.loadData("../assets/LUT/Clayton 33.cube");
 
 	//SET BOUNDING BOXES
 
@@ -1036,7 +1037,14 @@ void GameLevel::Update()
 		colorCorrect.bind();
 
 		finalSceneFBO1.BindColorAsTexture(GL_TEXTURE0, 0);
-		n8700.bind(GL_TEXTURE1);
+		colorCorrect.sendUniform("t", 0.5f);
+		bourbon.bind(GL_TEXTURE1);
+
+		if (Player["Nyx"]->getIsDead())
+		{
+			colorCorrect.sendUniform("t", clamp((totalTime - timeOfDeath) * 0.5f, 0.0f, 1.0f));
+			clayton.bind(GL_TEXTURE1);
+		}
 
 		glBindVertexArray(sceneObjects["Quad3"]->getRenderable());
 		glDrawArrays(GL_TRIANGLES, 0, 6);

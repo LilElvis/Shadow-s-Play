@@ -454,7 +454,8 @@ void Reset()
 
 	globalT = 1.0f;
 	rampValue = 0.005f;
-	timeOfDeath = 0.0f;
+	sessionTime = 0.0f;
+	timeOfDeath = -1.0f;
 	numOfCycles = 0;
 	deathTimer = false;
 }
@@ -604,17 +605,18 @@ void GameLevel::Update()
 		globalT += rampValue;
 
 		totalTime += 1 / 60.0f;
+		sessionTime += 1 / 60.0f;
 
 		deltaTime = (totalTime - previousTime);
 
 		previousTime = totalTime;
 
-		defaultShader.sendUniform("uTime", totalTime);
+		defaultShader.sendUniform("uTime", sessionTime);
 
 		//TEMPORARY ANIMATION FRAME TESTING
-		if (totalTime >= timeOfLastAnim + 0.5f)
+		if (sessionTime >= timeOfLastAnim + 0.5f)
 		{
-			timeOfLastAnim = totalTime;
+			timeOfLastAnim = sessionTime;
 			animFrame++;
 		}
 		if (animFrame > 3)
@@ -647,14 +649,14 @@ void GameLevel::Update()
 		sceneObjects["SpotLight2"]->setPosition(bezier(points[randomCurveStart], points[randomCurveControl], points[randomCurveEnd], globalT));
 		pointLight2.position = (sceneObjects["SpotLight2"]->getPosition() + glm::vec3(0.0f, -0.25f, 0.0f));
 
-		if ((globalT > 0.7f && globalT < 0.98f) && numOfCycles >= 4 && numOfCycles <= 9)
+		if ((globalT > 0.7f && globalT < 0.98f) && numOfCycles > 3 && numOfCycles < 25)
 			sceneObjects["QuadLight"]->setPosition(points[randomQuadPos]);
 		else
 			sceneObjects["QuadLight"]->setPosition(glm::vec3(0.0f, 0.6f, 100.0f));
 		
 		pointLight3.position = (sceneObjects["QuadLight"]->getPosition() + glm::vec3(0.0f, -0.4f, 0.0f));
 
-		if ((globalT > 0.7f && globalT < 0.98f) && numOfCycles >= 10)
+		if ((globalT > 0.7f && globalT < 0.98f) && numOfCycles > 24)
 		{
 			sceneObjects["TriLight"]->setPosition(points[randomTriPos]);
 			sceneObjects["TriLight2"]->setPosition(points[randomTriPos2]);
@@ -674,12 +676,12 @@ void GameLevel::Update()
 		if (!wasWarned2)
 			sceneObjects["Warning2"]->setPosition(clamp(sceneObjects["SpotLight2"]->getPosition(), RoomMin, RoomMax));
 
-		if (globalT < 0.7f && numOfCycles >= 4 && numOfCycles <= 9)
+		if (globalT < 0.7f && numOfCycles > 3 && numOfCycles < 25)
 			sceneObjects["Warning3"]->setPosition(points[randomQuadPos]);
 		else
 			sceneObjects["Warning3"]->setPosition(glm::vec3(0.0f, 0.6f, 55.0f));
 
-		if (globalT < 0.7f && numOfCycles >= 10)
+		if (globalT < 0.7f && numOfCycles > 24)
 		{
 			sceneObjects["Warning4"]->setPosition(points[randomTriPos]);
 			sceneObjects["Warning5"]->setPosition(points[randomTriPos2]);
@@ -713,16 +715,17 @@ void GameLevel::Update()
 			Player["Nyx"]->setPosition(glm::vec3(200.0f, 200.0f, 200.0f));
 			if (deathTimer == false)
 			{
-				timeOfDeath = totalTime;
+				timeOfDeath = sessionTime;
+				score.insertScore("seconds", timeOfDeath);
 				deathTimer = true;
 			}
-			if ((deathTimer == true) && (totalTime > (timeOfDeath + 3.0f)))
+			if ((deathTimer == true) && (sessionTime > (timeOfDeath + 3.0f)))
 			{
 				GameLevel::gameOver();
 				m_parent->GetGameState("GameOver")->SetPaused(false);
 			}
 		}
-		if (timeOfDeath == totalTime)
+		if (timeOfDeath == sessionTime)
 		{
 			HUDGObjects.push_back(sceneObjects["GameOverY"]);
 			HUDGObjects.push_back(sceneObjects["GameOverY"]);
@@ -1095,7 +1098,7 @@ void GameLevel::Update()
 
 		if (Player["Nyx"]->getIsDead())
 		{
-			colorCorrect.sendUniform("t", clamp((totalTime - timeOfDeath) * 0.5f, 0.0f, 1.0f));
+			colorCorrect.sendUniform("t", clamp((sessionTime - timeOfDeath) * 0.5f, 0.0f, 1.0f));
 			clayton.bind(GL_TEXTURE1);
 		}
 
@@ -1104,6 +1107,8 @@ void GameLevel::Update()
 		glBindVertexArray(0);
 
 		finalSceneFBO2.Unbind();
+		
+		//DEBUG PASS (FOR VERIFYING OUPUT OF SPECIFIC FBOS)
 		//finalSceneFBO1.Bind();
 		//passThrough.bind();
 		//

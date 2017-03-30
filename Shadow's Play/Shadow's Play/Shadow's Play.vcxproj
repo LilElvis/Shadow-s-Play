@@ -160,6 +160,7 @@
     <ClCompile Include="..\..\Shadow%27s Play\Shadow%27s Play\Mesh.cpp" />
     <ClCompile Include="..\..\Shadow%27s Play\Shadow%27s Play\Player.cpp" />
     <ClCompile Include="..\..\Shadow%27s Play\Shadow%27s Play\SceneObject.cpp" />
+    <ClCompile Include="..\..\Shadow%27s Play\Shadow%27s Play\Score.cpp" />
     <ClCompile Include="..\..\Shadow%27s Play\Shadow%27s Play\Shader.cpp" />
     <ClCompile Include="..\..\Shadow%27s Play\Shadow%27s Play\Sound.cpp" />
     <ClCompile Include="..\..\Shadow%27s Play\Shadow%27s Play\SpeedControl.cpp" />
@@ -180,6 +181,7 @@
     <ClInclude Include="..\..\Shadow%27s Play\Shadow%27s Play\Mesh.h" />
     <ClInclude Include="..\..\Shadow%27s Play\Shadow%27s Play\Player.h" />
     <ClInclude Include="..\..\Shadow%27s Play\Shadow%27s Play\SceneObject.h" />
+    <ClInclude Include="..\..\Shadow%27s Play\Shadow%27s Play\Score.h" />
     <ClInclude Include="..\..\Shadow%27s Play\Shadow%27s Play\Shader.h" />
     <ClInclude Include="..\..\Shadow%27s Play\Shadow%27s Play\Sound.h" />
     <ClInclude Include="..\..\Shadow%27s Play\Shadow%27s Play\SpeedControl.h" />

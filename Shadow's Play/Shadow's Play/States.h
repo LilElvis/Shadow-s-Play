@@ -9,6 +9,7 @@
 #include "AnimationMath.h"
 #include "FrameBufferObject.h"
 #include "LUT.h"
+#include "Score.h"
 
 //STATE CLASSES
 class MainMenu : public GameState
@@ -182,16 +183,19 @@ static bool wasWarned2 = false;
 static glm::vec4 defaultLightPos;
 
 //TIME VARIABLES
-static float totalTime = 0.0f;
+static float totalTime = 0.0f;		//Total Runtime
+static float sessionTime = 0.0f;	//Current Play Session Runtime
 static float previousTime = 0.0f;
 static float deltaTime = 0.0f;
 
-static float timeOfDeath = 0.0f;
+static float timeOfDeath = -1.0f;
 static bool deathTimer = false;
 
 static float seconds = 0;
 static int minute = 0;
 static int numOfCycles = 0;
+
+static ENG::Score score;
 
 //TIMER FUNC
 float timerFunc();

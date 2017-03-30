@@ -66,6 +66,9 @@
     <ClCompile Include="..\..\Shadow%27s Play\Shadow%27s Play\Lights.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Shadow%27s Play\Shadow%27s Play\Score.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Shadow%27s Play\Shadow%27s Play\GameObject.h">
@@ -120,6 +123,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Shadow%27s Play\Shadow%27s Play\Lights.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Shadow%27s Play\Shadow%27s Play\Score.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

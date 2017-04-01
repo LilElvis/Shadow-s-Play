@@ -196,6 +196,84 @@ void Initialize()
 	static ENG::SceneObject GameOverD2("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
 	sceneObjects["GameOverD2"] = &GameOverD2;
 
+	static ENG::SceneObject ScoreQuad("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	sceneObjects["ScoreQuad"] = &ScoreQuad;
+	static ENG::SceneObject ScoreQuad2("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	sceneObjects["ScoreQuad2"] = &ScoreQuad2;
+	static ENG::SceneObject ScoreQuad3("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	sceneObjects["ScoreQuad3"] = &ScoreQuad3;
+	static ENG::SceneObject ScoreQuad4("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	sceneObjects["ScoreQuad4"] = &ScoreQuad4;
+	static ENG::SceneObject ScoreQuad5("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	sceneObjects["ScoreQuad5"] = &ScoreQuad5;
+
+	static ENG::SceneObject ScoreQuad6("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	sceneObjects["ScoreQuad6"] = &ScoreQuad6;
+	static ENG::SceneObject ScoreQuad7("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	sceneObjects["ScoreQuad7"] = &ScoreQuad7;
+	static ENG::SceneObject ScoreQuad8("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	sceneObjects["ScoreQuad8"] = &ScoreQuad8;
+	static ENG::SceneObject ScoreQuad9("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	sceneObjects["ScoreQuad9"] = &ScoreQuad9;
+	static ENG::SceneObject ScoreQuad10("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	sceneObjects["ScoreQuad10"] = &ScoreQuad10;
+
+	static ENG::SceneObject ScoreQuad11("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	sceneObjects["ScoreQuad11"] = &ScoreQuad11;
+	static ENG::SceneObject ScoreQuad12("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	sceneObjects["ScoreQuad12"] = &ScoreQuad12;
+	static ENG::SceneObject ScoreQuad13("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	sceneObjects["ScoreQuad13"] = &ScoreQuad13;
+	static ENG::SceneObject ScoreQuad14("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	sceneObjects["ScoreQuad14"] = &ScoreQuad14;
+	static ENG::SceneObject ScoreQuad15("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	sceneObjects["ScoreQuad15"] = &ScoreQuad15;
+
+	static ENG::SceneObject ScoreQuad16("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	sceneObjects["ScoreQuad16"] = &ScoreQuad16;
+	static ENG::SceneObject ScoreQuad17("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	sceneObjects["ScoreQuad17"] = &ScoreQuad17;
+	static ENG::SceneObject ScoreQuad18("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	sceneObjects["ScoreQuad18"] = &ScoreQuad18;
+	static ENG::SceneObject ScoreQuad19("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	sceneObjects["ScoreQuad19"] = &ScoreQuad19;
+	static ENG::SceneObject ScoreQuad20("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	sceneObjects["ScoreQuad20"] = &ScoreQuad20;
+
+	static ENG::SceneObject ScoreQuad21("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	sceneObjects["ScoreQuad21"] = &ScoreQuad21;
+	static ENG::SceneObject ScoreQuad22("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	sceneObjects["ScoreQuad22"] = &ScoreQuad22;
+	static ENG::SceneObject ScoreQuad23("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	sceneObjects["ScoreQuad23"] = &ScoreQuad23;
+	static ENG::SceneObject ScoreQuad24("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	sceneObjects["ScoreQuad24"] = &ScoreQuad24;
+	static ENG::SceneObject ScoreQuad25("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	sceneObjects["ScoreQuad25"] = &ScoreQuad25;
+
+	static ENG::SceneObject ScoreQuad26("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	sceneObjects["ScoreQuad26"] = &ScoreQuad26;
+	static ENG::SceneObject ScoreQuad27("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	sceneObjects["ScoreQuad27"] = &ScoreQuad27;
+	static ENG::SceneObject ScoreQuad28("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	sceneObjects["ScoreQuad28"] = &ScoreQuad28;
+	static ENG::SceneObject ScoreQuad29("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	sceneObjects["ScoreQuad29"] = &ScoreQuad29;
+	static ENG::SceneObject ScoreQuad30("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	sceneObjects["ScoreQuad30"] = &ScoreQuad30;
+
+	static ENG::SceneObject ScoreS("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	sceneObjects["ScoreS"] = &ScoreS;
+	static ENG::SceneObject ScoreC("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	sceneObjects["ScoreC"] = &ScoreC;
+	static ENG::SceneObject ScoreO("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	sceneObjects["ScoreO"] = &ScoreO;
+	static ENG::SceneObject ScoreR("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	sceneObjects["ScoreR"] = &ScoreR;
+	static ENG::SceneObject ScoreE("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	sceneObjects["ScoreE"] = &ScoreE;
+	static ENG::SceneObject ScoreS2("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	sceneObjects["ScoreS2"] = &ScoreS2;
 
 	defaultMesh->LoadFromFile("HUD", "../assets/objects/StatsQuad.obj");
 	defaultTexture->LoadFromFile("Hearts", "../assets/textures/Hearts.png");
@@ -553,7 +631,7 @@ void MainMenu::exit()
 //FIRST LEVEL MAIN LOOP
 void GameLevel::Update()
 {
-	timerFunc();
+	timerFunc(deltaTime);
 
 	if (!weBePausing)
 	{
@@ -727,14 +805,14 @@ void GameLevel::Update()
 		}
 		if (timeOfDeath == sessionTime)
 		{
-			HUDGObjects.push_back(sceneObjects["GameOverY"]);
-			HUDGObjects.push_back(sceneObjects["GameOverY"]);
-			HUDGObjects.push_back(sceneObjects["GameOverO"]);
-			HUDGObjects.push_back(sceneObjects["GameOverU"]);
-			HUDGObjects.push_back(sceneObjects["GameOverD"]);;
-			HUDGObjects.push_back(sceneObjects["GameOverI"]);;
-			HUDGObjects.push_back(sceneObjects["GameOverE"]);
-			HUDGObjects.push_back(sceneObjects["GameOverD2"]);
+			HUDGObjects.addNode(sceneObjects["GameOverY"], 3);
+			HUDGObjects.addNode(sceneObjects["GameOverY"], 3);
+			HUDGObjects.addNode(sceneObjects["GameOverO"], 3);
+			HUDGObjects.addNode(sceneObjects["GameOverU"], 3);
+			HUDGObjects.addNode(sceneObjects["GameOverD"], 3);;
+			HUDGObjects.addNode(sceneObjects["GameOverI"], 3);;
+			HUDGObjects.addNode(sceneObjects["GameOverE"], 3);
+			HUDGObjects.addNode(sceneObjects["GameOverD2"], 3);
 		}
 	
 		//Sound Update
@@ -1070,17 +1148,7 @@ void GameLevel::Update()
 		UVScrolling.sendUniformMat4("uProj", &orthoPersp[0][0], false);
 		UVScrolling.sendUniform("LightPosition", down);
 
-		for (auto itr = HUDGObjects.begin(), itrEnd = HUDGObjects.end();
-			itr != itrEnd; itr++)
-		{
-			(*itr)->update(deltaTime, totalTime);
-		}
-
-		for (auto itr = HUDGObjects.begin(), itrEnd = HUDGObjects.end();
-			itr != itrEnd; itr++)
-		{
-			(*itr)->render(defaultMesh, &UVScrolling);
-		}
+		HUDGObjects.drawList(defaultMesh, &UVScrolling);
 
 		UVScrolling.unBind();
 
@@ -1230,21 +1298,21 @@ void GameLevel::enter()
 	transparentGObjects.push_back(sceneObjects["Warning2"]);
 	sceneObjects["Warning2"]->setPosition(glm::vec3(0.0f, 10.0f, -55.0f));
 
-	HUDGObjects.push_back(sceneObjects["NumPlate"]);
+	HUDGObjects.addNode(sceneObjects["NumPlate"], 0);
 	sceneObjects["NumPlate"]->setPosition(glm::vec3(0.0f, 0.0f, -4.4f));
-	HUDGObjects.push_back(sceneObjects["TimerQuad"]);
+	HUDGObjects.addNode(sceneObjects["TimerQuad"], 1);
 	sceneObjects["TimerQuad"]->setPosition(glm::vec3(-1.1f, 0.0f, -4.4f));
-	HUDGObjects.push_back(sceneObjects["TimerQuad2"]);
+	HUDGObjects.addNode(sceneObjects["TimerQuad2"], 1);
 	sceneObjects["TimerQuad2"]->setPosition(glm::vec3(-0.5f, 0.0f, -4.4f));
-	HUDGObjects.push_back(sceneObjects["TimerQuad3"]);		
+	HUDGObjects.addNode(sceneObjects["TimerQuad3"], 1);		
 	sceneObjects["TimerQuad3"]->setPosition(glm::vec3(0.0f, 0.0f, -4.4f));
-	HUDGObjects.push_back(sceneObjects["TimerQuad4"]);		
+	HUDGObjects.addNode(sceneObjects["TimerQuad4"], 1);		
 	sceneObjects["TimerQuad4"]->setPosition(glm::vec3(0.5f, 0.0f, -4.4f));
-	HUDGObjects.push_back(sceneObjects["TimerQuad5"]);		
+	HUDGObjects.addNode(sceneObjects["TimerQuad5"], 1);		
 	sceneObjects["TimerQuad5"]->setPosition(glm::vec3(1.1f, 0.0f, -4.4f));
-	HUDGObjects.push_back(sceneObjects["HUD"]);
+	HUDGObjects.addNode(sceneObjects["HUD"], 2);
 	sceneObjects["HUD"]->setPosition(glm::vec3(-3.2f, 0.0f, -4.4f));
-	HUDGObjects.push_back(sceneObjects["HUD2"]);
+	HUDGObjects.addNode(sceneObjects["HUD2"], 2);
 	sceneObjects["HUD2"]->setPosition(glm::vec3(3.0f, 0.0f, -4.4f));
 
 	sceneObjects["GameOverY"]->setPosition(glm::vec3(-1.2f, 0.0f, 0.0f));
@@ -1254,6 +1322,86 @@ void GameLevel::enter()
 	sceneObjects["GameOverI"]->setPosition(glm::vec3(0.55f, 0.0f, 0.0f));
 	sceneObjects["GameOverE"]->setPosition(glm::vec3(0.8f, 0.0f, 0.0f));
 	sceneObjects["GameOverD2"]->setPosition(glm::vec3(1.2f, 0.0f, 0.0f));
+
+	// First Place Score Line
+	HUDGObjects.addNode(sceneObjects["ScoreQuad"], 4);
+	sceneObjects["ScoreQuad"]->setPosition(glm::vec3(-0.7f, 0.0f, -2.0f));
+	HUDGObjects.addNode(sceneObjects["ScoreQuad2"], 4);
+	sceneObjects["ScoreQuad2"]->setPosition(glm::vec3(-0.1f, 0.0f, -2.0f));
+	HUDGObjects.addNode(sceneObjects["ScoreQuad3"], 4);
+	sceneObjects["ScoreQuad3"]->setPosition(glm::vec3(0.4f, 0.0f, -2.0f));
+	HUDGObjects.addNode(sceneObjects["ScoreQuad4"], 4);
+	sceneObjects["ScoreQuad4"]->setPosition(glm::vec3(0.9f, 0.0f, -2.0f));
+	HUDGObjects.addNode(sceneObjects["ScoreQuad5"], 4);
+	sceneObjects["ScoreQuad5"]->setPosition(glm::vec3(1.5f, 0.0f, -2.0f));
+	// Scond Place Score Line
+	HUDGObjects.addNode(sceneObjects["ScoreQuad6"], 4);
+	sceneObjects["ScoreQuad6"]->setPosition(glm::vec3(-0.7f, 0.0f, -1.0f));
+	HUDGObjects.addNode(sceneObjects["ScoreQuad7"], 4);
+	sceneObjects["ScoreQuad7"]->setPosition(glm::vec3(-0.1f, 0.0f, -1.0f));
+	HUDGObjects.addNode(sceneObjects["ScoreQuad8"], 4);
+	sceneObjects["ScoreQuad8"]->setPosition(glm::vec3(0.4f, 0.0f, -1.0f));
+	HUDGObjects.addNode(sceneObjects["ScoreQuad9"], 4);
+	sceneObjects["ScoreQuad9"]->setPosition(glm::vec3(0.9f, 0.0f, -1.0f));
+	HUDGObjects.addNode(sceneObjects["ScoreQuad10"], 4);
+	sceneObjects["ScoreQuad10"]->setPosition(glm::vec3(1.5f, 0.0f, -1.0f));
+	// Third Place Score Line
+	HUDGObjects.addNode(sceneObjects["ScoreQuad11"], 4);
+	sceneObjects["ScoreQuad11"]->setPosition(glm::vec3(-0.7f, 0.0f, -0.0f));
+	HUDGObjects.addNode(sceneObjects["ScoreQuad12"], 4);
+	sceneObjects["ScoreQuad12"]->setPosition(glm::vec3(-0.1f, 0.0f, -0.0f));
+	HUDGObjects.addNode(sceneObjects["ScoreQuad13"], 4);
+	sceneObjects["ScoreQuad13"]->setPosition(glm::vec3(0.4f, 0.0f, -0.0f));
+	HUDGObjects.addNode(sceneObjects["ScoreQuad14"], 4);
+	sceneObjects["ScoreQuad14"]->setPosition(glm::vec3(0.9f, 0.0f, -0.0f));
+	HUDGObjects.addNode(sceneObjects["ScoreQuad15"], 4);
+	sceneObjects["ScoreQuad15"]->setPosition(glm::vec3(1.5f, 0.0f, -0.0f));
+	// Fourth Place Score Line
+	HUDGObjects.addNode(sceneObjects["ScoreQuad16"], 4);
+	sceneObjects["ScoreQuad16"]->setPosition(glm::vec3(-0.7f, 0.0f, 1.0f));
+	HUDGObjects.addNode(sceneObjects["ScoreQuad17"], 4);
+	sceneObjects["ScoreQuad17"]->setPosition(glm::vec3(-0.1f, 0.0f, 1.0f));
+	HUDGObjects.addNode(sceneObjects["ScoreQuad18"], 4);
+	sceneObjects["ScoreQuad18"]->setPosition(glm::vec3(0.4f, 0.0f, 1.0f));
+	HUDGObjects.addNode(sceneObjects["ScoreQuad19"], 4);
+	sceneObjects["ScoreQuad19"]->setPosition(glm::vec3(0.9f, 0.0f, 1.0f));
+	HUDGObjects.addNode(sceneObjects["ScoreQuad20"], 4);
+	sceneObjects["ScoreQuad20"]->setPosition(glm::vec3(1.5f, 0.0f, 1.0f));
+	// Fifth Place Score Line
+	HUDGObjects.addNode(sceneObjects["ScoreQuad21"], 4);
+	sceneObjects["ScoreQuad21"]->setPosition(glm::vec3(-0.7f, 0.0f, 2.0f));
+	HUDGObjects.addNode(sceneObjects["ScoreQuad22"], 4);
+	sceneObjects["ScoreQuad22"]->setPosition(glm::vec3(-0.1f, 0.0f, 2.0f));
+	HUDGObjects.addNode(sceneObjects["ScoreQuad23"], 4);
+	sceneObjects["ScoreQuad23"]->setPosition(glm::vec3(0.4f, 0.0f, 2.0f));
+	HUDGObjects.addNode(sceneObjects["ScoreQuad24"], 4);
+	sceneObjects["ScoreQuad24"]->setPosition(glm::vec3(0.9f, 0.0f, 2.0f));
+	HUDGObjects.addNode(sceneObjects["ScoreQuad25"], 4);
+	sceneObjects["ScoreQuad25"]->setPosition(glm::vec3(1.5f, 0.0f, 2.0f));
+	// Position Of Place Statement
+	HUDGObjects.addNode(sceneObjects["ScoreQuad26"], 4);
+	sceneObjects["ScoreQuad26"]->setPosition(glm::vec3(-1.7f, 0.0f, -2.0f));
+	HUDGObjects.addNode(sceneObjects["ScoreQuad27"], 4);	
+	sceneObjects["ScoreQuad27"]->setPosition(glm::vec3(-1.7f, 0.0f, -1.0f));
+	HUDGObjects.addNode(sceneObjects["ScoreQuad28"], 4);	
+	sceneObjects["ScoreQuad28"]->setPosition(glm::vec3(-1.7f, 0.0f, 0.0f));
+	HUDGObjects.addNode(sceneObjects["ScoreQuad29"], 4);	
+	sceneObjects["ScoreQuad29"]->setPosition(glm::vec3(-1.7f, 0.0f, 1.0f));
+	HUDGObjects.addNode(sceneObjects["ScoreQuad30"], 4);	
+	sceneObjects["ScoreQuad30"]->setPosition(glm::vec3(-1.7f, 0.0f, 2.0f));
+	// The Word Scores
+	HUDGObjects.addNode(sceneObjects["ScoreS"], 4);
+	sceneObjects["ScoreS"]->setPosition(glm::vec3(-1.0f, 0.0f, -3.0f));
+	HUDGObjects.addNode(sceneObjects["ScoreC"], 4);
+	sceneObjects["ScoreC"]->setPosition(glm::vec3(-0.6f, 0.0f, -3.0f));
+	HUDGObjects.addNode(sceneObjects["ScoreO"], 4);
+	sceneObjects["ScoreO"]->setPosition(glm::vec3(-0.2f, 0.0f, -3.0f));
+	HUDGObjects.addNode(sceneObjects["ScoreR"], 4);
+	sceneObjects["ScoreR"]->setPosition(glm::vec3(0.2f, 0.0f, -3.0f));
+	HUDGObjects.addNode(sceneObjects["ScoreE"], 4);
+	sceneObjects["ScoreE"]->setPosition(glm::vec3(0.6f, 0.0f, -3.0f));
+	HUDGObjects.addNode(sceneObjects["ScoreS2"], 4);
+	sceneObjects["ScoreS2"]->setPosition(glm::vec3(1.0f, 0.0f, -3.0f));
 
 	sceneObjects["InvisWall"]->setPosition(glm::vec3(0.0f, 0.0f, -35.0f));
 	sceneObjects["InvisWall2"]->setPosition(glm::vec3(0.0f, 0.0f, 35.0f));
@@ -1302,6 +1450,62 @@ void GameLevel::enter()
 	sceneObjects["GameOverI"]->uUVOffset = IPos;
 	sceneObjects["GameOverE"]->uUVOffset = EPos;
 	sceneObjects["GameOverD2"]->uUVOffset = DPos;
+
+	sceneObjects["ScoreQuad"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+	sceneObjects["ScoreQuad2"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+	sceneObjects["ScoreQuad3"]->uUVOffset = colonPos;
+	sceneObjects["ScoreQuad4"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+	sceneObjects["ScoreQuad5"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+
+	sceneObjects["ScoreQuad6"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+	sceneObjects["ScoreQuad7"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+	sceneObjects["ScoreQuad8"]->uUVOffset = colonPos;
+	sceneObjects["ScoreQuad9"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+	sceneObjects["ScoreQuad10"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+
+	sceneObjects["ScoreQuad11"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+	sceneObjects["ScoreQuad12"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+	sceneObjects["ScoreQuad13"]->uUVOffset = colonPos;
+	sceneObjects["ScoreQuad14"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+	sceneObjects["ScoreQuad15"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+
+	sceneObjects["ScoreQuad16"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+	sceneObjects["ScoreQuad17"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+	sceneObjects["ScoreQuad18"]->uUVOffset = colonPos;
+	sceneObjects["ScoreQuad19"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+	sceneObjects["ScoreQuad20"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+
+	sceneObjects["ScoreQuad21"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+	sceneObjects["ScoreQuad22"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+	sceneObjects["ScoreQuad23"]->uUVOffset = colonPos;
+	sceneObjects["ScoreQuad24"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+	sceneObjects["ScoreQuad25"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+
+	sceneObjects["ScoreQuad26"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+	sceneObjects["ScoreQuad27"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+	sceneObjects["ScoreQuad28"]->uUVOffset = colonPos;
+	sceneObjects["ScoreQuad29"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+	sceneObjects["ScoreQuad30"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+
+	sceneObjects["ScoreS"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+	sceneObjects["ScoreC"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+	sceneObjects["ScoreO"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+	sceneObjects["ScoreR"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+	sceneObjects["ScoreE"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+	sceneObjects["ScoreS2"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+
+	sceneObjects["ScoreQuad26"]->uUVOffset = onePos;
+	sceneObjects["ScoreQuad27"]->uUVOffset = twoPos;
+	sceneObjects["ScoreQuad28"]->uUVOffset = threePos;
+	sceneObjects["ScoreQuad29"]->uUVOffset = fourPos;
+	sceneObjects["ScoreQuad30"]->uUVOffset = fivePos;
+
+	sceneObjects["ScoreS"]->uUVOffset = SPos;
+	sceneObjects["ScoreC"]->uUVOffset = CPos;
+	sceneObjects["ScoreO"]->uUVOffset = OPos;
+	sceneObjects["ScoreR"]->uUVOffset = RPos;
+	sceneObjects["ScoreE"]->uUVOffset = EPos;
+	sceneObjects["ScoreS2"]->uUVOffset = SPos;
 
 	sceneObjects["Warning"]->uUVOffset = glm::vec2(0.0f, 0.0f);
 	sceneObjects["Warning"]->uUVOffset = glm::vec2(0.0f, 0.0f);
@@ -1511,9 +1715,9 @@ void GameOver::exit()
 	}
 }
 
-float timerFunc()
+float timerFunc(float deltaTime)
 {
-	seconds += 0.01666666666666;
+	seconds = deltaTime;
 
 	if (seconds >= 60.0f)
 	{
@@ -1521,49 +1725,13 @@ float timerFunc()
 		minute += 1;
 	}
 
-	if (int(seconds) % 10 < 1)				secondsPos = 0;
-	else if (int(seconds) % 10 < 2)			secondsPos = 1;
-	else if (int(seconds) % 10 < 3)			secondsPos = 2;
-	else if (int(seconds) % 10 < 4)			secondsPos = 3;
-	else if (int(seconds) % 10 < 5)			secondsPos = 4;
-	else if (int(seconds) % 10 < 6)			secondsPos = 5;
-	else if (int(seconds) % 10 < 7)			secondsPos = 6;
-	else if (int(seconds) % 10 < 8)			secondsPos = 7;
-	else if (int(seconds) % 10 < 9)			secondsPos = 8;
-	else if ((int(seconds) % 10) < 10)		secondsPos = 9;
-	
-	if ((seconds / 10) < 1)					decondsPos = 0;
-	else if ((int(seconds) / 10) < 2)		decondsPos = 1;
-	else if ((int(seconds) / 10) < 3)		decondsPos = 2;
-	else if ((int(seconds) / 10) < 4)		decondsPos = 3;
-	else if ((int(seconds) / 10) < 5)		decondsPos = 4;
-	else if ((int(seconds) / 10) < 6)		decondsPos = 5;
-	else if ((int(seconds) / 10) < 7)		decondsPos = 6;
-	else if ((int(seconds) / 10) < 8)		decondsPos = 7;
-	else if ((int(seconds) / 10) < 9)		decondsPos = 8;
-	else if ((int(seconds) / 10) < 10)		decondsPos = 9;
+	secondsPos = int(seconds) % 10;
 
-	if (int(minute) < 1)					minutesPos = 0;
-	else if (int(minute) < 2)				minutesPos = 1;
-	else if (int(minute) < 3)				minutesPos = 2;
-	else if (int(minute) < 4)				minutesPos = 3;
-	else if (int(minute) < 5)				minutesPos = 4;
-	else if (int(minute) < 6)				minutesPos = 5;
-	else if (int(minute) < 7)				minutesPos = 6;
-	else if (int(minute) < 8)				minutesPos = 7;
-	else if (int(minute) < 9)				minutesPos = 8;
-	else if ((int(minute) / 10) < 10)		minutesPos = 9;
+	decondsPos = int(seconds / 10);
 
-	if ((int(minute) / 10) < 1)				dinutesPos = 0;
-	else if ((int(minute) / 10) < 2)		dinutesPos = 1;
-	else if ((int(minute) / 10) < 3)		dinutesPos = 2;
-	else if ((int(minute) / 10) < 4)		dinutesPos = 3;
-	else if ((int(minute) / 10) < 5)		dinutesPos = 4;
-	else if ((int(minute) / 10) < 6)		dinutesPos = 5;
-	else if ((int(minute) / 10) < 7)		dinutesPos = 6;
-	else if ((int(minute) / 10) < 8)		dinutesPos = 7;
-	else if ((int(minute) / 10) < 9)		dinutesPos = 8;
-	else if ((int(minute) / 10) < 10)		dinutesPos = 9;
+	minutesPos = int(minute) % 10;
+
+	dinutesPos = int(minute / 10);
 
 
 	//std::cout << minute << " : " << seconds << std::endl;
@@ -1575,5 +1743,5 @@ void removeGameObjects()
 {
 	gObjects.clear();
 	transparentGObjects.clear();
-	HUDGObjects.clear();
+	HUDGObjects.clearList();
 }

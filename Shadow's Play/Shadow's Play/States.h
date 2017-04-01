@@ -5,11 +5,11 @@
 #include "Texture.h"
 #include "Transform.h"
 #include "Player.h"
-#include "SceneObject.h"
 #include "AnimationMath.h"
 #include "FrameBufferObject.h"
 #include "LUT.h"
 #include "Score.h"
+#include "DLList.h"
 
 //STATE CLASSES
 class MainMenu : public GameState
@@ -113,7 +113,7 @@ static ENG::LUT clayton;
 //MAPS OF GAME OBJECTS
 static std::vector <ENG::GameObject*> gObjects;
 static std::vector <ENG::GameObject*> transparentGObjects;
-static std::vector <ENG::GameObject*> HUDGObjects;
+static ENG::DLList HUDGObjects;
 static std::vector <ENG::PointLight*> lightObjects;
 
 static void removeGameObjects(); //FLUSHES VECTORS OF GAME OBJECTS
@@ -198,7 +198,7 @@ static int numOfCycles = 0;
 static ENG::Score score;
 
 //TIMER FUNC
-float timerFunc();
+float timerFunc(float deltaTime);
 static unsigned int secondsPos = 0;
 static unsigned int decondsPos = 0;
 static unsigned int minutesPos = 0;

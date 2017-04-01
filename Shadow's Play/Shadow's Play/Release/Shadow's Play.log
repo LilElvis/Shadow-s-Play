@@ -1,13 +1,11 @@
-﻿  States.cpp
-c:\users\100551116\documents\repos\gdw second yr\shadow's play\shadow's play\Lights.h(18): warning C4305: 'initializing': truncation from 'double' to 'float'
-c:\users\100551116\documents\repos\gdw second yr\shadow's play\shadow's play\Lights.h(19): warning C4305: 'initializing': truncation from 'double' to 'float'
-..\..\Shadow's Play\Shadow's Play\States.cpp(719): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-..\..\Shadow's Play\Shadow's Play\States.cpp(1163): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-..\..\Shadow's Play\Shadow's Play\States.cpp(1516): warning C4305: '+=': truncation from 'double' to 'float'
+﻿  Main.cpp
+c:\repos\shadow's play\shadow's play\shadow's play\Lights.h(18): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\repos\shadow's play\shadow's play\shadow's play\Lights.h(19): warning C4305: 'initializing': truncation from 'double' to 'float'
+..\..\Shadow's Play\Shadow's Play\Main.cpp(5): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
   Generating code
   1 of 3463 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
+    8 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
-  Shadow's Play.vcxproj -> C:\Users\100551116\Documents\Repos\GDW Second Yr\Shadow's Play\Release\Shadow's Play.exe
-  Shadow's Play.vcxproj -> C:\Users\100551116\Documents\Repos\GDW Second Yr\Shadow's Play\Release\Shadow's Play.pdb (Full PDB)
+  Shadow's Play.vcxproj -> C:\Repos\Shadow's Play\Shadow's Play\Release\Shadow's Play.exe
+  Shadow's Play.vcxproj -> C:\Repos\Shadow's Play\Shadow's Play\Release\Shadow's Play.pdb (Full PDB)

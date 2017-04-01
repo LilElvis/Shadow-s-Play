@@ -14,7 +14,7 @@ namespace ENG
 
 	glm::vec3 Player::NyxSeekPoint(glm::vec3 moving, glm::vec3 toseek, float dist)
 	{
-		glm::vec3 newPosition(moving.x - toseek.x, 0.0f, moving.z - toseek.z);
+		glm::vec3 newPosition(toseek.x - moving.x, 0.0f, toseek.z - moving.z);
 		glm::vec3 forwardssss(0.0f);
 		glm::normalize(newPosition);
 
@@ -23,6 +23,7 @@ namespace ENG
 			newPosition.x *= dist;
 			newPosition.z *= dist;
 		}
+
 		glm::vec3 normalVec = glm::normalize(newPosition);
 
 		forwardssss.x = normalVec.x;
@@ -33,9 +34,9 @@ namespace ENG
 
 	void Player::movement(float _x, float _y, float _z)
 	{
-		setPosition(glm::vec3(	getLastPosition().x - _x,
+		setPosition(glm::vec3(	getLastPosition().x + _x,
 								getLastPosition().y,
-								getLastPosition().z - _z));
+								getLastPosition().z + _z));
 	}
 	
 	void Player::update(float t, float totalTime)
@@ -141,7 +142,7 @@ namespace ENG
 
 			last_y_rotate = angle;
 
-			movement(NyxSeekPoint(getPosition(), seekPoint, speedMult).x, 0.0f, NyxSeekPoint(getPosition(), seekPoint, speedMult).z);
+			movement(NyxSeekPoint(getLastPosition(), seekPoint, speedMult).x, 0.0f, NyxSeekPoint(getLastPosition(), seekPoint, speedMult).z);
 		}
 		else
 		{
@@ -179,13 +180,13 @@ namespace ENG
 			&& !paused)
 		{
 			hasDashed = true;
-			speedMult = 1.5f;
+			speedMult = 0.7f;
 			timeOfLastDash = totalTime;
 		}
 		else
 		{
 			hasDashed = false;
-			speedMult = 0.15f;
+			speedMult = 0.08f;
 		}
 	}
 

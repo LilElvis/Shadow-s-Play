@@ -45,6 +45,6 @@ namespace ENG
 		Input input;
 		float appliedAcceleration = 40.0f;
 		float maxVelocity = 30.0f;
-		float speedMult = 0.15f;
+		float speedMult = 0.0f;
 	};
 }

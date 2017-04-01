@@ -40,7 +40,7 @@ int main()
 		Manager.Update();
 		Sound::systemUpdate();
 
-		if (ENG::Input::GetKeyDown(ENG::KeyCode::Escape))
+		if (ENG::Input::GetKeyDown(ENG::KeyCode::Escape) || sf::Joystick::isButtonPressed(0, 6))
 		{
 			//CLEANUP HERE
 			defaultMesh->Unload();

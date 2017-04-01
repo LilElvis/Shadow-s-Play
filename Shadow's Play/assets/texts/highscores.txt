@@ -1,5 +1,5 @@
 89 seconds
 88 seconds
 81 seconds
-53 seconds
-52 seconds
+76 seconds
+74 seconds

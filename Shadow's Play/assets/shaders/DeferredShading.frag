@@ -1,7 +1,5 @@
 #version 420
 
-uniform vec4 LightPosition = vec4(-27.88f, 0.0f, 5.0f, 1.0);
-
 //colors
 uniform vec3 LightAmbient = vec3(0.1f);
 uniform vec3 LightDiffuse = vec3(1.0f);

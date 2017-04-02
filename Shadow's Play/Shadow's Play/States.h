@@ -302,4 +302,6 @@ static ENG::PointLight candleLight6;
 static ENG::PointLight candleLight7;
 static ENG::PointLight candleLight8;
 
+static ENG::PointLight roomLight;
+
 //static glm::mat4 uProjectionBiasMatrixInverse;

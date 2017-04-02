@@ -39,6 +39,7 @@ namespace ENG
 		void sendUniformMat3(const std::string &, float*, bool);
 		void sendUniformMat4(const std::string &, float*, bool);
 		void sendUniformPointLight(const std::string &, PointLight *);
+		void sendArrayOfPointLights(const std::string &, PointLight *, int);
 
 	private:
 		bool isInit = false;

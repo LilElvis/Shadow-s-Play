@@ -97,14 +97,13 @@ void main()
 	
 	float attenuation = 1.0/(uCurrentLight.aConstant + uCurrentLight.aLinear * distance + uCurrentLight.aQuadratic * distance);
 	
-	outDiffuse += diffuseLight * attenuation;
+	outDiffuse = diffuseLight * attenuation;
 	
-	outSpecular += specLight * attenuation;
+	outSpecular = specLight * attenuation;
 	
 	distanceFromLight = position.xyz * 0.01;
 	
-	outColor.rgb = (texture(uAmbientMap, FragCoords).rgb + outDiffuse) * albedo;
+	outColor.rgb = outDiffuse * albedo;
 	outColor.rgb += specular * outSpecular;
-	
 	outColor.a = 1.0;
 }

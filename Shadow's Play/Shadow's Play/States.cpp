@@ -33,7 +33,7 @@ void Initialize()
 	motionBlur.load("PassThrough", "../assets/shaders/PassThrough.vert", "../assets/shaders/MotionBlur.frag");
 	colorCorrect.load("ColorCorrect", "../assets/shaders/PassThrough.vert", "../assets/shaders/LUT.frag");
 	
-	//LOD THINGS ONLY NECESSARY FOR LOADING SCREEN
+	//LOAD THINGS ONLY NECESSARY FOR LOADING SCREEN
 	defaultTexture->LoadFromFile("Logo", "../assets/textures/Logo.png");
 	
 	defaultMesh->LoadFromFile("Quad", "../assets/objects/Quad.obj");
@@ -310,6 +310,7 @@ void Initialize()
 	defaultMesh->LoadFromFile("Cube", "../assets/objects/light_volumes/cube.obj");
 	defaultMesh->LoadFromFile("Cone", "../assets/objects/light_volumes/ConeLight.obj");
 	defaultMesh->LoadFromFile("Pyramid", "../assets/objects/light_volumes/PyramidLight.obj");
+	defaultMesh->LoadFromFile("Plane", "../assets/objects/light_volumes/plane.obj");
 
 	pointLight.renderVolume = defaultMesh->listOfMeshes["Cone"]->VAO;
 	pointLight2.renderVolume = defaultMesh->listOfMeshes["Cone"]->VAO;
@@ -325,6 +326,8 @@ void Initialize()
 	candleLight6.renderVolume = defaultMesh->listOfMeshes["Sphere"]->VAO;
 	candleLight7.renderVolume = defaultMesh->listOfMeshes["Sphere"]->VAO;
 	candleLight8.renderVolume = defaultMesh->listOfMeshes["Sphere"]->VAO;
+
+	roomLight.renderVolume = defaultMesh->listOfMeshes["Plane"]->VAO;
 
 	defaultLightPos = glm::vec4(0.0f, 20.0f, 0.0f, 1.0f);
 
@@ -471,7 +474,7 @@ void Initialize()
 	echo = NULL;
 
 	//INITIALIZE LUTS
-	bourbon.loadData("../assets/LUT/Bourbon 64.cube"); //Zeke 39.cube and Clayton 33.cube is grayscale
+	bourbon.loadData("../assets/LUT/IWLTBAP Aspen - Standard.cube"); //Zeke 39.cube and Clayton 33.cube is grayscale
 	clayton.loadData("../assets/LUT/Clayton 33.cube");
 
 	//SET BOUNDING BOXES
@@ -890,6 +893,10 @@ void GameLevel::Update()
 			candleSevenLit = true;
 		}
 		
+		if (devCommand.GetKeyDown(ENG::KeyCode::Add))
+		{
+			candleLightTime = (sessionTime + 2.0f);
+		}
 
 		if (!wasWarned1)
 			sceneObjects["Warning"]->setPosition(clamp(sceneObjects["SpotLight"]->getPosition(), RoomMin, RoomMax));
@@ -1157,8 +1164,8 @@ void GameLevel::Update()
 
 		GBuffer.unBind();
 		geometryBuffer.Unbind();
-		
-		//Lighting Prepass---------------------------------
+
+		//Lighting Prepass-Deferred Lighting
 
 		geometryBuffer.BlitDepthToTargetBuffer(&lightingStencil);
 		
@@ -1190,25 +1197,21 @@ void GameLevel::Update()
 		updatedCamPos = viewInverse[3];
 		deferredLighting.sendUniform("uCameraPos", updatedCamPos);
 
-		//glDepthMask(GL_FALSE);
+		glDepthMask(GL_FALSE);
 
 		for (auto itr = lightObjects.begin(), itrEnd = lightObjects.end();
 			itr != itrEnd; itr++)
 		{
 			deferredLighting.sendUniformPointLight("uCurrentLight", (*itr));
 
-			//(*itr)->position = glm::vec3(0.0f, 10.0f, 0.0f);
-
 			(*itr)->render(defaultMesh, &deferredLighting);
 		}
 
-		//glDepthMask(GL_TRUE);
+		glDepthMask(GL_TRUE);
 		glDisable(GL_BLEND);
 
 		deferredLighting.unBind();
 		lightingStencil.Unbind();
-
-		//-------------------------------------------------
 
 		//Lighting Composite
 
@@ -1729,32 +1732,28 @@ void GameLevel::enter()
 	lightObjects.push_back(&pointLight3);
 	lightObjects.push_back(&pointLight4);
 	lightObjects.push_back(&pointLight5);
+	lightObjects.push_back(&roomLight);
 	
 	if (!hasLoadedOnce)
 	{
-		//pointLight.position = sceneObjects["SpotLight"]->getPosition();
-		pointLight.color = glm::vec4(1.0f, 0.63f, 0.72f, 1.0f);
+		pointLight.color = glm::vec4(0.8f, 0.4f, 0.69f, 1.0f);
 		pointLight.meshName = "Cone";
 
-		//pointLight2.position = sceneObjects["SpotLight2"]->getPosition();
-		pointLight2.color = glm::vec4(0.48f, 0.41f, 0.93f, 1.0f);
+		pointLight2.color = glm::vec4(0.22f, 0.84f, 1.0f, 1.0f);
 		pointLight2.meshName = "Cone";
 
-		//pointLight3.position = sceneObjects["QuadLight"]->getPosition();
 		pointLight3.color = glm::vec4(0.3f, 0.7f, 0.4f, 1.0f);
 		pointLight3.aConstant = pointLight3.aConstant * 0.1f;
 		pointLight3.aLinear = pointLight3.aLinear * 0.1f;
 		pointLight3.aQuadratic = pointLight3.aQuadratic * 0.1f;
 		pointLight3.meshName = "Pyramid";
 
-		//pointLight4.position = sceneObjects["TriLight"]->getPosition();
 		pointLight4.color = glm::vec4(0.3f, 0.7f, 0.4f, 1.0f);
 		pointLight4.aConstant = pointLight4.aConstant * 0.1f;
 		pointLight4.aLinear = pointLight4.aLinear * 0.1f;
 		pointLight4.aQuadratic = pointLight4.aQuadratic * 0.1f;
 		pointLight4.meshName = "Pyramid";
 
-		//pointLight5.position = sceneObjects["TriLight2"]->getPosition();
 		pointLight5.color = glm::vec4(0.3f, 0.7f, 0.4f, 1.0f);
 		pointLight5.aConstant = pointLight5.aConstant * 0.1f;
 		pointLight5.aLinear = pointLight5.aLinear * 0.1f;
@@ -1764,27 +1763,37 @@ void GameLevel::enter()
 		candleLight.color = glm::vec4(1.0f, 0.67f, 0.02f, 1.0f);
 		candleLight.position = glm::vec3(-32.5f, 10.0f, 17.5f);
 		candleLight.meshName = "Sphere";
+		candleLight.aConstant = candleLight.aConstant * 2.0f;
+		candleLight.aLinear = candleLight.aLinear * 2.0f;
+		candleLight.aQuadratic = candleLight.aQuadratic * 2.0f;
 
 		candleLight2 = candleLight;
-		candleLight2.position = glm::vec3(-32.5f, 10.0f, -17.5f);
+		candleLight2.position = glm::vec3(-32.5f, 10.0f, -17.0f);
 		
 		candleLight3 = candleLight;
-		candleLight3.position = glm::vec3(32.5f, 10.0f, 17.5f);
+		candleLight3.position = glm::vec3(32.5f, 10.0f, 17.0f);
 
 		candleLight4 = candleLight;
-		candleLight4.position = glm::vec3(32.5f, 10.0f, -17.5f);
+		candleLight4.position = glm::vec3(32.5f, 10.0f, -17.0f);
 
 		candleLight5 = candleLight;
-		candleLight5.position = glm::vec3(17.5f, 10.0f, 32.5f);
+		candleLight5.position = glm::vec3(17.0f, 10.0f, 32.5f);
 
 		candleLight6 = candleLight;
-		candleLight6.position = glm::vec3(-17.5f, 10.0f, 32.5f);
+		candleLight6.position = glm::vec3(-17.0f, 10.0f, 32.5f);
 
 		candleLight7 = candleLight;
-		candleLight7.position = glm::vec3(17.5f, 10.0f, -32.5f);
+		candleLight7.position = glm::vec3(17.0f, 10.0f, -32.5f);
 
 		candleLight8 = candleLight;
-		candleLight8.position = glm::vec3(-17.5f, 10.0f, -32.5f);
+		candleLight8.position = glm::vec3(-17.0f, 10.0f, -32.5f);
+
+		roomLight.position = glm::vec3(0.0f, 50.0f, 0.0f);
+		roomLight.color = glm::vec4(0.1f, 0.1f, 0.2f, 2.0f);
+		roomLight.aConstant = roomLight.aConstant * 0.1f;
+		roomLight.aLinear = roomLight.aLinear * 0.1f;
+		roomLight.aQuadratic = roomLight.aQuadratic * 0.1f;
+		roomLight.meshName = "Pyramid";
 
 		hasLoadedOnce = true;
 	}

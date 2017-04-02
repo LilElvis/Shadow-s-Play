@@ -55,10 +55,10 @@ private:
 //	bool hasBeenInitialized;
 //};
 
-class GameOver : public GameState
+class Tutorial : public GameState
 {
 public:
-	GameOver();
+	Tutorial();
 	void enter();
 	void exit();
 	void Update();
@@ -134,6 +134,8 @@ static FMOD::Channel *dieChannel;
 static FMOD::Channel *warningChannel;
 static FMOD::Channel *pauseMenuChannel;
 static FMOD::Channel *dashChannel;
+static FMOD::Channel *deadChannel;
+static FMOD::Channel *candleChannel;
 
 static FMOD_VECTOR playerPos;
 static FMOD_VECTOR playerVel;
@@ -141,6 +143,8 @@ static FMOD_VECTOR diePos;
 static FMOD_VECTOR dieVel;
 static FMOD_VECTOR warningPos;
 static FMOD_VECTOR warningVel;
+static FMOD_VECTOR candlePos;
+static FMOD_VECTOR stillSound;
 
 static FMOD::DSP *pitchShift;
 static FMOD::DSP *lowPass;
@@ -176,7 +180,6 @@ static glm::mat4 orthoPersp;
 static glm::mat4 viewInverse;
 static glm::vec3 updatedCamPos;
 
-static bool isLit;
 static bool wasWarned1 = false;
 static bool wasWarned2 = false;
 
@@ -198,6 +201,17 @@ static int numOfCycles = 0;
 static ENG::Score score;
 static void interpretScore();
 static bool scoreIsUp = false;
+
+static bool candleOneLit = false;
+static bool candleTwoLit = false;
+static bool candleThreeLit = false;
+static bool candleFourLit = false;
+static bool candleFiveLit = false;
+static bool candleSixLit = false;
+static bool candleSevenLit = false;
+static bool candleEightLit = false;
+
+static float candleLightTime = 121.0f; //121.0f is when phase 2 should start
 
 //TIMER FUNC
 float timerFunc(float deltaTime);

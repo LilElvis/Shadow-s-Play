@@ -262,6 +262,14 @@ void Initialize()
 	static ENG::SceneObject ScoreQuad30("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
 	sceneObjects["ScoreQuad30"] = &ScoreQuad30;
 
+	static ENG::SceneObject ScoreH("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	sceneObjects["ScoreH"] = &ScoreH;
+	static ENG::SceneObject ScoreI("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	sceneObjects["ScoreI"] = &ScoreI;
+	static ENG::SceneObject ScoreG("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	sceneObjects["ScoreG"] = &ScoreG;
+	static ENG::SceneObject ScoreH2("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	sceneObjects["ScoreH2"] = &ScoreH2;
 	static ENG::SceneObject ScoreS("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
 	sceneObjects["ScoreS"] = &ScoreS;
 	static ENG::SceneObject ScoreC("TimerQuad", defaultMesh->listOfMeshes["TimerQuad"]->VAO, *defaultTexture->listOfTextures["numTexture"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
@@ -536,6 +544,7 @@ void Reset()
 	timeOfDeath = -1.0f;
 	numOfCycles = 0;
 	deathTimer = false;
+	scoreIsUp = false;
 }
 
 
@@ -797,7 +806,7 @@ void GameLevel::Update()
 				score.insertScore("seconds", timeOfDeath);
 				deathTimer = true;
 			}
-			if ((deathTimer == true) && (sessionTime > (timeOfDeath + 3.0f)))
+			if ((deathTimer == true) && (sessionTime > (timeOfDeath + 6.0f)))
 			{
 				GameLevel::gameOver();
 				m_parent->GetGameState("GameOver")->SetPaused(false);
@@ -806,13 +815,70 @@ void GameLevel::Update()
 		if (timeOfDeath == sessionTime)
 		{
 			HUDGObjects.addNode(sceneObjects["GameOverY"], 3);
-			HUDGObjects.addNode(sceneObjects["GameOverY"], 3);
 			HUDGObjects.addNode(sceneObjects["GameOverO"], 3);
 			HUDGObjects.addNode(sceneObjects["GameOverU"], 3);
-			HUDGObjects.addNode(sceneObjects["GameOverD"], 3);;
-			HUDGObjects.addNode(sceneObjects["GameOverI"], 3);;
+			HUDGObjects.addNode(sceneObjects["GameOverD"], 3);
+			HUDGObjects.addNode(sceneObjects["GameOverI"], 3);
 			HUDGObjects.addNode(sceneObjects["GameOverE"], 3);
 			HUDGObjects.addNode(sceneObjects["GameOverD2"], 3);
+
+			interpretScore();
+		}
+		if ((deathTimer == true) && (sessionTime - timeOfDeath) > 3.0f && !scoreIsUp)
+		{
+			for (int i = 0; i < 7; i++)
+			{
+				HUDGObjects.removeMaxNode();
+			}
+
+			HUDGObjects.addNode(sceneObjects["ScoreQuad"], 4);
+			HUDGObjects.addNode(sceneObjects["ScoreQuad2"], 4);
+			HUDGObjects.addNode(sceneObjects["ScoreQuad3"], 4);
+			HUDGObjects.addNode(sceneObjects["ScoreQuad4"], 4);
+			HUDGObjects.addNode(sceneObjects["ScoreQuad5"], 4);
+
+			HUDGObjects.addNode(sceneObjects["ScoreQuad6"], 4);
+			HUDGObjects.addNode(sceneObjects["ScoreQuad7"], 4);
+			HUDGObjects.addNode(sceneObjects["ScoreQuad8"], 4);
+			HUDGObjects.addNode(sceneObjects["ScoreQuad9"], 4);
+			HUDGObjects.addNode(sceneObjects["ScoreQuad10"], 4);
+
+			HUDGObjects.addNode(sceneObjects["ScoreQuad11"], 4);
+			HUDGObjects.addNode(sceneObjects["ScoreQuad12"], 4);
+			HUDGObjects.addNode(sceneObjects["ScoreQuad13"], 4);
+			HUDGObjects.addNode(sceneObjects["ScoreQuad14"], 4);
+			HUDGObjects.addNode(sceneObjects["ScoreQuad15"], 4);
+
+			HUDGObjects.addNode(sceneObjects["ScoreQuad16"], 4);
+			HUDGObjects.addNode(sceneObjects["ScoreQuad17"], 4);
+			HUDGObjects.addNode(sceneObjects["ScoreQuad18"], 4);
+			HUDGObjects.addNode(sceneObjects["ScoreQuad19"], 4);
+			HUDGObjects.addNode(sceneObjects["ScoreQuad20"], 4);
+
+			HUDGObjects.addNode(sceneObjects["ScoreQuad21"], 4);
+			HUDGObjects.addNode(sceneObjects["ScoreQuad22"], 4);
+			HUDGObjects.addNode(sceneObjects["ScoreQuad23"], 4);
+			HUDGObjects.addNode(sceneObjects["ScoreQuad24"], 4);
+			HUDGObjects.addNode(sceneObjects["ScoreQuad25"], 4);
+
+			HUDGObjects.addNode(sceneObjects["ScoreQuad26"], 4);
+			HUDGObjects.addNode(sceneObjects["ScoreQuad27"], 4);
+			HUDGObjects.addNode(sceneObjects["ScoreQuad28"], 4);
+			HUDGObjects.addNode(sceneObjects["ScoreQuad29"], 4);
+			HUDGObjects.addNode(sceneObjects["ScoreQuad30"], 4);
+
+			HUDGObjects.addNode(sceneObjects["ScoreH"], 4);
+			HUDGObjects.addNode(sceneObjects["ScoreI"], 4);
+			HUDGObjects.addNode(sceneObjects["ScoreG"], 4);
+			HUDGObjects.addNode(sceneObjects["ScoreH2"], 4);
+			HUDGObjects.addNode(sceneObjects["ScoreS"], 4);
+			HUDGObjects.addNode(sceneObjects["ScoreC"], 4);
+			HUDGObjects.addNode(sceneObjects["ScoreO"], 4);
+			HUDGObjects.addNode(sceneObjects["ScoreR"], 4);
+			HUDGObjects.addNode(sceneObjects["ScoreE"], 4);
+			HUDGObjects.addNode(sceneObjects["ScoreS2"], 4);
+
+			scoreIsUp = true;
 		}
 	
 		//Sound Update
@@ -1324,84 +1390,52 @@ void GameLevel::enter()
 	sceneObjects["GameOverD2"]->setPosition(glm::vec3(1.2f, 0.0f, 0.0f));
 
 	// First Place Score Line
-	HUDGObjects.addNode(sceneObjects["ScoreQuad"], 4);
 	sceneObjects["ScoreQuad"]->setPosition(glm::vec3(-0.7f, 0.0f, -2.0f));
-	HUDGObjects.addNode(sceneObjects["ScoreQuad2"], 4);
 	sceneObjects["ScoreQuad2"]->setPosition(glm::vec3(-0.1f, 0.0f, -2.0f));
-	HUDGObjects.addNode(sceneObjects["ScoreQuad3"], 4);
 	sceneObjects["ScoreQuad3"]->setPosition(glm::vec3(0.4f, 0.0f, -2.0f));
-	HUDGObjects.addNode(sceneObjects["ScoreQuad4"], 4);
 	sceneObjects["ScoreQuad4"]->setPosition(glm::vec3(0.9f, 0.0f, -2.0f));
-	HUDGObjects.addNode(sceneObjects["ScoreQuad5"], 4);
 	sceneObjects["ScoreQuad5"]->setPosition(glm::vec3(1.5f, 0.0f, -2.0f));
 	// Scond Place Score Line
-	HUDGObjects.addNode(sceneObjects["ScoreQuad6"], 4);
 	sceneObjects["ScoreQuad6"]->setPosition(glm::vec3(-0.7f, 0.0f, -1.0f));
-	HUDGObjects.addNode(sceneObjects["ScoreQuad7"], 4);
 	sceneObjects["ScoreQuad7"]->setPosition(glm::vec3(-0.1f, 0.0f, -1.0f));
-	HUDGObjects.addNode(sceneObjects["ScoreQuad8"], 4);
 	sceneObjects["ScoreQuad8"]->setPosition(glm::vec3(0.4f, 0.0f, -1.0f));
-	HUDGObjects.addNode(sceneObjects["ScoreQuad9"], 4);
 	sceneObjects["ScoreQuad9"]->setPosition(glm::vec3(0.9f, 0.0f, -1.0f));
-	HUDGObjects.addNode(sceneObjects["ScoreQuad10"], 4);
 	sceneObjects["ScoreQuad10"]->setPosition(glm::vec3(1.5f, 0.0f, -1.0f));
 	// Third Place Score Line
-	HUDGObjects.addNode(sceneObjects["ScoreQuad11"], 4);
 	sceneObjects["ScoreQuad11"]->setPosition(glm::vec3(-0.7f, 0.0f, -0.0f));
-	HUDGObjects.addNode(sceneObjects["ScoreQuad12"], 4);
 	sceneObjects["ScoreQuad12"]->setPosition(glm::vec3(-0.1f, 0.0f, -0.0f));
-	HUDGObjects.addNode(sceneObjects["ScoreQuad13"], 4);
 	sceneObjects["ScoreQuad13"]->setPosition(glm::vec3(0.4f, 0.0f, -0.0f));
-	HUDGObjects.addNode(sceneObjects["ScoreQuad14"], 4);
 	sceneObjects["ScoreQuad14"]->setPosition(glm::vec3(0.9f, 0.0f, -0.0f));
-	HUDGObjects.addNode(sceneObjects["ScoreQuad15"], 4);
 	sceneObjects["ScoreQuad15"]->setPosition(glm::vec3(1.5f, 0.0f, -0.0f));
 	// Fourth Place Score Line
-	HUDGObjects.addNode(sceneObjects["ScoreQuad16"], 4);
 	sceneObjects["ScoreQuad16"]->setPosition(glm::vec3(-0.7f, 0.0f, 1.0f));
-	HUDGObjects.addNode(sceneObjects["ScoreQuad17"], 4);
 	sceneObjects["ScoreQuad17"]->setPosition(glm::vec3(-0.1f, 0.0f, 1.0f));
-	HUDGObjects.addNode(sceneObjects["ScoreQuad18"], 4);
 	sceneObjects["ScoreQuad18"]->setPosition(glm::vec3(0.4f, 0.0f, 1.0f));
-	HUDGObjects.addNode(sceneObjects["ScoreQuad19"], 4);
 	sceneObjects["ScoreQuad19"]->setPosition(glm::vec3(0.9f, 0.0f, 1.0f));
-	HUDGObjects.addNode(sceneObjects["ScoreQuad20"], 4);
 	sceneObjects["ScoreQuad20"]->setPosition(glm::vec3(1.5f, 0.0f, 1.0f));
 	// Fifth Place Score Line
-	HUDGObjects.addNode(sceneObjects["ScoreQuad21"], 4);
 	sceneObjects["ScoreQuad21"]->setPosition(glm::vec3(-0.7f, 0.0f, 2.0f));
-	HUDGObjects.addNode(sceneObjects["ScoreQuad22"], 4);
 	sceneObjects["ScoreQuad22"]->setPosition(glm::vec3(-0.1f, 0.0f, 2.0f));
-	HUDGObjects.addNode(sceneObjects["ScoreQuad23"], 4);
 	sceneObjects["ScoreQuad23"]->setPosition(glm::vec3(0.4f, 0.0f, 2.0f));
-	HUDGObjects.addNode(sceneObjects["ScoreQuad24"], 4);
 	sceneObjects["ScoreQuad24"]->setPosition(glm::vec3(0.9f, 0.0f, 2.0f));
-	HUDGObjects.addNode(sceneObjects["ScoreQuad25"], 4);
 	sceneObjects["ScoreQuad25"]->setPosition(glm::vec3(1.5f, 0.0f, 2.0f));
 	// Position Of Place Statement
-	HUDGObjects.addNode(sceneObjects["ScoreQuad26"], 4);
 	sceneObjects["ScoreQuad26"]->setPosition(glm::vec3(-1.7f, 0.0f, -2.0f));
-	HUDGObjects.addNode(sceneObjects["ScoreQuad27"], 4);	
 	sceneObjects["ScoreQuad27"]->setPosition(glm::vec3(-1.7f, 0.0f, -1.0f));
-	HUDGObjects.addNode(sceneObjects["ScoreQuad28"], 4);	
 	sceneObjects["ScoreQuad28"]->setPosition(glm::vec3(-1.7f, 0.0f, 0.0f));
-	HUDGObjects.addNode(sceneObjects["ScoreQuad29"], 4);	
 	sceneObjects["ScoreQuad29"]->setPosition(glm::vec3(-1.7f, 0.0f, 1.0f));
-	HUDGObjects.addNode(sceneObjects["ScoreQuad30"], 4);	
 	sceneObjects["ScoreQuad30"]->setPosition(glm::vec3(-1.7f, 0.0f, 2.0f));
 	// The Word Scores
-	HUDGObjects.addNode(sceneObjects["ScoreS"], 4);
-	sceneObjects["ScoreS"]->setPosition(glm::vec3(-1.0f, 0.0f, -3.0f));
-	HUDGObjects.addNode(sceneObjects["ScoreC"], 4);
-	sceneObjects["ScoreC"]->setPosition(glm::vec3(-0.6f, 0.0f, -3.0f));
-	HUDGObjects.addNode(sceneObjects["ScoreO"], 4);
-	sceneObjects["ScoreO"]->setPosition(glm::vec3(-0.2f, 0.0f, -3.0f));
-	HUDGObjects.addNode(sceneObjects["ScoreR"], 4);
-	sceneObjects["ScoreR"]->setPosition(glm::vec3(0.2f, 0.0f, -3.0f));
-	HUDGObjects.addNode(sceneObjects["ScoreE"], 4);
-	sceneObjects["ScoreE"]->setPosition(glm::vec3(0.6f, 0.0f, -3.0f));
-	HUDGObjects.addNode(sceneObjects["ScoreS2"], 4);
-	sceneObjects["ScoreS2"]->setPosition(glm::vec3(1.0f, 0.0f, -3.0f));
+	sceneObjects["ScoreH"]->setPosition(glm::vec3(-1.9f, 0.0f, -3.0f));
+	sceneObjects["ScoreI"]->setPosition(glm::vec3(-1.5f, 0.0f, -3.0f));
+	sceneObjects["ScoreG"]->setPosition(glm::vec3(-1.1f, 0.0f, -3.0f));
+	sceneObjects["ScoreH2"]->setPosition(glm::vec3(-0.7f, 0.0f, -3.0f));
+	sceneObjects["ScoreS"]->setPosition(glm::vec3(-0.1f, 0.0f, -3.0f));
+	sceneObjects["ScoreC"]->setPosition(glm::vec3(0.3f, 0.0f, -3.0f));
+	sceneObjects["ScoreO"]->setPosition(glm::vec3(0.7f, 0.0f, -3.0f));
+	sceneObjects["ScoreR"]->setPosition(glm::vec3(1.1f, 0.0f, -3.0f));
+	sceneObjects["ScoreE"]->setPosition(glm::vec3(1.5f, 0.0f, -3.0f));
+	sceneObjects["ScoreS2"]->setPosition(glm::vec3(1.9f, 0.0f, -3.0f));
 
 	sceneObjects["InvisWall"]->setPosition(glm::vec3(0.0f, 0.0f, -35.0f));
 	sceneObjects["InvisWall2"]->setPosition(glm::vec3(0.0f, 0.0f, 35.0f));
@@ -1487,6 +1521,10 @@ void GameLevel::enter()
 	sceneObjects["ScoreQuad29"]->uUVOffset = glm::vec2(0.0f, 0.0f);
 	sceneObjects["ScoreQuad30"]->uUVOffset = glm::vec2(0.0f, 0.0f);
 
+	sceneObjects["ScoreH"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+	sceneObjects["ScoreI"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+	sceneObjects["ScoreG"]->uUVOffset = glm::vec2(0.0f, 0.0f);
+	sceneObjects["ScoreH2"]->uUVOffset = glm::vec2(0.0f, 0.0f);
 	sceneObjects["ScoreS"]->uUVOffset = glm::vec2(0.0f, 0.0f);
 	sceneObjects["ScoreC"]->uUVOffset = glm::vec2(0.0f, 0.0f);
 	sceneObjects["ScoreO"]->uUVOffset = glm::vec2(0.0f, 0.0f);
@@ -1500,6 +1538,10 @@ void GameLevel::enter()
 	sceneObjects["ScoreQuad29"]->uUVOffset = fourPos;
 	sceneObjects["ScoreQuad30"]->uUVOffset = fivePos;
 
+	sceneObjects["ScoreH"]->uUVOffset = HPos;
+	sceneObjects["ScoreI"]->uUVOffset = IPos;
+	sceneObjects["ScoreG"]->uUVOffset = GPos;
+	sceneObjects["ScoreH2"]->uUVOffset = HPos;
 	sceneObjects["ScoreS"]->uUVOffset = SPos;
 	sceneObjects["ScoreC"]->uUVOffset = CPos;
 	sceneObjects["ScoreO"]->uUVOffset = OPos;
@@ -1717,7 +1759,7 @@ void GameOver::exit()
 
 float timerFunc(float deltaTime)
 {
-	seconds = deltaTime;
+	seconds += deltaTime;
 
 	if (seconds >= 60.0f)
 	{
@@ -1733,10 +1775,63 @@ float timerFunc(float deltaTime)
 
 	dinutesPos = int(minute / 10);
 
-
-	//std::cout << minute << " : " << seconds << std::endl;
 	return seconds;
 
+}
+
+void interpretScore()
+{
+	score.readScore();
+	
+	int firstDigit = int(score.timeScore[0]/ 600) % 10;
+	int secondDigit = int(score.timeScore[0]/ 60) % 10;
+	int thirdDigit = int(score.timeScore[0]/ 10) % 6;
+	int fourthDigit = int(score.timeScore[0]) % 10;
+
+	sceneObjects["ScoreQuad"]->uUVOffset = sceneObjects["TimerQuad"]->UVOffsets[firstDigit];
+	sceneObjects["ScoreQuad2"]->uUVOffset = sceneObjects["TimerQuad"]->UVOffsets[secondDigit];
+	sceneObjects["ScoreQuad4"]->uUVOffset = sceneObjects["TimerQuad"]->UVOffsets[thirdDigit];
+	sceneObjects["ScoreQuad5"]->uUVOffset = sceneObjects["TimerQuad"]->UVOffsets[fourthDigit];
+
+	firstDigit = int(score.timeScore[1] / 600) % 10;
+	secondDigit = int(score.timeScore[1] / 60) % 10;
+	thirdDigit = int(score.timeScore[1] / 10) % 6;
+	fourthDigit = int(score.timeScore[1]) % 10;
+
+	sceneObjects["ScoreQuad6"]->uUVOffset = sceneObjects["TimerQuad"]->UVOffsets[firstDigit];
+	sceneObjects["ScoreQuad7"]->uUVOffset = sceneObjects["TimerQuad"]->UVOffsets[secondDigit];
+	sceneObjects["ScoreQuad9"]->uUVOffset = sceneObjects["TimerQuad"]->UVOffsets[thirdDigit];
+	sceneObjects["ScoreQuad10"]->uUVOffset = sceneObjects["TimerQuad"]->UVOffsets[fourthDigit];
+
+	firstDigit = int(score.timeScore[2] / 600) % 10;
+	secondDigit = int(score.timeScore[2] / 60) % 10;
+	thirdDigit = int(score.timeScore[2] / 10) % 6;
+	fourthDigit = int(score.timeScore[2]) % 10;
+
+	sceneObjects["ScoreQuad11"]->uUVOffset = sceneObjects["TimerQuad"]->UVOffsets[firstDigit];
+	sceneObjects["ScoreQuad12"]->uUVOffset = sceneObjects["TimerQuad"]->UVOffsets[secondDigit];
+	sceneObjects["ScoreQuad14"]->uUVOffset = sceneObjects["TimerQuad"]->UVOffsets[thirdDigit];
+	sceneObjects["ScoreQuad15"]->uUVOffset = sceneObjects["TimerQuad"]->UVOffsets[fourthDigit];
+
+	firstDigit = int(score.timeScore[3] / 600) % 10;
+	secondDigit = int(score.timeScore[3] / 60) % 10;
+	thirdDigit = int(score.timeScore[3] / 10) % 6;
+	fourthDigit = int(score.timeScore[3]) % 10;
+
+	sceneObjects["ScoreQuad16"]->uUVOffset = sceneObjects["TimerQuad"]->UVOffsets[firstDigit];
+	sceneObjects["ScoreQuad17"]->uUVOffset = sceneObjects["TimerQuad"]->UVOffsets[secondDigit];
+	sceneObjects["ScoreQuad19"]->uUVOffset = sceneObjects["TimerQuad"]->UVOffsets[thirdDigit];
+	sceneObjects["ScoreQuad20"]->uUVOffset = sceneObjects["TimerQuad"]->UVOffsets[fourthDigit];
+
+	firstDigit = int(score.timeScore[4] / 600) % 10;
+	secondDigit = int(score.timeScore[4] / 60) % 10;
+	thirdDigit = int(score.timeScore[4] / 10) % 6;
+	fourthDigit = int(score.timeScore[4]) % 10;
+
+	sceneObjects["ScoreQuad21"]->uUVOffset = sceneObjects["TimerQuad"]->UVOffsets[firstDigit];
+	sceneObjects["ScoreQuad22"]->uUVOffset = sceneObjects["TimerQuad"]->UVOffsets[secondDigit];
+	sceneObjects["ScoreQuad24"]->uUVOffset = sceneObjects["TimerQuad"]->UVOffsets[thirdDigit];
+	sceneObjects["ScoreQuad25"]->uUVOffset = sceneObjects["TimerQuad"]->UVOffsets[fourthDigit];
 }
 
 void removeGameObjects()

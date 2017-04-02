@@ -196,6 +196,8 @@ static int minute = 0;
 static int numOfCycles = 0;
 
 static ENG::Score score;
+static void interpretScore();
+static bool scoreIsUp = false;
 
 //TIMER FUNC
 float timerFunc(float deltaTime);

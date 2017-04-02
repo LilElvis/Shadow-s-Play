@@ -1,8 +1,5 @@
 #include "States.h"
 
-#define LIT true
-#define litMotherfucker isLit
-
 void Initialize()
 {
 	//SETUP
@@ -91,10 +88,10 @@ void Initialize()
 	
 	//LOAD MENU TEXTURES
 	defaultTexture->LoadFromFile("MainMenu", "../assets/textures/Menu.png");
-	defaultTexture->LoadFromFile("GameOver", "../assets/textures/GameOver.png");
+	defaultTexture->LoadFromFile("Tutorial", "../assets/textures/tutorial.png");
 	static ENG::SceneObject Quad("Quad", defaultMesh->listOfMeshes["Quad"]->VAO, *defaultTexture->listOfTextures["MainMenu"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
 	sceneObjects["Quad"] = &Quad;
-	static ENG::SceneObject Quad2("Quad", defaultMesh->listOfMeshes["Quad"]->VAO, *defaultTexture->listOfTextures["GameOver"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	static ENG::SceneObject Quad2("Quad", defaultMesh->listOfMeshes["Quad"]->VAO, *defaultTexture->listOfTextures["Tutorial"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
 	sceneObjects["Quad2"] = &Quad2;
 
 	//LOAD OBJECTS
@@ -442,12 +439,20 @@ void Initialize()
 	Sounds["dash"] = new Sound();
 	Sounds["dash"]->load("../assets/sounds/dash_new.wav", true, false);
 
+	Sounds["dead"] = new Sound();
+	Sounds["dead"]->load("../assets/sounds/game_over.wav", true, false);
+
+	Sounds["candle"] = new Sound();
+	Sounds["candle"]->load("../assets/sounds/candle_lit.wav", true, false);
+
 	mainMenuChannel = NULL;
 	bgmChannel = NULL;
 	dieChannel = NULL;
 	warningChannel = NULL;
 	pauseMenuChannel = NULL;
 	dashChannel = NULL;
+	deadChannel = NULL;
+	candleChannel = NULL;
 
 	playerPos;
 	playerVel;
@@ -455,6 +460,11 @@ void Initialize()
 	dieVel;
 	warningPos;
 	warningVel;
+	candlePos;
+
+	stillSound.x = 0.0f;
+	stillSound.y = 0.0f;
+	stillSound.z = 0.0f;
 
 	pitchShift = NULL;
 	lowPass = NULL;
@@ -480,6 +490,30 @@ void Initialize()
 
 	TriLight2.BBBL = glm::vec2(-11.7f, 11.7f);
 	TriLight2.BBFR = glm::vec2(11.7f, -11.7f);
+
+	Candle.BBBL = glm::vec2(-4.0f, 4.0f);
+	Candle.BBFR = glm::vec2(4.0f, -4.0f);
+	
+	Candle2.BBBL = glm::vec2(-4.0f, 4.0f);
+	Candle2.BBFR = glm::vec2(4.0f, -4.0f);
+
+	Candle3.BBBL = glm::vec2(-4.0f, 4.0f);
+	Candle3.BBFR = glm::vec2(4.0f, -4.0f);
+
+	Candle4.BBBL = glm::vec2(-4.0f, 4.0f);
+	Candle4.BBFR = glm::vec2(4.0f, -4.0f);
+
+	Candle5.BBBL = glm::vec2(-4.0f, 4.0f);
+	Candle5.BBFR = glm::vec2(4.0f, -4.0f);
+
+	Candle6.BBBL = glm::vec2(-4.0f, 4.0f);
+	Candle6.BBFR = glm::vec2(4.0f, -4.0f);
+
+	Candle7.BBBL = glm::vec2(-4.0f, 4.0f);
+	Candle7.BBFR = glm::vec2(4.0f, -4.0f);
+
+	Candle8.BBBL = glm::vec2(-4.0f, 4.0f);
+	Candle8.BBFR = glm::vec2(4.0f, -4.0f);
 
 	InvisWall.BBBL = glm::vec2(-50.0f, 1.0f);
 	InvisWall.BBFR = glm::vec2(50.0f, -50.0f);
@@ -545,6 +579,16 @@ void Reset()
 	numOfCycles = 0;
 	deathTimer = false;
 	scoreIsUp = false;
+	candleOneLit = false;
+	candleTwoLit = false;
+	candleThreeLit = false;
+	candleFourLit = false;
+	candleFiveLit = false;
+	candleSixLit = false;
+	candleSevenLit = false;
+	candleEightLit = false;
+	animFrame = 0;
+	timeOfLastAnim = 0.0f;
 }
 
 
@@ -600,7 +644,7 @@ void MainMenu::Update()
 	if(devCommand.GetKeyDown(ENG::KeyCode::Space) || sf::Joystick::isButtonPressed(0, 7)) // Joystick Button Start "Press Start to Play"
 	{
 		MainMenu::exit();
-		m_parent->GetGameState("GameLevel")->SetPaused(false);
+		m_parent->GetGameState("Tutorial")->SetPaused(false);
 		Sounds["mainMenu"]->channel->stop();
 	}
 
@@ -632,7 +676,7 @@ void MainMenu::exit()
 	{
 		m_paused = true;
 		MainMenu::SetPaused(m_paused);
-		GameLevel(hasBeenInitialized);
+		Tutorial(hasBeenInitialized);
 	}
 }
 
@@ -757,6 +801,96 @@ void GameLevel::Update()
 		pointLight4.position = (sceneObjects["TriLight"]->getPosition() + glm::vec3(0.0f, -2.4f, 0.0f));
 		pointLight5.position = (sceneObjects["TriLight2"]->getPosition() + glm::vec3(0.0f, -2.4f, 0.0f));
 
+		if (sessionTime > candleLightTime && !candleEightLit)
+		{
+			candlePos.x = sceneObjects["Candle8"]->getPosition().x;
+			candlePos.y = sceneObjects["Candle8"]->getPosition().y;
+			candlePos.z = sceneObjects["Candle8"]->getPosition().z;
+			Sounds["candle"]->setPosition(candleChannel, candlePos, stillSound);
+			candleChannel = Sounds["candle"]->play();
+			collidables.push_back(sceneObjects["Candle8"]);
+			lightObjects.push_back(&candleLight8);
+			candleEightLit = true;
+		}
+		if (sessionTime > candleLightTime + 0.2f && !candleTwoLit)
+		{
+			candlePos.x = sceneObjects["Candle2"]->getPosition().x;
+			candlePos.y = sceneObjects["Candle2"]->getPosition().y;
+			candlePos.z = sceneObjects["Candle2"]->getPosition().z;
+			Sounds["candle"]->setPosition(candleChannel, candlePos, stillSound);
+			candleChannel = Sounds["candle"]->play();
+			collidables.push_back(sceneObjects["Candle2"]);
+			lightObjects.push_back(&candleLight2);
+			candleTwoLit = true;
+		}
+		if (sessionTime > candleLightTime + 0.4f && !candleOneLit)
+		{
+			candlePos.x = sceneObjects["Candle"]->getPosition().x;
+			candlePos.y = sceneObjects["Candle"]->getPosition().y;
+			candlePos.z = sceneObjects["Candle"]->getPosition().z;
+			Sounds["candle"]->setPosition(candleChannel, candlePos, stillSound);
+			candleChannel = Sounds["candle"]->play();
+			collidables.push_back(sceneObjects["Candle"]);
+			lightObjects.push_back(&candleLight);
+			candleOneLit = true;
+		}
+		if (sessionTime > candleLightTime + 0.6f && !candleSixLit)
+		{
+			candlePos.x = sceneObjects["Candle6"]->getPosition().x;
+			candlePos.y = sceneObjects["Candle6"]->getPosition().y;
+			candlePos.z = sceneObjects["Candle6"]->getPosition().z;
+			Sounds["candle"]->setPosition(candleChannel, candlePos, stillSound);
+			candleChannel = Sounds["candle"]->play();
+			collidables.push_back(sceneObjects["Candle6"]);
+			lightObjects.push_back(&candleLight6);
+			candleSixLit = true;
+		}
+		if (sessionTime > candleLightTime + 0.8f && !candleFiveLit)
+		{
+			candlePos.x = sceneObjects["Candle5"]->getPosition().x;
+			candlePos.y = sceneObjects["Candle5"]->getPosition().y;
+			candlePos.z = sceneObjects["Candle5"]->getPosition().z;
+			Sounds["candle"]->setPosition(candleChannel, candlePos, stillSound);
+			candleChannel = Sounds["candle"]->play();
+			collidables.push_back(sceneObjects["Candle5"]);
+			lightObjects.push_back(&candleLight5);
+			candleFiveLit = true;
+		}
+		if (sessionTime > candleLightTime + 1.0f && !candleThreeLit)
+		{
+			candlePos.x = sceneObjects["Candle3"]->getPosition().x;
+			candlePos.y = sceneObjects["Candle3"]->getPosition().y;
+			candlePos.z = sceneObjects["Candle3"]->getPosition().z;
+			Sounds["candle"]->setPosition(candleChannel, candlePos, stillSound);
+			candleChannel = Sounds["candle"]->play();
+			collidables.push_back(sceneObjects["Candle3"]);
+			lightObjects.push_back(&candleLight3);
+			candleThreeLit = true;
+		}
+		if (sessionTime > candleLightTime + 1.2f && !candleFourLit)
+		{
+			candlePos.x = sceneObjects["Candle4"]->getPosition().x;
+			candlePos.y = sceneObjects["Candle4"]->getPosition().y;
+			candlePos.z = sceneObjects["Candle4"]->getPosition().z;
+			Sounds["candle"]->setPosition(candleChannel, candlePos, stillSound);
+			candleChannel = Sounds["candle"]->play();
+			collidables.push_back(sceneObjects["Candle4"]);
+			lightObjects.push_back(&candleLight4);
+			candleFourLit = true;
+		}
+		if (sessionTime > candleLightTime + 1.4f && !candleSevenLit)
+		{
+			candlePos.x = sceneObjects["Candle7"]->getPosition().x;
+			candlePos.y = sceneObjects["Candle7"]->getPosition().y;
+			candlePos.z = sceneObjects["Candle7"]->getPosition().z;
+			Sounds["candle"]->setPosition(candleChannel, candlePos, stillSound);
+			candleChannel = Sounds["candle"]->play();
+			collidables.push_back(sceneObjects["Candle7"]);
+			lightObjects.push_back(&candleLight7);
+			candleSevenLit = true;
+		}
+		
+
 		if (!wasWarned1)
 			sceneObjects["Warning"]->setPosition(clamp(sceneObjects["SpotLight"]->getPosition(), RoomMin, RoomMax));
 
@@ -809,11 +943,13 @@ void GameLevel::Update()
 			if ((deathTimer == true) && (sessionTime > (timeOfDeath + 6.0f)))
 			{
 				GameLevel::gameOver();
-				m_parent->GetGameState("GameOver")->SetPaused(false);
+				m_parent->GetGameState("MainMenu")->SetPaused(false);
 			}
 		}
 		if (timeOfDeath == sessionTime)
 		{
+			deadChannel = Sounds["dead"]->play();
+
 			HUDGObjects.addNode(sceneObjects["GameOverY"], 3);
 			HUDGObjects.addNode(sceneObjects["GameOverO"], 3);
 			HUDGObjects.addNode(sceneObjects["GameOverU"], 3);
@@ -924,6 +1060,7 @@ void GameLevel::Update()
 
 		Sounds["bgm"]->setPosition(bgmChannel, playerPos, playerVel);
 		Sounds["die"]->setPosition(dieChannel, diePos, dieVel);
+		Sounds["dead"]->setPosition(deadChannel, diePos, dieVel);
 		Sounds["warn"]->setPosition(warningChannel, warningPos, warningVel);
 		Sounds["dash"]->setPosition(dashChannel, playerPos, playerVel);
 		
@@ -1297,6 +1434,8 @@ void GameLevel::enter()
 	minute = 0.0f;
 
 	//POSITION OBJECTS
+	collidables.clear();
+	lightObjects.clear();
 	Reset();
 
 	bgmChannel = Sounds["bgm"]->play();
@@ -1311,27 +1450,35 @@ void GameLevel::enter()
 	gObjects.push_back(sceneObjects["Candle"]);
 	sceneObjects["Candle"]->getTransform()->rotateY(-1.570795f);
 	sceneObjects["Candle"]->setPosition(glm::vec3(-35.0f, 4.0f, 17.5f));
+	sceneObjects["Candle"]->setLoss(true);
 	gObjects.push_back(sceneObjects["Candle2"]);
 	sceneObjects["Candle2"]->getTransform()->rotateY(-1.570795f);
 	sceneObjects["Candle2"]->setPosition(glm::vec3(-35.0f, 4.0f, -17.5f)); 
+	sceneObjects["Candle2"]->setLoss(true);
 	gObjects.push_back(sceneObjects["Candle3"]);
 	sceneObjects["Candle3"]->getTransform()->rotateY(1.570795f);
 	sceneObjects["Candle3"]->setPosition(glm::vec3(35.0f, 4.0f, 17.5f));
+	sceneObjects["Candle3"]->setLoss(true);
 	gObjects.push_back(sceneObjects["Candle4"]);
 	sceneObjects["Candle4"]->getTransform()->rotateY(1.570795f);
 	sceneObjects["Candle4"]->setPosition(glm::vec3(35.0f, 4.0f, -17.5f));
+	sceneObjects["Candle4"]->setLoss(true);
 	gObjects.push_back(sceneObjects["Candle5"]);
 	//DO NOT ROTATE
 	sceneObjects["Candle5"]->setPosition(glm::vec3(17.5f, 4.0f, 35.0f));
+	sceneObjects["Candle5"]->setLoss(true);
 	gObjects.push_back(sceneObjects["Candle6"]);
 	//DO NOT ROTATE
 	sceneObjects["Candle6"]->setPosition(glm::vec3(-17.5f, 4.0f, 35.0f));
+	sceneObjects["Candle6"]->setLoss(true);
 	gObjects.push_back(sceneObjects["Candle7"]);
 	sceneObjects["Candle7"]->getTransform()->rotateY(3.14159f);
 	sceneObjects["Candle7"]->setPosition(glm::vec3(17.5f, 4.0f, -35.0f));
+	sceneObjects["Candle7"]->setLoss(true);
 	gObjects.push_back(sceneObjects["Candle8"]);
 	sceneObjects["Candle8"]->getTransform()->rotateY(3.14159f);
 	sceneObjects["Candle8"]->setPosition(glm::vec3(-17.5f, 4.0f, -35.0f));
+	sceneObjects["Candle8"]->setLoss(true);
 
 	gObjects.push_back(sceneObjects["SpotLight"]);
 	sceneObjects["SpotLight"]->setLoss(true);
@@ -1456,9 +1603,6 @@ void GameLevel::enter()
 	sceneObjects["Room"]->uSpecularMult = glm::vec3(1.0f, 1.0f, 1.0f);
 	sceneObjects["Room"]->uSpecularAdd = glm::vec3(0.0f, 0.0f, 0.0f);
 
-	//sceneObjects["Warning"]->uDiffuseAdd = glm::vec3(1.0f, 1.0f, 1.0f);
-	//sceneObjects["Warning2"]->uDiffuseAdd = glm::vec3(1.0f, 1.0f, 1.0f);
-	//sceneObjects["Warning3"]->uDiffuseAdd = glm::vec3(1.0f, 1.0f, 1.0f);
 	sceneObjects["Warning"]->uAmbientMult = glm::vec3(4.0f, 4.0f, 4.0f);
 	sceneObjects["Warning2"]->uAmbientMult = glm::vec3(4.0f, 4.0f, 4.0f);
 	sceneObjects["Warning3"]->uAmbientMult = glm::vec3(4.0f, 4.0f, 4.0f);
@@ -1568,37 +1712,26 @@ void GameLevel::enter()
 	sceneObjects["Warning5"]->uUVOffset = glm::vec2(0.0f, 0.0f);
 	sceneObjects["Warning5"]->uUVOffset = glm::vec2(0.0f, 0.0f);
 	sceneObjects["Warning5"]->uUVOffset = glm::vec2(0.0f, 0.0f);
-
+	
+	//PUSH BACK COLLIDABLE OBJECTS
+	collidables.push_back(sceneObjects["SpotLight"]);
+	collidables.push_back(sceneObjects["SpotLight2"]);
+	collidables.push_back(sceneObjects["QuadLight"]);
+	collidables.push_back(sceneObjects["TriLight"]);
+	collidables.push_back(sceneObjects["TriLight2"]);
+	collidables.push_back(sceneObjects["InvisWall"]);
+	collidables.push_back(sceneObjects["InvisWall2"]);
+	collidables.push_back(sceneObjects["InvisWall3"]);
+	collidables.push_back(sceneObjects["InvisWall4"]);
+	
+	lightObjects.push_back(&pointLight);
+	lightObjects.push_back(&pointLight2);
+	lightObjects.push_back(&pointLight3);
+	lightObjects.push_back(&pointLight4);
+	lightObjects.push_back(&pointLight5);
+	
 	if (!hasLoadedOnce)
 	{
-		//PUSH BACK COLLIDABLE OBJECTS
-
-		collidables.push_back(sceneObjects["SpotLight"]);
-		collidables.push_back(sceneObjects["SpotLight2"]);
-		collidables.push_back(sceneObjects["QuadLight"]);
-		collidables.push_back(sceneObjects["TriLight"]);
-		collidables.push_back(sceneObjects["TriLight2"]);
-
-		collidables.push_back(sceneObjects["InvisWall"]);
-		collidables.push_back(sceneObjects["InvisWall2"]);
-		collidables.push_back(sceneObjects["InvisWall3"]);
-		collidables.push_back(sceneObjects["InvisWall4"]);
-
-	    lightObjects.push_back(&pointLight);
-	    lightObjects.push_back(&pointLight2);
-	    lightObjects.push_back(&pointLight3);
-	    lightObjects.push_back(&pointLight4);
-	    lightObjects.push_back(&pointLight5);
-
-		lightObjects.push_back(&candleLight);
-		lightObjects.push_back(&candleLight2);
-		lightObjects.push_back(&candleLight3);
-		lightObjects.push_back(&candleLight4);
-		lightObjects.push_back(&candleLight5);
-		lightObjects.push_back(&candleLight6);
-		lightObjects.push_back(&candleLight7);
-		lightObjects.push_back(&candleLight8);
-		
 		//pointLight.position = sceneObjects["SpotLight"]->getPosition();
 		pointLight.color = glm::vec4(1.0f, 0.63f, 0.72f, 1.0f);
 		pointLight.meshName = "Cone";
@@ -1665,19 +1798,21 @@ void GameLevel::gameOver()
 	Sounds["die"]->channel->stop();
 	Sounds["warn"]->channel->stop();
 	Sounds["dash"]->channel->stop();
+	Sounds["dead"]->channel->stop();
+	Sounds["candle"]->channel->stop();
 
 	hasBeenInitialized = false;
 	if (m_paused == false)
 	{
 		m_paused = true;
 		GameLevel::SetPaused(m_paused);
-		GameOver(hasBeenInitialized);
+		MainMenu(hasBeenInitialized);
 	}
 
 }
 
 //GAME OVER SCREEN MAIN LOOP
-void GameOver::Update()
+void Tutorial::Update()
 {
 	if (hasBeenInitialized == false)
 	{
@@ -1717,24 +1852,24 @@ void GameOver::Update()
 
 	if (devCommand.GetKeyDown(ENG::KeyCode::Space) || sf::Joystick::isButtonPressed(0, 0)) // Joystick button A "Press A to go back to main menu 
 	{
-		GameOver::exit();
-		m_parent->GetGameState("MainMenu")->SetPaused(false);
+		Tutorial::exit();
+		m_parent->GetGameState("GameLevel")->SetPaused(false);
 	}
 
 	ENG::Input::ResetKeys();
 }
 
-GameOver::GameOver()
+Tutorial::Tutorial()
 {
 	hasBeenInitialized = false;
 }
 
-void GameOver::enter()
+void Tutorial::enter()
 {
 	if (m_paused == true)
 	{
 		m_paused = false;
-		GameOver::SetPaused(m_paused);
+		Tutorial::SetPaused(m_paused);
 	}
 
 	gObjects.push_back(sceneObjects["Quad2"]);
@@ -1742,18 +1877,16 @@ void GameOver::enter()
 	hasLoadedOnce = true;
 }
 
-void GameOver::exit()
+void Tutorial::exit()
 {
 	removeGameObjects();
-
-	Reset();
 
 	hasBeenInitialized = false;
 	if (m_paused == false)
 	{
 		m_paused = true;
-		GameOver::SetPaused(m_paused);
-		MainMenu(hasBeenInitialized);
+		Tutorial::SetPaused(m_paused);
+		GameLevel(hasBeenInitialized);
 	}
 }
 

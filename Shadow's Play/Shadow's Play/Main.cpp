@@ -12,17 +12,17 @@ int main()
 
 	//CREATE STATE POINTERS
 	MainMenu* mainMenu = new MainMenu;
-	GameOver* gameOver = new GameOver;
+	Tutorial* tutorial = new Tutorial;
 	GameLevel* gameLevel = new GameLevel;
 	
 	//ADD STATES TO THE MANAGER
 	Manager.AddGameState("MainMenu", mainMenu);
-	Manager.AddGameState("GameOver", gameOver);
+	Manager.AddGameState("Tutorial", tutorial);
 	Manager.AddGameState("GameLevel", gameLevel);
 
 	//SET LEVELS BY DEFAULT TO PAUSED
 	mainMenu->SetPaused(false);
-	gameOver->SetPaused(true);
+	tutorial->SetPaused(true);
 	gameLevel->SetPaused(true);
 
 	//ACTIVATE WINDOW

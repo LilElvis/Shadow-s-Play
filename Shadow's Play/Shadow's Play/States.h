@@ -72,8 +72,8 @@ void Reset();
 
 //WINDOW STUFF
 static sf::ContextSettings Settings;
-static int windowWidth = 1600;
-static int windowHeight = 911;
+static int windowWidth = 1778;
+static int windowHeight = 1000;
 static float aspectRatio = windowWidth / float(windowHeight);
 
 //DECLARE SINGLETON POINTERS
@@ -108,6 +108,8 @@ static ENG::FrameBufferObject lightingStencil;
 //LUTS
 static ENG::LUT bourbon;
 static ENG::LUT clayton;
+static ENG::LUT aspen;
+static ENG::LUT zeke;
 
 
 //MAPS OF GAME OBJECTS
@@ -304,4 +306,18 @@ static ENG::PointLight candleLight8;
 
 static ENG::PointLight roomLight;
 
-//static glm::mat4 uProjectionBiasMatrixInverse;
+//TOGGLE MODES
+
+static bool TEXTURE_TOGGLE = true;
+static bool LIGHTING_TOGGLE = true;
+static bool BLUR_TOGGLE = true;
+
+enum LUT_TOGGLE
+{
+	ASPEN,
+	BOURBON,
+	CLAYTON,
+	ZEKE
+};
+
+static LUT_TOGGLE LUT_TOGGLES;

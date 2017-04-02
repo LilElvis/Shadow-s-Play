@@ -32,7 +32,7 @@ namespace ENG
 	}
 
 	//RENDERS THE RENDERABLES
-	void GameObject::render(Mesh* meshPtr, Shader* shaderPtr)
+	void GameObject::render(Mesh* meshPtr, Shader* shaderPtr, bool textured)
 	{
 			transform.setMatrix(glm::mat4(
 			transform.getMatrix()[0][0], transform.getMatrix()[0][1], transform.getMatrix()[0][2], position.x,
@@ -55,10 +55,13 @@ namespace ENG
 
 		shaderPtr->sendUniform("uvOffset", uUVOffset);
 		
-		albedo.Bind(GL_TEXTURE0);
-		normal.Bind(GL_TEXTURE1);
-		specular.Bind(GL_TEXTURE2);
-		emissive.Bind(GL_TEXTURE3);
+		if (textured)
+		{
+			albedo.Bind(GL_TEXTURE0);
+			normal.Bind(GL_TEXTURE1);
+			specular.Bind(GL_TEXTURE2);
+			emissive.Bind(GL_TEXTURE3);
+		}
 
 		glDrawArrays(GL_TRIANGLES, 0, (meshPtr->listOfMeshes[objectName]->getNumberOfVerticies()));
 		glBindVertexArray(0);

@@ -21,7 +21,7 @@ namespace ENG
 		void Unload();
 
 		void Bind(GLenum);
-		void UnBind(GLenum);
+		static void UnBind(GLenum);
 	
 		GLuint texHandle;
 		unsigned int Width;

@@ -25,7 +25,7 @@ namespace ENG
 												// put it in the correct place 
 		void removeMaxNode();		//Remove the node with the maximum priority
 		void removeMinNode();       	//Remove the node with the lowest priority 
-		void drawList(Mesh* meshPtr, Shader* shaderPtr);		// Print the content of the whole list
+		void drawList(Mesh* meshPtr, Shader* shaderPtr, bool textured = true);		// Print the content of the whole list
 
 		void clearList();
 

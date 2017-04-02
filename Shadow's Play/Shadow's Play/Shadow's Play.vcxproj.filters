@@ -181,5 +181,8 @@
     <None Include="..\..\..\Shadow%27s Play\Shadow%27s Play\assets\shaders\DeferredShading.frag">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="..\..\..\Shadow%27s Play\Shadow%27s Play\assets\shaders\LightComposite.frag">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -4,10 +4,14 @@
 
 uniform vec4 LightPosition = vec4(0.0f, 2.0f, 0.0f, 1.0);
 
-//colors
+//Colors
 uniform vec3 LightAmbient = vec3(0.1f);
 uniform vec3 LightDiffuse = vec3(1.0f);
 uniform vec3 LightSpecular = vec3(1.0f);
+
+//Aspect Ratio
+uniform int uWindowWidth = 1600;
+uniform int uWindowHeight = 911;
 
 //Sample
 layout(binding = 0) uniform sampler2D uAlbedoMap;
@@ -44,7 +48,7 @@ out vec4 outColor;
 
 vec4 getPosition()
 {
-	FragCoords = vec2(gl_FragCoord.x/1600 , gl_FragCoord.y/911);
+	FragCoords = vec2(gl_FragCoord.x/uWindowWidth , gl_FragCoord.y/uWindowHeight);
 
 	float depth = (texture(uDepthMap, FragCoords).r) * 2.0 - 1.0;
 

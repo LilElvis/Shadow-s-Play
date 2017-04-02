@@ -440,7 +440,7 @@ void Initialize()
 	Sounds["mainMenu"]->load("../assets/sounds/pause_menu.mp3", true, true);
 
 	Sounds["dash"] = new Sound();
-	Sounds["dash"]->load("../assets/sounds/dash_new.wav", true, false);
+	Sounds["dash"]->load("../assets/sounds/dash.wav", true, false);
 
 	Sounds["dead"] = new Sound();
 	Sounds["dead"]->load("../assets/sounds/game_over.wav", true, false);
@@ -474,8 +474,10 @@ void Initialize()
 	echo = NULL;
 
 	//INITIALIZE LUTS
-	bourbon.loadData("../assets/LUT/IWLTBAP Aspen - Standard.cube"); //Zeke 39.cube and Clayton 33.cube is grayscale
+	aspen.loadData("../assets/LUT/IWLTBAP Aspen - Standard.cube");
+	bourbon.loadData("../assets/LUT/Bourbon 64.cube"); //Zeke 39.cube and Clayton 33.cube is grayscale
 	clayton.loadData("../assets/LUT/Clayton 33.cube");
+	zeke.loadData("../assets/LUT/Zeke 39.cube");
 
 	//SET BOUNDING BOXES
 
@@ -575,12 +577,15 @@ void Reset()
 	sceneObjects["SpotLight"]->setPosition(glm::vec3(0.0f, 0.6f, -55.0f));
 	sceneObjects["SpotLight2"]->setPosition(glm::vec3(0.0f, 0.6f, -55.0f));
 
+	//TIME VALUES
 	globalT = 1.0f;
 	rampValue = 0.005f;
 	sessionTime = 0.0f;
 	timeOfDeath = -1.0f;
 	numOfCycles = 0;
 	deathTimer = false;
+	
+	//ANIMATIONS
 	scoreIsUp = false;
 	candleOneLit = false;
 	candleTwoLit = false;
@@ -592,6 +597,12 @@ void Reset()
 	candleEightLit = false;
 	animFrame = 0;
 	timeOfLastAnim = 0.0f;
+	
+	//GRAPHICS TOGGLES
+	TEXTURE_TOGGLE = true;
+	LIGHTING_TOGGLE = true;
+	BLUR_TOGGLE = true;
+	LUT_TOGGLES = LUT_TOGGLE::ASPEN;
 }
 
 
@@ -623,8 +634,9 @@ void MainMenu::Update()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	gameWindow->check();
-	
-	Sounds["mainMenu"]->channel->setVolume(0.6f);
+
+	Sound::Sys.listenerPos = stillSound;
+	Sound::Sys.listenerVel = stillSound;
 
 	Sound::systemUpdate();
 	
@@ -648,7 +660,6 @@ void MainMenu::Update()
 	{
 		MainMenu::exit();
 		m_parent->GetGameState("Tutorial")->SetPaused(false);
-		Sounds["mainMenu"]->channel->stop();
 	}
 
 	ENG::Input::ResetKeys();
@@ -662,6 +673,7 @@ void MainMenu::enter()
 		MainMenu::SetPaused(m_paused);
 	}
 
+	Sounds["mainMenu"]->channel->setVolume(1.0f);
 	mainMenuChannel = Sounds["mainMenu"]->play();
 
 	gObjects.push_back(sceneObjects["Quad"]);
@@ -893,10 +905,35 @@ void GameLevel::Update()
 			candleSevenLit = true;
 		}
 		
+		//GRAPHICS TOGGLES
 		if (devCommand.GetKeyDown(ENG::KeyCode::Add))
-		{
 			candleLightTime = (sessionTime + 2.0f);
+		if (devCommand.GetKeyDown(ENG::KeyCode::NumPad1))
+			TEXTURE_TOGGLE = !TEXTURE_TOGGLE;
+		if (devCommand.GetKeyDown(ENG::KeyCode::NumPad2))
+			LIGHTING_TOGGLE = !LIGHTING_TOGGLE;
+		if (devCommand.GetKeyDown(ENG::KeyCode::NumPad5))
+			BLUR_TOGGLE = !BLUR_TOGGLE;
+		if (devCommand.GetKeyDown(ENG::KeyCode::NumPad3))
+		{
+			if (LUT_TOGGLES == LUT_TOGGLE::ASPEN)
+			{
+				LUT_TOGGLES = LUT_TOGGLE::BOURBON;
+			}
+			else if (LUT_TOGGLES == LUT_TOGGLE::BOURBON)
+			{
+				LUT_TOGGLES = LUT_TOGGLE::CLAYTON;
+			}
+			else if (LUT_TOGGLES == LUT_TOGGLE::CLAYTON)
+			{
+				LUT_TOGGLES = LUT_TOGGLE::ZEKE;
+			}
+			else if (LUT_TOGGLES == LUT_TOGGLE::ZEKE)
+			{
+				LUT_TOGGLES = LUT_TOGGLE::ASPEN;
+			}
 		}
+
 
 		if (!wasWarned1)
 			sceneObjects["Warning"]->setPosition(clamp(sceneObjects["SpotLight"]->getPosition(), RoomMin, RoomMax));
@@ -1127,7 +1164,7 @@ void GameLevel::Update()
 		for (auto itr = gObjects.begin(), itrEnd = gObjects.end();
 			itr != itrEnd; itr++)
 		{
-			(*itr)->render(defaultMesh, &GBuffer);
+			(*itr)->render(defaultMesh, &GBuffer, TEXTURE_TOGGLE);
 		}
 
 		//Drawing Transparent Objects
@@ -1155,7 +1192,7 @@ void GameLevel::Update()
 		for (auto itr = transparentGObjects.begin(), itrEnd = transparentGObjects.end();
 			itr != itrEnd; itr++)
 		{
-			(*itr)->render(defaultMesh, &defaultShader);
+			(*itr)->render(defaultMesh, &defaultShader, TEXTURE_TOGGLE);
 		}
 
 		defaultShader.unBind();
@@ -1176,7 +1213,7 @@ void GameLevel::Update()
 
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_ONE, GL_ONE);
-
+		
 		geometryBuffer.BindColorAsTexture(GL_TEXTURE0, 0);
 		geometryBuffer.BindColorAsTexture(GL_TEXTURE1, 1);
 		geometryBuffer.BindColorAsTexture(GL_TEXTURE2, 2);
@@ -1193,6 +1230,8 @@ void GameLevel::Update()
 		deferredLighting.sendUniformMat4("uProj", &persp[0][0], false);
 		deferredLighting.sendUniformMat4("uinverseViewMatrix", &viewInverse[0][0], false);
 		deferredLighting.sendUniformMat4("uinversePerspectiveMatrix", &glm::inverse(persp)[0][0], false);
+		deferredLighting.sendUniform("uWindowWidth", windowWidth);
+		deferredLighting.sendUniform("uWindowHeight", windowHeight);
 
 		updatedCamPos = viewInverse[3];
 		deferredLighting.sendUniform("uCameraPos", updatedCamPos);
@@ -1213,6 +1252,13 @@ void GameLevel::Update()
 		deferredLighting.unBind();
 		lightingStencil.Unbind();
 
+		ENG::Texture::UnBind(GL_TEXTURE0);
+		ENG::Texture::UnBind(GL_TEXTURE1);
+		ENG::Texture::UnBind(GL_TEXTURE2);
+		ENG::Texture::UnBind(GL_TEXTURE3);
+		ENG::Texture::UnBind(GL_TEXTURE4);
+		ENG::Texture::UnBind(GL_TEXTURE5);
+		
 		//Lighting Composite
 
 		finalSceneFBO1.Bind();
@@ -1220,10 +1266,19 @@ void GameLevel::Update()
 
 		viewInverse = glm::inverse(view.getMatrix());
 
+		lightingComposite.sendUniform("uWindowWidth", windowWidth);
+		lightingComposite.sendUniform("uWindowHeight", windowHeight);
+
 		glBindVertexArray(sceneObjects["Quad3"]->getRenderable());
 
 		geometryBuffer.BindColorAsTexture(GL_TEXTURE0, 0);
-		lightingStencil.BindColorAsTexture(GL_TEXTURE1, 0);
+		if (LIGHTING_TOGGLE)
+		{
+			lightingStencil.BindColorAsTexture(GL_TEXTURE1, 0);
+			geometryBuffer.BindColorAsTexture(GL_TEXTURE2, 3);
+		}
+		else
+			geometryBuffer.BindColorAsTexture(GL_TEXTURE2, 0);
 
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 
@@ -1250,39 +1305,42 @@ void GameLevel::Update()
 		bloomFBO1.Unbind();
 		
 		//Looping Blur Passes
-		for (int i = 0; i < int(sinf(totalTime *2.0f) * 10 + 11); i++)
+		if (BLUR_TOGGLE)
 		{
-			bloomFBO2.Bind();
-			bloomHorizontalBlur.bind();
+			for (int i = 0; i < int(sinf(totalTime *2.0f) * 10 + 11); i++)
+			{
+				bloomFBO2.Bind();
+				bloomHorizontalBlur.bind();
 
-			bloomHorizontalBlur.sendUniform("texelWidth", (2.0f / windowWidth));
+				bloomHorizontalBlur.sendUniform("texelWidth", (2.0f / windowWidth));
 
-			glBindVertexArray(sceneObjects["Quad3"]->getRenderable());
+				glBindVertexArray(sceneObjects["Quad3"]->getRenderable());
 
-			bloomFBO1.BindColorAsTexture(GL_TEXTURE0, 0);
+				bloomFBO1.BindColorAsTexture(GL_TEXTURE0, 0);
 
-			glDrawArrays(GL_TRIANGLES, 0, 6);
+				glDrawArrays(GL_TRIANGLES, 0, 6);
 
-			glBindVertexArray(0);
+				glBindVertexArray(0);
 
-			bloomHorizontalBlur.unBind();
-			bloomFBO2.Unbind();
+				bloomHorizontalBlur.unBind();
+				bloomFBO2.Unbind();
 
-			bloomFBO1.Bind();
-			bloomVerticalBlur.bind();
+				bloomFBO1.Bind();
+				bloomVerticalBlur.bind();
 
-			bloomVerticalBlur.sendUniform("texelHeight", (2.0f / windowHeight));
+				bloomVerticalBlur.sendUniform("texelHeight", (2.0f / windowHeight));
 
-			glBindVertexArray(sceneObjects["Quad3"]->getRenderable());
+				glBindVertexArray(sceneObjects["Quad3"]->getRenderable());
 
-			bloomFBO2.BindColorAsTexture(GL_TEXTURE0, 0);
+				bloomFBO2.BindColorAsTexture(GL_TEXTURE0, 0);
 
-			glDrawArrays(GL_TRIANGLES, 0, 6);
+				glDrawArrays(GL_TRIANGLES, 0, 6);
 
-			glBindVertexArray(0);
+				glBindVertexArray(0);
 
-			bloomVerticalBlur.unBind();
-			bloomFBO1.Unbind();
+				bloomVerticalBlur.unBind();
+				bloomFBO1.Unbind();
+			}
 		}
 
 		glViewport(0, 0, windowWidth, windowHeight);
@@ -1354,7 +1412,7 @@ void GameLevel::Update()
 		UVScrolling.sendUniformMat4("uProj", &orthoPersp[0][0], false);
 		UVScrolling.sendUniform("LightPosition", down);
 
-		HUDGObjects.drawList(defaultMesh, &UVScrolling);
+		HUDGObjects.drawList(defaultMesh, &UVScrolling, TEXTURE_TOGGLE);
 
 		UVScrolling.unBind();
 
@@ -1367,8 +1425,22 @@ void GameLevel::Update()
 		colorCorrect.bind();
 
 		finalSceneFBO1.BindColorAsTexture(GL_TEXTURE0, 0);
-		colorCorrect.sendUniform("t", 0.5f);
-		bourbon.bind(GL_TEXTURE1);
+		
+		switch (LUT_TOGGLES)
+		{
+		case ASPEN: aspen.bind(GL_TEXTURE1);
+			colorCorrect.sendUniform("t", 0.5f);
+			break;
+		case BOURBON: bourbon.bind(GL_TEXTURE1);
+			colorCorrect.sendUniform("t", 0.5f);
+			break;
+		case CLAYTON: clayton.bind(GL_TEXTURE1);
+			colorCorrect.sendUniform("t", 0.8f);
+			break;
+		case ZEKE: zeke.bind(GL_TEXTURE1);
+			colorCorrect.sendUniform("t", 0.8f);
+			break;
+		}
 
 		if (Player["Nyx"]->getIsDead())
 		{
@@ -1845,6 +1917,11 @@ void Tutorial::Update()
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	gameWindow->check();
 
+	Sound::Sys.listenerPos = stillSound;
+	Sound::Sys.listenerVel = stillSound;
+
+	Sound::systemUpdate();
+
 	for (auto itr = gObjects.begin(), itrEnd = gObjects.end();
 		itr != itrEnd; itr++)
 	{
@@ -1889,6 +1966,8 @@ void Tutorial::enter()
 void Tutorial::exit()
 {
 	removeGameObjects();
+
+	Sounds["mainMenu"]->channel->stop();
 
 	hasBeenInitialized = false;
 	if (m_paused == false)

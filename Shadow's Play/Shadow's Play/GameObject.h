@@ -18,7 +18,7 @@ namespace ENG
 		GameObject(std::string, GLuint, Texture, Texture, Texture, Texture, GLuint);
 		
 		//UTILITY FUNCTIONS
-		void render(Mesh*, Shader*);
+		void render(Mesh*, Shader*, bool textured = true);
 		void drawTransparent(Mesh*, Shader*);
 		virtual void update(float, float) = 0;
 		virtual void reset() = 0;

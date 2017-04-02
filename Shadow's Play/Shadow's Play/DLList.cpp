@@ -130,13 +130,13 @@ namespace ENG
 		}
 	}
 
-	void DLList::drawList(Mesh* meshPtr, Shader* shaderPtr)
+	void DLList::drawList(Mesh* meshPtr, Shader* shaderPtr, bool textured)
 	{
 		node *temp = first;
 
 		while (temp != NULL) //keep rendering until temp is nullified by the "next" pointer of the last node
 		{
-			temp->data->render(meshPtr, shaderPtr);
+			temp->data->render(meshPtr, shaderPtr, textured);
 			temp = temp->next;
 		}
 	}

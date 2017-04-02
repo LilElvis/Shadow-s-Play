@@ -194,6 +194,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\Shadow%27s Play\Shadow%27s Play\assets\shaders\DeferredShading.frag" />
+    <None Include="..\..\..\Shadow%27s Play\Shadow%27s Play\assets\shaders\LightComposite.frag" />
     <None Include="..\..\Shadow%27s Play\assets\shaders\BasicLighting.frag" />
     <None Include="..\..\Shadow%27s Play\assets\shaders\BloomComposite.frag" />
     <None Include="..\..\Shadow%27s Play\assets\shaders\CelShading.frag" />

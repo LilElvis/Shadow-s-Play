@@ -14,16 +14,19 @@ int main()
 	MainMenu* mainMenu = new MainMenu;
 	Tutorial* tutorial = new Tutorial;
 	GameLevel* gameLevel = new GameLevel;
+	Credits* credits = new Credits;
 	
 	//ADD STATES TO THE MANAGER
 	Manager.AddGameState("MainMenu", mainMenu);
 	Manager.AddGameState("Tutorial", tutorial);
 	Manager.AddGameState("GameLevel", gameLevel);
+	Manager.AddGameState("Credits", credits);
 
 	//SET LEVELS BY DEFAULT TO PAUSED
 	mainMenu->SetPaused(false);
 	tutorial->SetPaused(true);
 	gameLevel->SetPaused(true);
+	credits->SetPaused(true);
 
 	//ACTIVATE WINDOW
 	gameWindow->GetSFMLWindow()->setActive();

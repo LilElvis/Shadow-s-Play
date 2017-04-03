@@ -32,12 +32,15 @@ void Initialize()
 	UVScrolling.load("UVScroll", "../assets/shaders/StaticGeometry.vert", "../assets/shaders/UVScrolling.frag");
 	motionBlur.load("PassThrough", "../assets/shaders/PassThrough.vert", "../assets/shaders/MotionBlur.frag");
 	colorCorrect.load("ColorCorrect", "../assets/shaders/PassThrough.vert", "../assets/shaders/LUT.frag");
+	bokehBlur.load("BokehBlur", "../assets/shaders/PassThrough.vert", "../assets/shaders/bokeh.frag");
+	bokehComposite.load("BokehComposite", "../assets/shaders/PassThrough.vert", "../assets/shaders/Composite.frag");
 	
 	//LOAD THINGS ONLY NECESSARY FOR LOADING SCREEN
 	defaultTexture->LoadFromFile("Logo", "../assets/textures/Logo.png");
+	defaultTexture->LoadFromFile("Credits", "../assets/textures/credits.png");
 	
 	defaultMesh->LoadFromFile("Quad", "../assets/objects/Quad.obj");
-	static ENG::SceneObject Quad3("Quad", defaultMesh->listOfMeshes["Quad"]->VAO, *defaultTexture->listOfTextures["Logo"], *defaultTexture->listOfTextures["Logo"], *defaultTexture->listOfTextures["Logo"], *defaultTexture->listOfTextures["Logo"], geometryBuffer.getLayerNumber());
+	static ENG::SceneObject Quad3("Quad", defaultMesh->listOfMeshes["Quad"]->VAO, *defaultTexture->listOfTextures["Credits"], *defaultTexture->listOfTextures["Logo"], *defaultTexture->listOfTextures["Logo"], *defaultTexture->listOfTextures["Logo"], geometryBuffer.getLayerNumber());
 	sceneObjects["Quad3"] = &Quad3;
 
 	passThrough.bind();
@@ -358,6 +361,15 @@ void Initialize()
 	lightingStencil.initColorTexture(0);
 	lightingStencil.initDepthTexture();
 
+	bokehA.Init(windowWidth, windowHeight, 1);
+	bokehA.initColorTexture(0);
+
+	bokehB.Init(windowWidth, windowHeight, 1);
+	bokehB.initColorTexture(0);
+
+	bokehHorBlur.Init(windowWidth, windowHeight, 1);
+	bokehHorBlur.initColorTexture(0);
+
 	//SPRITE ANIMATIONS
 	sceneObjects["Warning"]->UVOffsets.push_back(glm::vec2(0.0f, 0.0f));
 	sceneObjects["Warning"]->UVOffsets.push_back(glm::vec2(0.25f, 0.0f));
@@ -478,6 +490,7 @@ void Initialize()
 	bourbon.loadData("../assets/LUT/Bourbon 64.cube"); //Zeke 39.cube and Clayton 33.cube is grayscale
 	clayton.loadData("../assets/LUT/Clayton 33.cube");
 	zeke.loadData("../assets/LUT/Zeke 39.cube");
+	pitaya.loadData("../assets/LUT/Pitaya 15.cube");
 
 	//SET BOUNDING BOXES
 
@@ -587,6 +600,7 @@ void Reset()
 	
 	//ANIMATIONS
 	scoreIsUp = false;
+	candleLightTime = 121.0f;
 	candleOneLit = false;
 	candleTwoLit = false;
 	candleThreeLit = false;
@@ -640,7 +654,9 @@ void MainMenu::Update()
 
 	Sound::systemUpdate();
 	
-	passThrough.bind();
+	colorCorrect.bind();
+	pitaya.bind(GL_TEXTURE1);
+	colorCorrect.sendUniform("t", 0.5f * sinf(totalTime * 1.25) + 1.0f);
 
 	for (auto itr = gObjects.begin(), itrEnd = gObjects.end();
 		itr != itrEnd; itr++)
@@ -930,6 +946,10 @@ void GameLevel::Update()
 			}
 			else if (LUT_TOGGLES == LUT_TOGGLE::ZEKE)
 			{
+				LUT_TOGGLES = LUT_TOGGLE::PITAYA;
+			}
+			else if (LUT_TOGGLES == LUT_TOGGLE::PITAYA)
+			{
 				LUT_TOGGLES = LUT_TOGGLE::ASPEN;
 			}
 		}
@@ -987,7 +1007,7 @@ void GameLevel::Update()
 			if ((deathTimer == true) && (sessionTime > (timeOfDeath + 6.0f)))
 			{
 				GameLevel::gameOver();
-				m_parent->GetGameState("MainMenu")->SetPaused(false);
+				m_parent->GetGameState("Credits")->SetPaused(false);
 			}
 		}
 		if (timeOfDeath == sessionTime)
@@ -1362,10 +1382,71 @@ void GameLevel::Update()
 		
 		bloomComposite.unBind();
 		finalSceneFBO2.Unbind();
+
+		////Depth of Field---------------------------------------------------
+		//finalSceneFBO1.Bind();
+		//bokehHorBlur.Bind();
+		//bokehBlur.bind();
+		//
+		//geometryBuffer.BindDepthAsTexture(GL_TEXTURE0);
+		//finalSceneFBO2.BindColorAsTexture(GL_TEXTURE1, 0);
+		//
+		//bokehBlur.sendUniform("u_cameraParam", glm::vec2(0.0f, aspectRatio));
+		//
+		//glBindVertexArray(sceneObjects["Quad3"]->getRenderable());
+		//glDrawArrays(GL_TRIANGLES, 0, 6);
+		//glBindVertexArray(0);
+		//
+		//bokehBlur.unBind();
+		//bokehHorBlur.Unbind();
+		//
+		//bokehA.Bind();
+		//bokehBlur.bind();
+		//
+		//geometryBuffer.BindDepthAsTexture(GL_TEXTURE0);
+		//bokehHorBlur.BindColorAsTexture(GL_TEXTURE1, 0);
+		//
+		//bokehBlur.sendUniform("u_cameraParam", glm::vec2(120.0f, aspectRatio));
+		//
+		//glBindVertexArray(sceneObjects["Quad3"]->getRenderable());
+		//glDrawArrays(GL_TRIANGLES, 0, 6);
+		//glBindVertexArray(0);
+		//
+		//bokehBlur.unBind();
+		//bokehA.Unbind();
+		//
+		//bokehB.Bind();
+		//bokehBlur.bind();
+		//
+		//geometryBuffer.BindDepthAsTexture(GL_TEXTURE0);
+		//bokehHorBlur.BindColorAsTexture(GL_TEXTURE1, 0);
+		//
+		//bokehBlur.sendUniform("u_cameraParam", glm::vec2(-120.0f, aspectRatio));
+		//
+		//glBindVertexArray(sceneObjects["Quad3"]->getRenderable());
+		//glDrawArrays(GL_TRIANGLES, 0, 6);
+		//glBindVertexArray(0);
+		//
+		//bokehBlur.unBind();
+		//bokehB.Unbind();
+		//
+		//bokehComposite.bind();
+		//
+		//bokehA.BindColorAsTexture(GL_TEXTURE0, 0);
+		//bokehB.BindColorAsTexture(GL_TEXTURE0, 0);
+		//
+		//glBindVertexArray(sceneObjects["Quad3"]->getRenderable());
+		//glDrawArrays(GL_TRIANGLES, 0, 6);
+		//glBindVertexArray(0);
+		//
+		//bokehComposite.unBind();
+		//finalSceneFBO1.Unbind();
+		//-------------------------------------------------------------------------------
 		
 		// Motion Blur
-		finalSceneFBO1.Bind();
+		finalSceneFBO1.Bind(); //Needs Swapping
 		motionBlur.bind();
+		
 		finalSceneFBO2.BindColorAsTexture(GL_TEXTURE0, 0);
 		motionBlurFBO.BindColorAsTexture(GL_TEXTURE1, 0);
 
@@ -1440,8 +1521,24 @@ void GameLevel::Update()
 		case ZEKE: zeke.bind(GL_TEXTURE1);
 			colorCorrect.sendUniform("t", 0.8f);
 			break;
+		case PITAYA: pitaya.bind(GL_TEXTURE1);
+			colorCorrect.sendUniform("t", 0.8f);
+			break;
 		}
 
+		glBindVertexArray(sceneObjects["Quad3"]->getRenderable());
+		glDrawArrays(GL_TRIANGLES, 0, 6);
+		glBindVertexArray(0);
+
+		colorCorrect.unBind();
+		finalSceneFBO2.Unbind();
+		
+		finalSceneFBO1.Bind();
+		colorCorrect.bind();
+
+		finalSceneFBO2.BindColorAsTexture(GL_TEXTURE0, 0);
+		colorCorrect.sendUniform("t", 0.0f);
+		
 		if (Player["Nyx"]->getIsDead())
 		{
 			colorCorrect.sendUniform("t", clamp((sessionTime - timeOfDeath) * 0.5f, 0.0f, 1.0f));
@@ -1452,13 +1549,14 @@ void GameLevel::Update()
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 		glBindVertexArray(0);
 
-		finalSceneFBO2.Unbind();
-		
+		colorCorrect.unBind();
+		finalSceneFBO1.Unbind();
+
 		//DEBUG PASS (FOR VERIFYING OUPUT OF SPECIFIC FBOS)
-		//finalSceneFBO1.Bind();
+		//finalSceneFBO2.Bind();
 		//passThrough.bind();
 		//
-		//lightingStencil.BindDepthAsTexture(GL_TEXTURE0);
+		//finalSceneFBO1.BindColorAsTexture(GL_TEXTURE0, 0);
 		//
 		//passThrough.sendUniform("uTex", 0);
 		//
@@ -1467,9 +1565,9 @@ void GameLevel::Update()
 		//glBindVertexArray(0);
 		//
 		//passThrough.unBind();
-		//finalSceneFBO1.Unbind();
+		//finalSceneFBO2.Unbind();
 		
-		finalSceneFBO2.DrawToBackBuffer();
+		finalSceneFBO1.DrawToBackBuffer();
 	}
 
 	if (devCommand.GetKeyDown(ENG::KeyCode::P) || sf::Joystick::isButtonPressed(0, 7))
@@ -1809,35 +1907,41 @@ void GameLevel::enter()
 	if (!hasLoadedOnce)
 	{
 		pointLight.color = glm::vec4(0.8f, 0.4f, 0.69f, 1.0f);
+		pointLight.aConstant = pointLight3.aConstant * 0.1f;
+		pointLight.aLinear = pointLight3.aLinear * 0.1f;
+		pointLight.aQuadratic = pointLight3.aQuadratic * 0.001f;
 		pointLight.meshName = "Cone";
 
 		pointLight2.color = glm::vec4(0.22f, 0.84f, 1.0f, 1.0f);
+		pointLight2.aConstant = pointLight3.aConstant * 0.1f;
+		pointLight2.aLinear = pointLight3.aLinear * 0.1f;
+		pointLight2.aQuadratic = pointLight3.aQuadratic * 0.001f;
 		pointLight2.meshName = "Cone";
 
 		pointLight3.color = glm::vec4(0.3f, 0.7f, 0.4f, 1.0f);
 		pointLight3.aConstant = pointLight3.aConstant * 0.1f;
 		pointLight3.aLinear = pointLight3.aLinear * 0.1f;
-		pointLight3.aQuadratic = pointLight3.aQuadratic * 0.1f;
+		pointLight3.aQuadratic = pointLight3.aQuadratic * 0.0001f;
 		pointLight3.meshName = "Pyramid";
 
 		pointLight4.color = glm::vec4(0.3f, 0.7f, 0.4f, 1.0f);
 		pointLight4.aConstant = pointLight4.aConstant * 0.1f;
 		pointLight4.aLinear = pointLight4.aLinear * 0.1f;
-		pointLight4.aQuadratic = pointLight4.aQuadratic * 0.1f;
+		pointLight4.aQuadratic = pointLight4.aQuadratic * 0.0001f;
 		pointLight4.meshName = "Pyramid";
 
 		pointLight5.color = glm::vec4(0.3f, 0.7f, 0.4f, 1.0f);
 		pointLight5.aConstant = pointLight5.aConstant * 0.1f;
 		pointLight5.aLinear = pointLight5.aLinear * 0.1f;
-		pointLight5.aQuadratic = pointLight5.aQuadratic * 0.1f;
+		pointLight5.aQuadratic = pointLight5.aQuadratic * 0.0001f;
 		pointLight5.meshName = "Pyramid";
 
 		candleLight.color = glm::vec4(1.0f, 0.67f, 0.02f, 1.0f);
 		candleLight.position = glm::vec3(-32.5f, 10.0f, 17.5f);
 		candleLight.meshName = "Sphere";
-		candleLight.aConstant = candleLight.aConstant * 2.0f;
+		candleLight.aConstant = candleLight.aConstant * 0.1f;
 		candleLight.aLinear = candleLight.aLinear * 2.0f;
-		candleLight.aQuadratic = candleLight.aQuadratic * 2.0f;
+		candleLight.aQuadratic = candleLight.aQuadratic * 0.01f;
 
 		candleLight2 = candleLight;
 		candleLight2.position = glm::vec3(-32.5f, 10.0f, -17.0f);
@@ -1875,7 +1979,6 @@ void GameLevel::gameOver()
 {
 	removeGameObjects();
 
-	Sounds["bgm"]->channel->stop();
 	Sounds["die"]->channel->stop();
 	Sounds["warn"]->channel->stop();
 	Sounds["dash"]->channel->stop();
@@ -1887,7 +1990,7 @@ void GameLevel::gameOver()
 	{
 		m_paused = true;
 		GameLevel::SetPaused(m_paused);
-		MainMenu(hasBeenInitialized);
+		Credits(hasBeenInitialized);
 	}
 
 }
@@ -1911,14 +2014,13 @@ void Tutorial::Update()
 
 	previousTime = totalTime;
 
-	passThrough.bind();
+	colorCorrect.bind();
+	pitaya.bind(GL_TEXTURE1);
+	colorCorrect.sendUniform("t", 0.5f * sinf(totalTime * 1.25) + 1.0f);
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	gameWindow->check();
-
-	Sound::Sys.listenerPos = stillSound;
-	Sound::Sys.listenerVel = stillSound;
 
 	Sound::systemUpdate();
 
@@ -1975,6 +2077,95 @@ void Tutorial::exit()
 		m_paused = true;
 		Tutorial::SetPaused(m_paused);
 		GameLevel(hasBeenInitialized);
+	}
+}
+
+void Credits::Update()
+{
+	if (hasBeenInitialized == false)
+	{
+		enter();
+		hasBeenInitialized = true;
+	}
+
+	sceneObjects["Quad3"]->uDiffuseMult = glm::vec3(1.0f, 1.0f, 1.0f);
+	sceneObjects["Quad3"]->uAmbientAdd = glm::vec3(1.0f, 1.0f, 1.0f);
+	sceneObjects["Quad3"]->uDiffuseMult = glm::vec3(sinf(totalTime) * 0.2f + 1.0f, sinf(totalTime) * 0.2f + 1.0f, sinf(totalTime) * 0.2f + 1.0f);
+
+	totalTime += 1 / 60.0f;
+
+	deltaTime = (totalTime - previousTime);
+
+	previousTime = totalTime;
+
+	colorCorrect.bind();
+	pitaya.bind(GL_TEXTURE1);
+	colorCorrect.sendUniform("t", 0.5f * sinf(totalTime * 1.25) + 1.0f);
+
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	gameWindow->check();
+
+	Sounds["bgm"]->setPosition(bgmChannel, stillSound, stillSound);
+
+	Sound::Sys.listenerPos = stillSound;
+	Sound::Sys.listenerVel = stillSound;
+
+	Sound::systemUpdate();
+
+	for (auto itr = gObjects.begin(), itrEnd = gObjects.end();
+		itr != itrEnd; itr++)
+	{
+		(*itr)->update(deltaTime, totalTime);
+	}
+
+	for (auto itr = gObjects.begin(), itrEnd = gObjects.end();
+		itr != itrEnd; itr++)
+	{
+		(*itr)->render(defaultMesh, &passThrough);
+	}
+
+	gameWindow->GetSFMLWindow()->display();
+
+	if (devCommand.GetKeyDown(ENG::KeyCode::Space) || sf::Joystick::isButtonPressed(0, 0)) // Joystick button A "Press A to go back to main menu 
+	{
+		Credits::exit();
+		m_parent->GetGameState("MainMenu")->SetPaused(false);
+	}
+
+	ENG::Input::ResetKeys();
+}
+
+Credits::Credits()
+{
+	hasBeenInitialized = false;
+}
+
+void Credits::enter()
+{
+	if (m_paused == true)
+	{
+		m_paused = false;
+		Credits::SetPaused(m_paused);
+	}
+
+	gObjects.push_back(sceneObjects["Quad3"]);
+	sceneObjects["Quad3"]->setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
+	hasLoadedOnce = true;
+}
+
+void Credits::exit()
+{
+	removeGameObjects();
+
+	Sounds["bgm"]->channel->stop();
+
+	hasBeenInitialized = false;
+	if (m_paused == false)
+	{
+		m_paused = true;
+		Credits::SetPaused(m_paused);
+		MainMenu(hasBeenInitialized);
 	}
 }
 

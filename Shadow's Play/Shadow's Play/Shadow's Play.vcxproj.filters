@@ -184,5 +184,11 @@
     <None Include="..\..\..\Shadow%27s Play\Shadow%27s Play\assets\shaders\LightComposite.frag">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="..\..\..\Shadow%27s Play\Shadow%27s Play\assets\shaders\bokeh.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\..\Shadow%27s Play\Shadow%27s Play\assets\shaders\DoFComposite.frag">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

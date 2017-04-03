@@ -67,6 +67,18 @@ private:
 	bool hasLoadedOnce = false;
 };
 
+class Credits : public GameState
+{
+public:
+	Credits();
+	void enter();
+	void exit();
+	void Update();
+private:
+	bool hasBeenInitialized;
+	bool hasLoadedOnce = false;
+};
+
 void Initialize();
 void Reset();
 
@@ -95,6 +107,8 @@ static ENG::Shader bloomComposite;
 static ENG::Shader UVScrolling;
 static ENG::Shader motionBlur;
 static ENG::Shader colorCorrect;
+static ENG::Shader bokehBlur;
+static ENG::Shader bokehComposite;
 
 //FBOS
 static ENG::FrameBufferObject geometryBuffer;
@@ -104,13 +118,16 @@ static ENG::FrameBufferObject bloomFBO1;
 static ENG::FrameBufferObject bloomFBO2;
 static ENG::FrameBufferObject motionBlurFBO;
 static ENG::FrameBufferObject lightingStencil;
+static ENG::FrameBufferObject bokehA;
+static ENG::FrameBufferObject bokehB;
+static ENG::FrameBufferObject bokehHorBlur;
 
 //LUTS
 static ENG::LUT bourbon;
 static ENG::LUT clayton;
 static ENG::LUT aspen;
 static ENG::LUT zeke;
-
+static ENG::LUT pitaya;
 
 //MAPS OF GAME OBJECTS
 static std::vector <ENG::GameObject*> gObjects;
@@ -317,7 +334,8 @@ enum LUT_TOGGLE
 	ASPEN,
 	BOURBON,
 	CLAYTON,
-	ZEKE
+	ZEKE,
+	PITAYA
 };
 
 static LUT_TOGGLE LUT_TOGGLES;

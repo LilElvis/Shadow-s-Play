@@ -193,7 +193,9 @@
     <ClInclude Include="..\..\Shadow%27s Play\Shadow%27s Play\Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\..\Shadow%27s Play\Shadow%27s Play\assets\shaders\bokeh.frag" />
     <None Include="..\..\..\Shadow%27s Play\Shadow%27s Play\assets\shaders\DeferredShading.frag" />
+    <None Include="..\..\..\Shadow%27s Play\Shadow%27s Play\assets\shaders\DoFComposite.frag" />
     <None Include="..\..\..\Shadow%27s Play\Shadow%27s Play\assets\shaders\LightComposite.frag" />
     <None Include="..\..\Shadow%27s Play\assets\shaders\BasicLighting.frag" />
     <None Include="..\..\Shadow%27s Play\assets\shaders\BloomComposite.frag" />

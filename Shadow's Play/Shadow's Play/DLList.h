@@ -1,3 +1,4 @@
+//Cameron van Velzen - 100591663
 #include <iostream>
 #include <string>
 #include "SceneObject.h"

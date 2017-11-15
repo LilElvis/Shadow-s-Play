@@ -69,7 +69,7 @@
     <ClCompile Include="..\..\Shadow%27s Play\Shadow%27s Play\Score.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Shadow%27s Play\Shadow%27s Play\Shadow%27s Play\DLList.cpp">
+    <ClCompile Include="..\..\Shadow%27s Play\Shadow%27s Play\DLList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -131,7 +131,7 @@
     <ClInclude Include="..\..\Shadow%27s Play\Shadow%27s Play\Score.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Shadow%27s Play\Shadow%27s Play\Shadow%27s Play\DLList.h">
+    <ClInclude Include="..\..\Shadow%27s Play\Shadow%27s Play\DLList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

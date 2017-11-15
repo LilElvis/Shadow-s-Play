@@ -19,6 +19,7 @@ namespace ENG
 		uAmbientMult = glm::vec3(1.0f);
 		uEmissiveAdd = glm::vec3(0.0f);
 		uEmissiveMult = glm::vec3(1.0f);
+		uScale = glm::vec3(1.0f);
 
 		layerNumber = layerToDrawOn;
 
@@ -52,6 +53,7 @@ namespace ENG
 		shaderPtr->sendUniform("uEmissiveAdd", uEmissiveAdd);
 		shaderPtr->sendUniform("uEmissiveMult", uEmissiveMult);
 		shaderPtr->sendUniform("uInvisible", uInvisible);
+		shaderPtr->sendUniform("uScale", uScale);
 
 		shaderPtr->sendUniform("uvOffset", uUVOffset);
 		

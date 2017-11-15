@@ -1,3 +1,4 @@
+//Cameron van Velzen - 100591663
 #pragma once
 
 #include <string>
@@ -49,6 +50,7 @@ namespace ENG
 		glm::vec3 uEmissiveAdd;
 		glm::vec3 uEmissiveMult;
 		glm::vec2 uUVOffset;
+		glm::vec3 uScale;
 
 		std::vector<glm::vec2> UVOffsets;
 

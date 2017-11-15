@@ -44,54 +44,54 @@ namespace ENG
 		dash(totalTime);
 
 		//COLLISION CHECK
-		if (colliding == true && seekPoint.x >= 30.5f)
-		{
-			seekPoint.x = 30.0f;
-			setPosition(getLastPosition() - collideDistanceX);
-		}
-		else if (colliding == true && seekPoint.x <= -30.5f)
-		{
-			seekPoint.x = -30.0f;
-			setPosition(getLastPosition() + collideDistanceX);
-		}
+		//if (colliding == true && seekPoint.x >= 30.5f)
+		//{
+		//	seekPoint.x = 30.0f;
+		//	setPosition(getLastPosition() - collideDistanceX);
+		//}
+		//else if (colliding == true && seekPoint.x <= -30.5f)
+		//{
+		//	seekPoint.x = -30.0f;
+		//	setPosition(getLastPosition() + collideDistanceX);
+		//}
 
-		if (colliding == true && seekPoint.z >= 30.5f)
-		{
-			seekPoint.z = 30.0f;
-			setPosition(getLastPosition() - collideDistanceZ);
-		}
-		else if (colliding == true && seekPoint.z <= -30.5f)
-		{
-			seekPoint.z = -30.0f;
-			setPosition(getLastPosition() + collideDistanceZ);
-		}
+		//if (colliding == true && seekPoint.z >= 30.5f)
+		//{
+		//	seekPoint.z = 30.0f;
+		//	setPosition(getLastPosition() - collideDistanceZ);
+		//}
+		//else if (colliding == true && seekPoint.z <= -30.5f)
+		//{
+		//	seekPoint.z = -30.0f;
+		//	setPosition(getLastPosition() + collideDistanceZ);
+		//}
 
-		if (!colliding)
-		{
-			setLastPosition(getPosition());
-		}
+		//if (!colliding)
+		//{
+		//	setLastPosition(getPosition());
+		//}
 
-		//MOVEMENT INPUT CHECK
+		////MOVEMENT INPUT CHECK
 
-		if ((sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Y) < -20.0f && colliding == false) || ((input.GetKey(KeyCode::W) && colliding == false)) && !paused)
-		{
-			acceleration.z = -appliedAcceleration;
-		}
+		//if ((sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Y) < -20.0f && colliding == false) || ((input.GetKey(KeyCode::W) && colliding == false)) && !paused)
+		//{
+		//	acceleration.z = -appliedAcceleration;
+		//}
 
-		if ((sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Y) > 20.0f && colliding == false) || ((input.GetKey(KeyCode::S) && colliding == false)) && !paused)
-		{
-			acceleration.z = appliedAcceleration;
-		}
+		//if ((sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Y) > 20.0f && colliding == false) || ((input.GetKey(KeyCode::S) && colliding == false)) && !paused)
+		//{
+		//	acceleration.z = appliedAcceleration;
+		//}
 
-		if ((sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::X) > 20.0f && colliding == false) || ((input.GetKey(KeyCode::D) && colliding == false)) && !paused)
-		{
-			acceleration.x = appliedAcceleration;
-		}
+		//if ((sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::X) > 20.0f && colliding == false) || ((input.GetKey(KeyCode::D) && colliding == false)) && !paused)
+		//{
+		//	acceleration.x = appliedAcceleration;
+		//}
 
-		if ((sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::X) < -20.0f && colliding == false) || ((input.GetKey(KeyCode::A) && colliding == false)) && !paused)
-		{
-			acceleration.x = -appliedAcceleration;
-		}
+		//if ((sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::X) < -20.0f && colliding == false) || ((input.GetKey(KeyCode::A) && colliding == false)) && !paused)
+		//{
+		//	acceleration.x = -appliedAcceleration;
+		//}
 
 		//TIME COUNT SINCE INPUT BEGAN
 		if ((input.GetKey(ENG::KeyCode::W) 

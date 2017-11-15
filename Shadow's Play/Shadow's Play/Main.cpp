@@ -1,3 +1,4 @@
+//Cameron van Velzen - 100591663
 #include "States.h"
 
 int main()
@@ -11,22 +12,22 @@ int main()
 	Initialize();
 
 	//CREATE STATE POINTERS
-	MainMenu* mainMenu = new MainMenu;
-	Tutorial* tutorial = new Tutorial;
+	//MainMenu* mainMenu = new MainMenu;
+	//Tutorial* tutorial = new Tutorial;
 	GameLevel* gameLevel = new GameLevel;
-	Credits* credits = new Credits;
+	//Credits* credits = new Credits;
 	
 	//ADD STATES TO THE MANAGER
-	Manager.AddGameState("MainMenu", mainMenu);
-	Manager.AddGameState("Tutorial", tutorial);
+	//Manager.AddGameState("MainMenu", mainMenu);
+	//Manager.AddGameState("Tutorial", tutorial);
 	Manager.AddGameState("GameLevel", gameLevel);
-	Manager.AddGameState("Credits", credits);
+	//Manager.AddGameState("Credits", credits);
 
 	//SET LEVELS BY DEFAULT TO PAUSED
-	mainMenu->SetPaused(false);
-	tutorial->SetPaused(true);
-	gameLevel->SetPaused(true);
-	credits->SetPaused(true);
+	//mainMenu->SetPaused(true);
+	//tutorial->SetPaused(true);
+	gameLevel->SetPaused(false);
+	//credits->SetPaused(true);
 
 	//ACTIVATE WINDOW
 	gameWindow->GetSFMLWindow()->setActive();
@@ -41,7 +42,6 @@ int main()
 	while (gameWindow->GetSFMLWindow()->isOpen())
 	{
 		Manager.Update();
-		Sound::systemUpdate();
 
 		if (ENG::Input::GetKeyDown(ENG::KeyCode::Escape) || sf::Joystick::isButtonPressed(0, 6))
 		{

@@ -1,3 +1,4 @@
+//Cameron van Velzen - 100591663
 #pragma once
 #include "glm\common.hpp"
 #include "glm\matrix.hpp"

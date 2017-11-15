@@ -1,3 +1,4 @@
+//Cameron van Velzen - 100591663
 #pragma once
 
 static glm::vec3 clamp(glm::vec3 a, glm::vec3 min, glm::vec3 max)

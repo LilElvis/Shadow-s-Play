@@ -50,6 +50,7 @@ int main()
 			defaultShader.unBind();
 			defaultShader.unload();
 			defaultTexture->Unload();
+			delete playerMesh;
 			return 0;
 		}
 	}
@@ -58,5 +59,6 @@ int main()
 	defaultShader.unBind();
 	defaultShader.unload();
 	defaultTexture->Unload();
+	delete playerMesh;
 	return 0;
 }

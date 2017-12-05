@@ -1,5 +1,7 @@
 #include "States.h"
 
+#define BUFFER_OFFSET(i) ((char *)0 + (i))
+
 void Initialize()
 {
 	//SETUP
@@ -22,6 +24,7 @@ void Initialize()
 	//LOAD SHADER PROGRAMS
 	defaultShader.load("Default", "../assets/shaders/StaticGeometry.vert", "../assets/shaders/BasicLighting.frag");
 	passThrough.load("PassThrough", "../assets/shaders/PassThrough.vert", "../assets/shaders/PassThrough.frag");
+	playerAnimation.load("PlayerAnimation", "../assets/shaders/PlayerAnim.vert", "../assets/shaders/GBuffer.frag");
 	GBuffer.load("GBuffer", "../assets/shaders/StaticGeometry.vert", "../assets/shaders/GBuffer.frag");
 	lightingComposite.load("lightComp", "../assets/shaders/PassThrough.vert", "../assets/shaders/LightComposite.frag");
 	deferredLighting.load("lighting", "../assets/shaders/StaticGeometry.vert", "../assets/shaders/DeferredLighting.frag");
@@ -98,12 +101,16 @@ void Initialize()
 	sceneObjects["Quad2"] = &Quad2;
 
 	//LOAD OBJECTS
+	playerMesh->LoadFromFile("Nyx", "../assets/objects/Nyx/Nyx.obj", "../assets/objects/Nyx/NyxFrame0.obj");
 	defaultMesh->LoadFromFile("Nyx", "../assets/objects/Nyx/Nyx.obj");
+	defaultMesh->LoadFromFile("Nyx0", "../assets/objects/Nyx/NyxFrame0.obj");
+	defaultMesh->LoadFromFile("Nyx1", "../assets/objects/Nyx/NyxFrame1.obj");
+	defaultMesh->LoadFromFile("Nyx2", "../assets/objects/Nyx/NyxFrame2.obj");
 	defaultTexture->LoadFromFile("Nyx", "../assets/textures/Nyx.png");
 	defaultTexture->LoadFromFile("NyxEmissive", "../assets/textures/NyxEmissive.png");
 	defaultTexture->LoadFromFile("NyxNormal", "../assets/textures/NyxNormal.png");
 	defaultTexture->LoadFromFile("NyxSpecular", "../assets/textures/NyxSpecular.png");
-	static ENG::Player Nyx("Nyx", defaultMesh->listOfMeshes["Nyx"]->VAO, *defaultTexture->listOfTextures["Nyx"], *defaultTexture->listOfTextures["NyxNormal"], *defaultTexture->listOfTextures["NyxSpecular"], *defaultTexture->listOfTextures["NyxEmissive"], geometryBuffer.getLayerNumber());
+	static ENG::Player Nyx("Nyx", playerMesh->VAO, *defaultTexture->listOfTextures["Nyx"], *defaultTexture->listOfTextures["NyxNormal"], *defaultTexture->listOfTextures["NyxSpecular"], *defaultTexture->listOfTextures["NyxEmissive"], geometryBuffer.getLayerNumber());
 	Player["Nyx"] = &Nyx;
 
 	defaultMesh->LoadFromFile("Room", "../assets/objects/MapTemp.obj");
@@ -370,6 +377,19 @@ void Initialize()
 	bokehHorBlur.Init(windowWidth, windowHeight, 1);
 	bokehHorBlur.initColorTexture(0);
 
+	//NYX ANIMATIONS
+	nyxVertices.push_back(defaultMesh->listOfMeshes["Nyx"]->vertices);
+	nyxVertices.push_back(defaultMesh->listOfMeshes["Nyx0"]->vertices);
+	nyxVertices.push_back(defaultMesh->listOfMeshes["Nyx1"]->vertices);
+	nyxVertices.push_back(defaultMesh->listOfMeshes["Nyx2"]->vertices);
+	nyxVertices.push_back(defaultMesh->listOfMeshes["Nyx"]->vertices);
+
+	nyxNormals.push_back(defaultMesh->listOfMeshes["Nyx"]->normals);
+	nyxNormals.push_back(defaultMesh->listOfMeshes["Nyx0"]->normals);
+	nyxNormals.push_back(defaultMesh->listOfMeshes["Nyx1"]->normals);
+	nyxNormals.push_back(defaultMesh->listOfMeshes["Nyx2"]->normals);
+	nyxNormals.push_back(defaultMesh->listOfMeshes["Nyx"]->normals);
+
 	//SPRITE ANIMATIONS
 	sceneObjects["Warning"]->UVOffsets.push_back(glm::vec2(0.0f, 0.0f));
 	sceneObjects["Warning"]->UVOffsets.push_back(glm::vec2(0.25f, 0.0f));
@@ -575,6 +595,9 @@ void Initialize()
 	points[23] = glm::vec3(-23.3f, 0.5f, -23.3f);
 	points[24] = glm::vec3(-23.3f, 0.5f, 0.0f);
 	points[25] = glm::vec3(0.0f, 0.5f, 0.0f);
+
+	std::cout << "Vertex A1: "<< playerMesh->verticesA[0] << ", " << playerMesh->verticesA[1] << ", " << playerMesh->verticesA[2] << std::endl;
+	std::cout << "Vertex B1: "<< playerMesh->verticesB[0] << ", " << playerMesh->verticesB[1] << ", " << playerMesh->verticesB[2] << std::endl;
 }
 
 void Reset()
@@ -592,6 +615,7 @@ void Reset()
 
 	//TIME VALUES
 	globalT = 1.0f;
+	nyxT = 0.0f;
 	rampValue = 0.005f;
 	sessionTime = 0.0f;
 	timeOfDeath = -1.0f;
@@ -1158,6 +1182,57 @@ void GameLevel::Update()
 		if(Player["Nyx"]->getDashed())
 			dashChannel = Sounds["dash"]->play();
 
+		///Nyx Animations
+		//Update the "Walk Cycle"
+		if (devCommand.GetKey(ENG::KeyCode::W) | devCommand.GetKey(ENG::KeyCode::S) | devCommand.GetKey(ENG::KeyCode::A) | devCommand.GetKey(ENG::KeyCode::D))
+		{
+			nyxT += (deltaTime * 15.0f);
+
+			if (nyxT > 1.0f)
+			{
+				nyxT = 0.0f;
+
+				nyxCurrentFrame++;
+				nyxNextFrame = nyxCurrentFrame + 1;
+
+				if (nyxNextFrame > nyxVertices.size())
+				{
+					nyxCurrentFrame = 0;
+					nyxNextFrame = 1;
+				}
+
+				//Update The VBOs
+				//glBindVertexArray(playerMesh->VAO);
+
+				//std::cout << (nyxVertices[nyxCurrentFrame])[0] << ", " << (nyxVertices[nyxCurrentFrame])[1] << ", " << (nyxVertices[nyxCurrentFrame])[2] << std::endl;
+
+				glBindBuffer(GL_ARRAY_BUFFER, playerMesh->VBO_VerticiesA);
+				glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float)* nyxVertices[nyxCurrentFrame].size(), nyxVertices[nyxCurrentFrame].data());
+				//glBufferData(GL_ARRAY_BUFFER, sizeof(float)* nyxVertices[nyxCurrentFrame].size(), &((nyxVertices[nyxCurrentFrame])[0]), GL_DYNAMIC_DRAW);
+				//glVertexAttribPointer((GLuint)0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, BUFFER_OFFSET(0));
+				
+				glBindBuffer(GL_ARRAY_BUFFER, playerMesh->VBO_NormalsA);
+				glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float)* nyxNormals[nyxCurrentFrame].size(), nyxNormals[nyxCurrentFrame].data());
+				//glBufferData(GL_ARRAY_BUFFER, sizeof(float)* nyxNormals[nyxCurrentFrame].size(), &((nyxNormals[nyxCurrentFrame])[0]), GL_DYNAMIC_DRAW);
+				//glVertexAttribPointer((GLuint)2, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, BUFFER_OFFSET(0));
+				
+				//std::cout << (nyxVertices[nyxNextFrame])[0] << ", " << (nyxVertices[nyxNextFrame])[1] << ", " << (nyxVertices[nyxNextFrame])[2] << std::endl;
+
+				glBindBuffer(GL_ARRAY_BUFFER, playerMesh->VBO_VerticiesB);
+				glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float)* nyxVertices[nyxNextFrame].size(), nyxVertices[nyxNextFrame].data());
+				//glBufferData(GL_ARRAY_BUFFER, sizeof(float)* nyxVertices[nyxNextFrame].size(), &((nyxVertices[nyxNextFrame])[0]), GL_DYNAMIC_DRAW);
+				//glVertexAttribPointer((GLuint)5, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, BUFFER_OFFSET(0));
+
+				glBindBuffer(GL_ARRAY_BUFFER, playerMesh->VBO_NormalsB);
+				glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float)* nyxNormals[nyxNextFrame].size(), nyxNormals[nyxNextFrame].data());
+				//glBufferData(GL_ARRAY_BUFFER, sizeof(float)* nyxNormals[nyxNextFrame].size(), &((nyxNormals[nyxNextFrame])[0]), GL_DYNAMIC_DRAW);
+				//glVertexAttribPointer((GLuint)6, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, BUFFER_OFFSET(0));
+
+				glBindBuffer(GL_ARRAY_BUFFER, 0);
+				//glBindVertexArray(0);
+			}
+		}
+
 		//Check Window Status
 		gameWindow->check();
 		
@@ -1166,14 +1241,25 @@ void GameLevel::Update()
 		glCullFace(GL_BACK);
 
 		geometryBuffer.Bind();
+		playerAnimation.bind();
+
+		playerAnimation.sendUniformMat4("uView", &view.getMatrix()[0][0], false);
+		playerAnimation.sendUniformMat4("uProj", &persp[0][0], false);
+		playerAnimation.sendUniform("LightPosition", defaultLightPos);
+
+		playerAnimation.sendUniform("uInterpolationParameter", nyxT);
+		
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+		
+		Player["Nyx"]->update(deltaTime, totalTime);
+		Player["Nyx"]->render(defaultMesh, &playerAnimation, TEXTURE_TOGGLE);
+		
 		GBuffer.bind();
 
 		GBuffer.sendUniformMat4("uView", &view.getMatrix()[0][0], false);
 		GBuffer.sendUniformMat4("uProj", &persp[0][0], false);
 		GBuffer.sendUniform("LightPosition", defaultLightPos);
-
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
 		for (auto itr = gObjects.begin(), itrEnd = gObjects.end();
 			itr != itrEnd; itr++)
@@ -1613,7 +1699,7 @@ void GameLevel::enter()
 
 	bgmChannel = Sounds["bgm"]->play();
 
-	gObjects.push_back(Player["Nyx"]);
+	//gObjects.push_back(Player["Nyx"]);
 	Player["Nyx"]->setStartPosition(glm::vec3(0.0f, 0.0f, 0.0f));
 	Player["Nyx"]->setPosition(Player["Nyx"]->getStartPosition());
 
@@ -1903,6 +1989,11 @@ void GameLevel::enter()
 	lightObjects.push_back(&pointLight4);
 	lightObjects.push_back(&pointLight5);
 	lightObjects.push_back(&roomLight);
+
+	//ANIMATIONS
+	nyxT = 0.0f;
+	nyxCurrentFrame = 0;
+	nyxNextFrame = 1;
 	
 	if (!hasLoadedOnce)
 	{

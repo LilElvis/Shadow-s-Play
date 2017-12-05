@@ -194,6 +194,9 @@ namespace ENG
 		NumberOfFaces = faceData.size();
 		NumberOfVerticies = NumberOfFaces * 3;
 
+		vertices = unPackedVertexData;
+		normals = unPackedNormalData;
+
 		//SEND DATA TO OPENGL
 		glGenVertexArrays(1, &VAO);
 		glGenBuffers(1, &VBO_Verticies);
@@ -210,7 +213,7 @@ namespace ENG
 		glEnableVertexAttribArray(4); //BiTangents
 
 		glBindBuffer(GL_ARRAY_BUFFER, VBO_Verticies);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(float)* unPackedVertexData.size(), &unPackedVertexData[0], GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float)* unPackedVertexData.size(), &unPackedVertexData[0], GL_DYNAMIC_DRAW);
 		glVertexAttribPointer((GLuint)0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, BUFFER_OFFSET(0));
 
 		glBindBuffer(GL_ARRAY_BUFFER, VBO_UVs);
@@ -218,7 +221,7 @@ namespace ENG
 		glVertexAttribPointer((GLuint)1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, BUFFER_OFFSET(0));
 
 		glBindBuffer(GL_ARRAY_BUFFER, VBO_Normals);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(float)* unPackedNormalData.size(), &unPackedNormalData[0], GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float)* unPackedNormalData.size(), &unPackedNormalData[0], GL_DYNAMIC_DRAW);
 		glVertexAttribPointer((GLuint)2, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, BUFFER_OFFSET(0));
 		
 		glBindBuffer(GL_ARRAY_BUFFER, VBO_Tangents);
@@ -242,6 +245,9 @@ namespace ENG
 			
 		tempMesh->NumberOfFaces = NumberOfFaces;
 		tempMesh->NumberOfVerticies = NumberOfVerticies;
+
+		tempMesh->vertices = vertices;
+		tempMesh->normals = normals;
 
 		listOfMeshes[name] = tempMesh;
 

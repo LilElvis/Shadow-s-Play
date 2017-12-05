@@ -31,6 +31,9 @@ namespace ENG
 			GLuint VBO_Tangents;
 			GLuint VBO_BiTangents;
 			GLuint VAO;
+
+			std::vector<float> vertices;
+			std::vector<float> normals;
 	private:
 		Mesh();
 		static Mesh* meshPtr;

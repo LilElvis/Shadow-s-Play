@@ -10,6 +10,7 @@
 #include "LUT.h"
 #include "Score.h"
 #include "DLList.h"
+#include "PlayerMesh.h"
 
 //STATE CLASSES
 class MainMenu : public GameState
@@ -94,9 +95,17 @@ static ENG::Texture* defaultTexture = ENG::Texture::getTexPtr();
 static SoundEngine soundEngine;
 static ENG::Mesh* defaultMesh = ENG::Mesh::getMeshPtr();
 
+//CREATE A PLAYERMESH
+static ENG::PlayerMesh* playerMesh = new ENG::PlayerMesh;
+static std::vector<std::vector<float>> nyxVertices;
+static std::vector<std::vector<float>> nyxNormals;
+static unsigned nyxCurrentFrame = 0;
+static unsigned nyxNextFrame = 1;
+
 //SHADER PROGRAMS
 static ENG::Shader defaultShader;
 static ENG::Shader passThrough;
+static ENG::Shader playerAnimation;
 static ENG::Shader GBuffer;
 static ENG::Shader lightingComposite;
 static ENG::Shader deferredLighting;
@@ -281,6 +290,7 @@ static float globalT = 1.0f;
 static float rampValue = 0.005f;
 
 //TEMP ANIMATION VARIABLES
+static float nyxT = 0.0f;
 static unsigned int animFrame = 0;
 static float timeOfLastAnim = 0.0f;
 

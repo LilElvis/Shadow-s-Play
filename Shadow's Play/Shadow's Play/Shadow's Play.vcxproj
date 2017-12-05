@@ -22,7 +22,7 @@
     <ProjectGuid>{6DE62665-51F9-4D50-A3E7-583859431F02}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>ShadowsPlay</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -150,7 +150,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\Shadow%27s Play\Shadow%27s Play\Shadow%27s Play\DLList.cpp" />
+    <ClCompile Include="..\..\Shadow%27s Play\Shadow%27s Play\DLList.cpp" />
     <ClCompile Include="..\..\Shadow%27s Play\Shadow%27s Play\FrameBufferObject.cpp" />
     <ClCompile Include="..\..\Shadow%27s Play\Shadow%27s Play\GameObject.cpp" />
     <ClCompile Include="..\..\Shadow%27s Play\Shadow%27s Play\GameStates.cpp" />
@@ -160,6 +160,7 @@
     <ClCompile Include="..\..\Shadow%27s Play\Shadow%27s Play\Main.cpp" />
     <ClCompile Include="..\..\Shadow%27s Play\Shadow%27s Play\Mesh.cpp" />
     <ClCompile Include="..\..\Shadow%27s Play\Shadow%27s Play\Player.cpp" />
+    <ClCompile Include="..\..\Shadow%27s Play\Shadow%27s Play\PlayerMesh.cpp" />
     <ClCompile Include="..\..\Shadow%27s Play\Shadow%27s Play\SceneObject.cpp" />
     <ClCompile Include="..\..\Shadow%27s Play\Shadow%27s Play\Score.cpp" />
     <ClCompile Include="..\..\Shadow%27s Play\Shadow%27s Play\Shader.cpp" />
@@ -171,9 +172,9 @@
     <ClCompile Include="..\..\Shadow%27s Play\Shadow%27s Play\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\Shadow%27s Play\Shadow%27s Play\Shadow%27s Play\DLList.h" />
     <ClInclude Include="..\..\Shadow%27s Play\Shadow%27s Play\Animation.h" />
     <ClInclude Include="..\..\Shadow%27s Play\Shadow%27s Play\AnimationMath.h" />
+    <ClInclude Include="..\..\Shadow%27s Play\Shadow%27s Play\DLList.h" />
     <ClInclude Include="..\..\Shadow%27s Play\Shadow%27s Play\FrameBufferObject.h" />
     <ClInclude Include="..\..\Shadow%27s Play\Shadow%27s Play\GameObject.h" />
     <ClInclude Include="..\..\Shadow%27s Play\Shadow%27s Play\GameStates.h" />
@@ -182,6 +183,7 @@
     <ClInclude Include="..\..\Shadow%27s Play\Shadow%27s Play\LUT.h" />
     <ClInclude Include="..\..\Shadow%27s Play\Shadow%27s Play\Mesh.h" />
     <ClInclude Include="..\..\Shadow%27s Play\Shadow%27s Play\Player.h" />
+    <ClInclude Include="..\..\Shadow%27s Play\Shadow%27s Play\PlayerMesh.h" />
     <ClInclude Include="..\..\Shadow%27s Play\Shadow%27s Play\SceneObject.h" />
     <ClInclude Include="..\..\Shadow%27s Play\Shadow%27s Play\Score.h" />
     <ClInclude Include="..\..\Shadow%27s Play\Shadow%27s Play\Shader.h" />
@@ -208,6 +210,7 @@
     <None Include="..\..\Shadow%27s Play\assets\shaders\MotionBlur.frag" />
     <None Include="..\..\Shadow%27s Play\assets\shaders\PassThrough.frag" />
     <None Include="..\..\Shadow%27s Play\assets\shaders\PassThrough.vert" />
+    <None Include="..\..\Shadow%27s Play\assets\shaders\PlayerAnim.vert" />
     <None Include="..\..\Shadow%27s Play\assets\shaders\StaticGeometry.vert" />
     <None Include="..\..\Shadow%27s Play\assets\shaders\UVScrolling.frag" />
     <None Include="..\..\Shadow%27s Play\assets\shaders\VerticalBlur.frag" />

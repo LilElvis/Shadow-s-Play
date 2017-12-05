@@ -111,7 +111,6 @@ namespace ENG
 			timeSinceStart-= (t * 5.0f);
 		}
 
-		//std::cout << last_y_rotate << std::endl;
 		//UPDATE POSITION
 		if (glm::length(acceleration) > 0)
 		{
@@ -221,7 +220,6 @@ namespace ENG
 						if (lives > 0)
 						{
 							lives -= 1;
-							std::cout << "YOU LOST A LIFE!\n";
 							setPosition(startingPosition);
 							seekPoint = startingPosition;
 							timeOfLastDash = 0.0f;
@@ -229,7 +227,6 @@ namespace ENG
 						}
 						else
 						{
-							std::cout << "YOU LOSE!!\n";
 							setPosition(startingPosition);
 							seekPoint = startingPosition;
 							isDead = true;
@@ -250,7 +247,6 @@ namespace ENG
 	{
 		setPosition(startingPosition);
 		seekPoint = glm::vec3(0.1f, 0.0f, 0.1f);
-		std::cout << "\nNYX RESET\n\n";
 		lives = 2;
 		isDead = false;
 		lifeLost = false;

@@ -99,8 +99,11 @@ static ENG::Mesh* defaultMesh = ENG::Mesh::getMeshPtr();
 static ENG::PlayerMesh* playerMesh = new ENG::PlayerMesh;
 static std::vector<std::vector<float>> nyxVertices;
 static std::vector<std::vector<float>> nyxNormals;
+static std::vector<std::vector<float>> nyxIdleVertices;
+static std::vector<std::vector<float>> nyxIdleNormals;
 static unsigned nyxCurrentFrame = 0;
 static unsigned nyxNextFrame = 1;
+static bool nyxIdling = true;
 
 //SHADER PROGRAMS
 static ENG::Shader defaultShader;

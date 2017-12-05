@@ -36,7 +36,6 @@ void Initialize()
 	motionBlur.load("PassThrough", "../assets/shaders/PassThrough.vert", "../assets/shaders/MotionBlur.frag");
 	colorCorrect.load("ColorCorrect", "../assets/shaders/PassThrough.vert", "../assets/shaders/LUT.frag");
 	bokehBlur.load("BokehBlur", "../assets/shaders/PassThrough.vert", "../assets/shaders/bokeh.frag");
-	bokehComposite.load("BokehComposite", "../assets/shaders/PassThrough.vert", "../assets/shaders/Composite.frag");
 	
 	//LOAD THINGS ONLY NECESSARY FOR LOADING SCREEN
 	defaultTexture->LoadFromFile("Logo", "../assets/textures/Logo.png");
@@ -106,6 +105,7 @@ void Initialize()
 	defaultMesh->LoadFromFile("Nyx0", "../assets/objects/Nyx/NyxFrame0.obj");
 	defaultMesh->LoadFromFile("Nyx1", "../assets/objects/Nyx/NyxFrame1.obj");
 	defaultMesh->LoadFromFile("Nyx2", "../assets/objects/Nyx/NyxFrame2.obj");
+	defaultMesh->LoadFromFile("NyxIdle", "../assets/objects/Nyx/NyxIdle.obj");
 	defaultTexture->LoadFromFile("Nyx", "../assets/textures/Nyx.png");
 	defaultTexture->LoadFromFile("NyxEmissive", "../assets/textures/NyxEmissive.png");
 	defaultTexture->LoadFromFile("NyxNormal", "../assets/textures/NyxNormal.png");
@@ -128,23 +128,19 @@ void Initialize()
 	sceneObjects["Warning2"] = &Warning2;
 	
 	defaultMesh->LoadFromFile("SpotLight", "../assets/objects/SpotLight.obj");
-	defaultTexture->LoadFromFile("SpotLight", "../assets/textures/Light1.png");
-	defaultTexture->LoadFromFile("SpotLight2", "../assets/textures/Light2.png");
-	static ENG::SceneObject SpotLight("SpotLight", 0, *defaultTexture->listOfTextures["SpotLight"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	static ENG::SceneObject SpotLight("SpotLight", 0, *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
 	sceneObjects["SpotLight"] = &SpotLight;
-	static ENG::SceneObject SpotLight2("SpotLight", 0, *defaultTexture->listOfTextures["SpotLight2"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	static ENG::SceneObject SpotLight2("SpotLight", 0, *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
 	sceneObjects["SpotLight2"] = &SpotLight2;
 
 	defaultMesh->LoadFromFile("QuadLight", "../assets/objects/QuadLight.obj");
-	defaultTexture->LoadFromFile("QuadLight", "../assets/textures/QuadLight.png");
-	static ENG::SceneObject QuadLight("QuadLight", 0, *defaultTexture->listOfTextures["QuadLight"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	static ENG::SceneObject QuadLight("QuadLight", 0, *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
 	sceneObjects["QuadLight"] = &QuadLight;
 
 	defaultMesh->LoadFromFile("TriLight", "../assets/objects/TriLight.obj");
-	defaultTexture->LoadFromFile("TriLight", "../assets/textures/QuadLight.png");
-	static ENG::SceneObject TriLight("TriLight", 0, *defaultTexture->listOfTextures["QuadLight"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	static ENG::SceneObject TriLight("TriLight", 0, *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
 	sceneObjects["TriLight"] = &TriLight;
-	static ENG::SceneObject TriLight2("TriLight", 0, *defaultTexture->listOfTextures["QuadLight"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
+	static ENG::SceneObject TriLight2("TriLight", 0, *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
 	sceneObjects["TriLight2"] = &TriLight2;
 	
 	defaultMesh->LoadFromFile("QuadWarning", "../assets/objects/QuadWarningQuad.obj");
@@ -303,16 +299,16 @@ void Initialize()
 	static ENG::SceneObject NumPlate("NumPlate", defaultMesh->listOfMeshes["NumPlate"]->VAO, *defaultTexture->listOfTextures["NumPlate"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], geometryBuffer.getLayerNumber());
 	sceneObjects["NumPlate"] = &NumPlate;
 
-	static ENG::SceneObject InvisWall("InvisWall", 0, *defaultTexture->listOfTextures["SpotLight"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], 0);
+	static ENG::SceneObject InvisWall("InvisWall", 0, *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], 0);
 	sceneObjects["InvisWall"] = &InvisWall;
 	
-	static ENG::SceneObject InvisWall2("InvisWall2", 0, *defaultTexture->listOfTextures["SpotLight"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], 0);
+	static ENG::SceneObject InvisWall2("InvisWall2", 0, *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], 0);
 	sceneObjects["InvisWall2"] = &InvisWall2;
 	
-	static ENG::SceneObject InvisWall3("InvisWall3", 0, *defaultTexture->listOfTextures["SpotLight"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], 0);
+	static ENG::SceneObject InvisWall3("InvisWall3", 0, *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], 0);
 	sceneObjects["InvisWall3"] = &InvisWall3;
 	
-	static ENG::SceneObject InvisWall4("InvisWall4", 0, *defaultTexture->listOfTextures["SpotLight"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], 0);
+	static ENG::SceneObject InvisWall4("InvisWall4", 0, *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Normal"], *defaultTexture->listOfTextures["Specular"], *defaultTexture->listOfTextures["Emissive"], 0);
 	sceneObjects["InvisWall4"] = &InvisWall4;
 
 	//LIGHT OBJECTS
@@ -389,6 +385,14 @@ void Initialize()
 	nyxNormals.push_back(defaultMesh->listOfMeshes["Nyx1"]->normals);
 	nyxNormals.push_back(defaultMesh->listOfMeshes["Nyx2"]->normals);
 	nyxNormals.push_back(defaultMesh->listOfMeshes["Nyx"]->normals);
+
+	nyxIdleVertices.push_back(defaultMesh->listOfMeshes["Nyx"]->vertices);
+	nyxIdleVertices.push_back(defaultMesh->listOfMeshes["NyxIdle"]->vertices);
+	nyxIdleVertices.push_back(defaultMesh->listOfMeshes["Nyx"]->vertices);
+
+	nyxIdleNormals.push_back(defaultMesh->listOfMeshes["Nyx"]->normals);
+	nyxIdleNormals.push_back(defaultMesh->listOfMeshes["NyxIdle"]->normals);
+	nyxIdleNormals.push_back(defaultMesh->listOfMeshes["Nyx"]->normals);
 
 	//SPRITE ANIMATIONS
 	sceneObjects["Warning"]->UVOffsets.push_back(glm::vec2(0.0f, 0.0f));
@@ -595,9 +599,6 @@ void Initialize()
 	points[23] = glm::vec3(-23.3f, 0.5f, -23.3f);
 	points[24] = glm::vec3(-23.3f, 0.5f, 0.0f);
 	points[25] = glm::vec3(0.0f, 0.5f, 0.0f);
-
-	std::cout << "Vertex A1: "<< playerMesh->verticesA[0] << ", " << playerMesh->verticesA[1] << ", " << playerMesh->verticesA[2] << std::endl;
-	std::cout << "Vertex B1: "<< playerMesh->verticesB[0] << ", " << playerMesh->verticesB[1] << ", " << playerMesh->verticesB[2] << std::endl;
 }
 
 void Reset()
@@ -1183,9 +1184,20 @@ void GameLevel::Update()
 			dashChannel = Sounds["dash"]->play();
 
 		///Nyx Animations
+		//Reset Animation Variables on Keystroke
+		if (devCommand.GetKeyDown(ENG::KeyCode::W) | devCommand.GetKeyDown(ENG::KeyCode::S) | devCommand.GetKeyDown(ENG::KeyCode::A) | devCommand.GetKeyDown(ENG::KeyCode::D))
+		{
+			nyxT = 0.0f;
+			nyxCurrentFrame = 0;
+			nyxNextFrame = 1;
+		}
+
+		nyxIdling = true;
+		
 		//Update the "Walk Cycle"
 		if (devCommand.GetKey(ENG::KeyCode::W) | devCommand.GetKey(ENG::KeyCode::S) | devCommand.GetKey(ENG::KeyCode::A) | devCommand.GetKey(ENG::KeyCode::D))
 		{
+			nyxIdling = false;
 			nyxT += (deltaTime * 15.0f);
 
 			if (nyxT > 1.0f)
@@ -1202,34 +1214,64 @@ void GameLevel::Update()
 				}
 
 				//Update The VBOs
-				//glBindVertexArray(playerMesh->VAO);
-
-				//std::cout << (nyxVertices[nyxCurrentFrame])[0] << ", " << (nyxVertices[nyxCurrentFrame])[1] << ", " << (nyxVertices[nyxCurrentFrame])[2] << std::endl;
-
 				glBindBuffer(GL_ARRAY_BUFFER, playerMesh->VBO_VerticiesA);
 				glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float)* nyxVertices[nyxCurrentFrame].size(), nyxVertices[nyxCurrentFrame].data());
-				//glBufferData(GL_ARRAY_BUFFER, sizeof(float)* nyxVertices[nyxCurrentFrame].size(), &((nyxVertices[nyxCurrentFrame])[0]), GL_DYNAMIC_DRAW);
-				//glVertexAttribPointer((GLuint)0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, BUFFER_OFFSET(0));
-				
+
 				glBindBuffer(GL_ARRAY_BUFFER, playerMesh->VBO_NormalsA);
 				glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float)* nyxNormals[nyxCurrentFrame].size(), nyxNormals[nyxCurrentFrame].data());
-				//glBufferData(GL_ARRAY_BUFFER, sizeof(float)* nyxNormals[nyxCurrentFrame].size(), &((nyxNormals[nyxCurrentFrame])[0]), GL_DYNAMIC_DRAW);
-				//glVertexAttribPointer((GLuint)2, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, BUFFER_OFFSET(0));
-				
-				//std::cout << (nyxVertices[nyxNextFrame])[0] << ", " << (nyxVertices[nyxNextFrame])[1] << ", " << (nyxVertices[nyxNextFrame])[2] << std::endl;
 
 				glBindBuffer(GL_ARRAY_BUFFER, playerMesh->VBO_VerticiesB);
 				glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float)* nyxVertices[nyxNextFrame].size(), nyxVertices[nyxNextFrame].data());
-				//glBufferData(GL_ARRAY_BUFFER, sizeof(float)* nyxVertices[nyxNextFrame].size(), &((nyxVertices[nyxNextFrame])[0]), GL_DYNAMIC_DRAW);
-				//glVertexAttribPointer((GLuint)5, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, BUFFER_OFFSET(0));
 
 				glBindBuffer(GL_ARRAY_BUFFER, playerMesh->VBO_NormalsB);
 				glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float)* nyxNormals[nyxNextFrame].size(), nyxNormals[nyxNextFrame].data());
-				//glBufferData(GL_ARRAY_BUFFER, sizeof(float)* nyxNormals[nyxNextFrame].size(), &((nyxNormals[nyxNextFrame])[0]), GL_DYNAMIC_DRAW);
-				//glVertexAttribPointer((GLuint)6, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, BUFFER_OFFSET(0));
 
 				glBindBuffer(GL_ARRAY_BUFFER, 0);
-				//glBindVertexArray(0);
+			}
+		}
+
+		//Reset Animation Variables on Key Release
+		//if (devCommand.GetKeyUp(ENG::KeyCode::W) | devCommand.GetKeyUp(ENG::KeyCode::S) | devCommand.GetKeyUp(ENG::KeyCode::A) | devCommand.GetKeyUp(ENG::KeyCode::D))
+		//{
+		//	std::cout << "Key Up!" << std::endl;
+		//	nyxT = 0.0f;
+		//	nyxCurrentFrame = 0;
+		//	nyxNextFrame = 1;
+		//	nyxIdling = true;
+		//}
+
+		//Update the "Idle Bob"
+		if (nyxIdling)
+		{
+			nyxT += (deltaTime * 4.0f);
+
+			if (nyxT > 1.0f)
+			{
+				nyxT = 0.0f;
+
+				nyxCurrentFrame++;
+				nyxNextFrame = nyxCurrentFrame + 1;
+
+				if (nyxNextFrame > nyxIdleVertices.size())
+				{
+					nyxCurrentFrame = 0;
+					nyxNextFrame = 1;
+				}
+
+				//Update The VBOs
+				glBindBuffer(GL_ARRAY_BUFFER, playerMesh->VBO_VerticiesA);
+				glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float)* nyxIdleVertices[nyxCurrentFrame].size(), nyxIdleVertices[nyxCurrentFrame].data());
+
+				glBindBuffer(GL_ARRAY_BUFFER, playerMesh->VBO_NormalsA);
+				glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float)* nyxIdleNormals[nyxCurrentFrame].size(), nyxIdleNormals[nyxCurrentFrame].data());
+
+				glBindBuffer(GL_ARRAY_BUFFER, playerMesh->VBO_VerticiesB);
+				glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float)* nyxIdleVertices[nyxNextFrame].size(), nyxIdleVertices[nyxNextFrame].data());
+
+				glBindBuffer(GL_ARRAY_BUFFER, playerMesh->VBO_NormalsB);
+				glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float)* nyxIdleNormals[nyxNextFrame].size(), nyxIdleNormals[nyxNextFrame].data());
+
+				glBindBuffer(GL_ARRAY_BUFFER, 0);
 			}
 		}
 
@@ -1994,6 +2036,7 @@ void GameLevel::enter()
 	nyxT = 0.0f;
 	nyxCurrentFrame = 0;
 	nyxNextFrame = 1;
+	nyxIdling = true;
 	
 	if (!hasLoadedOnce)
 	{

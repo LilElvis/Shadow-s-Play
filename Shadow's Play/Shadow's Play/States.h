@@ -296,6 +296,8 @@ static float rampValue = 0.005f;
 static float nyxT = 0.0f;
 static unsigned int animFrame = 0;
 static float timeOfLastAnim = 0.0f;
+static bool stickWasTouched = false;
+static bool stickStillBeingTouched = false;
 
 //RANDOM VARIABLES
 static int randomLERPStart = 0;

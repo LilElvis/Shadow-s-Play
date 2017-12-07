@@ -636,7 +636,9 @@ void Reset()
 	candleEightLit = false;
 	animFrame = 0;
 	timeOfLastAnim = 0.0f;
-	
+	stickWasTouched = false;
+	stickStillBeingTouched = false;
+
 	//GRAPHICS TOGGLES
 	TEXTURE_TOGGLE = true;
 	LIGHTING_TOGGLE = true;
@@ -1184,18 +1186,28 @@ void GameLevel::Update()
 			dashChannel = Sounds["dash"]->play();
 
 		///Nyx Animations
+		
+		if (sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Y) < -20.0f | sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Y) > 20.0f | sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::X) > 20.0f | sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::X) < -20.0f)
+			stickWasTouched = true;
+
+		if (stickStillBeingTouched)
+			stickWasTouched = false;
+
 		//Reset Animation Variables on Keystroke
-		if (devCommand.GetKeyDown(ENG::KeyCode::W) | devCommand.GetKeyDown(ENG::KeyCode::S) | devCommand.GetKeyDown(ENG::KeyCode::A) | devCommand.GetKeyDown(ENG::KeyCode::D))
+		if (devCommand.GetKeyDown(ENG::KeyCode::W) | devCommand.GetKeyDown(ENG::KeyCode::S) | devCommand.GetKeyDown(ENG::KeyCode::A) | devCommand.GetKeyDown(ENG::KeyCode::D)
+			| stickWasTouched)
 		{
 			nyxT = 0.0f;
 			nyxCurrentFrame = 0;
 			nyxNextFrame = 1;
+			stickStillBeingTouched = true;
 		}
 
 		nyxIdling = true;
 		
 		//Update the "Walk Cycle"
-		if (devCommand.GetKey(ENG::KeyCode::W) | devCommand.GetKey(ENG::KeyCode::S) | devCommand.GetKey(ENG::KeyCode::A) | devCommand.GetKey(ENG::KeyCode::D))
+		if (devCommand.GetKey(ENG::KeyCode::W) | devCommand.GetKey(ENG::KeyCode::S) | devCommand.GetKey(ENG::KeyCode::A) | devCommand.GetKey(ENG::KeyCode::D)
+			| sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Y) < -20.0f | sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Y) > 20.0f | sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::X) > 20.0f | sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::X) < -20.0f)
 		{
 			nyxIdling = false;
 			nyxT += (deltaTime * 15.0f);
@@ -1273,6 +1285,8 @@ void GameLevel::Update()
 
 				glBindBuffer(GL_ARRAY_BUFFER, 0);
 			}
+
+			stickStillBeingTouched = false;
 		}
 
 		//Check Window Status

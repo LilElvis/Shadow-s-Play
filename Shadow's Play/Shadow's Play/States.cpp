@@ -1219,7 +1219,7 @@ void GameLevel::Update()
 				nyxCurrentFrame++;
 				nyxNextFrame = nyxCurrentFrame + 1;
 
-				if (nyxNextFrame > nyxVertices.size())
+				if (nyxNextFrame >= nyxVertices.size())
 				{
 					nyxCurrentFrame = 0;
 					nyxNextFrame = 1;
@@ -1264,7 +1264,7 @@ void GameLevel::Update()
 				nyxCurrentFrame++;
 				nyxNextFrame = nyxCurrentFrame + 1;
 
-				if (nyxNextFrame > nyxIdleVertices.size())
+				if (nyxNextFrame >= nyxIdleVertices.size())
 				{
 					nyxCurrentFrame = 0;
 					nyxNextFrame = 1;

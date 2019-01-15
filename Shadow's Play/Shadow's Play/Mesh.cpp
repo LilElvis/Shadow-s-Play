@@ -139,7 +139,7 @@ namespace ENG
 		}
 
 		input.close();
-		const char * fuckmyass = name.c_str();
+		
 		//UNPACK THE DATA
 		for (unsigned i = 0; i < faceData.size(); i++)
 		{

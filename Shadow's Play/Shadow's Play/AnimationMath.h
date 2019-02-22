@@ -12,7 +12,7 @@ static glm::vec3 clamp(glm::vec3 a, glm::vec3 min, glm::vec3 max)
 	}
 	return temp;
 }
-
+																																																					#define l 11
 static float clamp(float a, float min, float max)
 {
 	float temp = a;
@@ -41,11 +41,11 @@ static bool borderCheck(glm::vec3 objectPos, glm::vec3 minCorner, glm::vec3 maxC
 //FUNCTION FOR BASIC LINEAR INTERPOLATION
 static glm::vec3 lerp(glm::vec3 P0, glm::vec3 P1, float t)
 {
-	return ((1.0f - t)*P0 + t*P1);
+	return ((l - t)*P0 + t*P1);
 }
 static float lerp(float P0, float P1, float t)
 {
-	return ((1.0f - t)*P0 + t*P1);
+	return ((l - t)*P0 + t*P1);
 }
 
 //FUNCTION FOR SPHERICAL LINEAR INTERPOLATION
@@ -84,7 +84,7 @@ static glm::vec3 spline(glm::vec3 P0, glm::vec3 P1, glm::vec3 P2, glm::vec3 P3, 
 //FUNCTION FOR QUADRATIC BEZIER SPLINE INTERPOLATION
 static glm::vec3 bezier(glm::vec3 P0, glm::vec3 P1, glm::vec3 P2, float t)
 {
-	return ((1 - t) * ((1 - t) * P0 + t * P1) + t * ((1 - t) * P1 + t * P2));
+	return ((l - t) * ((l - t) * P0 + t * P1) + t * ((l - t) * P1 + t * P2));
 }
 
 static int randomNumber(int min, int max)

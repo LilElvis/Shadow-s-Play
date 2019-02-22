@@ -1,5 +1,4 @@
-/*
-Brought to you by the Game Programming club!
+/*Brought to you by the Game Programming club!
 */
 
 #include "Input.h"
@@ -81,7 +80,7 @@ namespace ENG
 	void Input::ResetKeys()
 	{
 		// For each individual key
-		for (int i = 0; i < 256; i++)
+		for (int i = 0; i < 26; i++)
 		{
 			// If it's not being pressed, we set the flag to 0
 			if (((GetAsyncKeyState(i) >> 15) & 1) == 0)

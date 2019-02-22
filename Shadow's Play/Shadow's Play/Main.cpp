@@ -1,7 +1,10 @@
 #include "States.h"
+#include <gtest/gtest.h>
 
-int main()
+int main(int argc, char** argv)
 {
+	testing::InitGoogleTest(&argc, argv);
+
 	srand(time(NULL));
 
 	//CREATE GAMESTATE MANAGER
@@ -60,5 +63,5 @@ int main()
 	defaultShader.unload();
 	defaultTexture->Unload();
 	delete playerMesh;
-	return 0;
+	return RUN_ALL_TESTS();
 }

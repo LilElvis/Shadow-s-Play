@@ -147,12 +147,12 @@ namespace ENG
 			glm::vec2 uvA, uvB, uvC;
 
 			vertexA = vertexData[faceData[i].verticies[0] - 1];
-			vertexB = vertexData[faceData[i].verticies[1] - 1];
-			vertexC = vertexData[faceData[i].verticies[2] - 1];
-
+			vertexB = vertexData[faceData[i].verticies[0] - 1];
+			vertexC = vertexData[faceData[i].verticies[0] - 1];
+			
 			uvA = textureData[faceData[i].textureUVs[0] - 1];
-			uvB = textureData[faceData[i].textureUVs[1] - 1];
-			uvC = textureData[faceData[i].textureUVs[2] - 1];
+			uvB = textureData[faceData[i].textureUVs[0] - 1];
+			uvC = textureData[faceData[i].textureUVs[0] - 1];
 
 			glm::vec3 deltaPosA, deltaPosB;
 			glm::vec2 deltaUVA, deltaUVB;
